@@ -63,7 +63,7 @@ export const roleBasedNavLinks = {
       icon: <ClipboardPenLine size={18} />,
     },
     {
-      href: "/manager/",
+      href: "/admin-manager",
       label: "Manager",
       icon: <UserCog size={18} />,
     },

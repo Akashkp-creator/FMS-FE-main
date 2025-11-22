@@ -28,7 +28,7 @@ const Login = () => {
   //   const data = useActionData();
   //   console.log(data);
 
-  // Check if the app is currently navigating (loadi    ng a route)
+  // Check if the app is currently navigating (loading a route)
   const isLoading = navigation.state === "loading";
   const error = useRouteError();
 

@@ -1,0 +1,99 @@
+.loginForm {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form Group */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Label */
+.formLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+}
+
+/* Inputs */
+.formInput {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1.5px solid #d6d6d6;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.formInput:focus {
+  border-color: rgba(3, 43, 243, 0.8);
+  box-shadow: 0 0 0 3px rgba(3, 43, 243, 0.15);
+}
+
+/* Textarea */
+.formInput textarea {
+  resize: vertical;
+}
+
+/* Submit Button */
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: rgba(3, 43, 243, 0.9);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.submitButton:hover {
+  background: rgba(3, 43, 243, 1);
+}
+
+.submitButton:disabled {
+  background: #9cb3ff;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.loadingSpinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .loginForm {
+    padding: 20px;
+  }
+  .formInput {
+    padding: 9px 12px;
+  }
+}
