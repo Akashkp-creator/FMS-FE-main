@@ -1,0 +1,376 @@
+/* src/components/Loading.module.css */
+.loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.loadingContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3D Glass Card */
+.glassCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  min-width: 320px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(5px) rotate(-1deg);
+  }
+}
+
+/* Animated Logo */
+.logoContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.logoWrapper {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ffd700, #ffed4a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+  animation: logoPulse 2s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  color: #2d3748;
+}
+
+.logoGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 50%;
+  animation: logoGlowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes logoGlowPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* Loading Content */
+.loadingContent {
+  margin-bottom: 2rem;
+}
+
+.loadingTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.loadingMessage {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Progress Bar */
+.progressContainer {
+  position: relative;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd700, #ffed4a);
+  border-radius: 3px;
+  animation: progressFill 2s ease-in-out infinite;
+  transform-origin: left;
+}
+
+@keyframes progressFill {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(0);
+    opacity: 0.7;
+  }
+}
+
+/* Progress Dots */
+.progressDots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: dotPulse 1.4s ease-in-out infinite both;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+    background: #ffd700;
+  }
+}
+
+/* Floating Elements */
+.floatingElement1,
+.floatingElement2,
+.floatingElement3 {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation-duration: 8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.floatingElement1 {
+  width: 20px;
+  height: 20px;
+  top: 20px;
+  left: 20px;
+  animation-name: floatElement1;
+}
+
+.floatingElement2 {
+  width: 15px;
+  height: 15px;
+  top: 60px;
+  right: 30px;
+  animation-name: floatElement2;
+  animation-delay: 1s;
+}
+
+.floatingElement3 {
+  width: 12px;
+  height: 12px;
+  bottom: 40px;
+  left: 40px;
+  animation-name: floatElement3;
+  animation-delay: 2s;
+}
+
+@keyframes floatElement1 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(10px, -15px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-5px, 10px) rotate(240deg);
+  }
+}
+
+@keyframes floatElement2 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(-10px, 10px) rotate(-90deg);
+  }
+  66% {
+    transform: translate(5px, -5px) rotate(-180deg);
+  }
+}
+
+@keyframes floatElement3 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(8px, -8px) rotate(180deg);
+  }
+}
+
+/* Background Glow Effects */
+.backgroundGlow1,
+.backgroundGlow2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: backgroundFloat 15s ease-in-out infinite;
+  z-index: -1;
+}
+
+.backgroundGlow1 {
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 215, 0, 0.15);
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.backgroundGlow2 {
+  width: 250px;
+  height: 250px;
+  background: rgba(102, 126, 234, 0.15);
+  bottom: -80px;
+  right: -80px;
+  animation-delay: 5s;
+}
+
+@keyframes backgroundFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .glassCard {
+    min-width: 280px;
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .logoWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logoIcon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logoGlow {
+    width: 80px;
+    height: 80px;
+  }
+
+  .loadingTitle {
+    font-size: 1.3rem;
+  }
+
+  .loadingMessage {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .glassCard {
+    min-width: 250px;
+    padding: 1.5rem 1rem;
+  }
+
+  .loadingTitle {
+    font-size: 1.2rem;
+  }
+
+  .loadingMessage {
+    font-size: 0.8rem;
+  }
+}
