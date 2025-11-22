@@ -16,8 +16,16 @@ const UpdateClientForm = () => {
       institutionAddress: user?.client?.institutionAddress || "",
       institutionPhone: user?.client?.institutionPhone || "",
       logoUrl: user?.client?.logoUrl || "",
-      franchiseFinance: user?.client?.franchiseFinance || [],
       courses: user?.client?.courses || [],
+      franchiseFinance: (user?.client?.franchiseFinance || []).map(
+        (t, idx) => ({
+          cityTier: t.cityTier || `Tier-${idx + 1} City`,
+          franchiseFee: t.franchiseFee || "",
+          depositAmount: t.depositAmount || "",
+          extraCharges: t.extraCharges || "",
+          yearlyRenewalFee: t.yearlyRenewalFee || "",
+        })
+      ),
     };
   }, [user]);
 
@@ -40,14 +48,15 @@ const UpdateClientForm = () => {
     updated[index][field] = value;
     setForm({ ...form, franchiseFinance: updated });
   };
-
   const handleAddFranchiseTier = () => {
+    const nextTier = form.franchiseFinance.length + 1;
+
     setForm({
       ...form,
       franchiseFinance: [
         ...form.franchiseFinance,
         {
-          cityTier: 1,
+          cityTier: `Tier-${nextTier} City`,
           franchiseFee: "",
           depositAmount: "",
           extraCharges: "",
@@ -63,10 +72,18 @@ const UpdateClientForm = () => {
     setForm({ ...form, franchiseFinance: updated });
   };
 
+  // const handleCourseChange = (index, field, value) => {
+  //   const updated = [...form.courses];
+  //   updated[index][field] = value;
+  //   setForm({ ...form, courses: updated });
+  // };
   const handleCourseChange = (index, field, value) => {
-    const updated = [...form.courses];
-    updated[index][field] = value;
-    setForm({ ...form, courses: updated });
+    setForm((prev) => ({
+      ...prev,
+      courses: prev.courses.map((course, i) =>
+        i === index ? { ...course, [field]: value } : course
+      ),
+    }));
   };
 
   const handleAddCourse = () => {
@@ -82,34 +99,94 @@ const UpdateClientForm = () => {
     setForm({ ...form, courses: updated });
   };
 
+  // const handleSubCourseChange = (courseIndex, subIndex, field, value) => {
+  //   const updated = [...form.courses];
+  //   updated[courseIndex].subCourses[subIndex][field] = value;
+  //   setForm({ ...form, courses: updated });
+  // };
   const handleSubCourseChange = (courseIndex, subIndex, field, value) => {
-    const updated = [...form.courses];
-    updated[courseIndex].subCourses[subIndex][field] = value;
-    setForm({ ...form, courses: updated });
+    setForm((prev) => {
+      const updatedCourses = prev.courses.map((course, i) => {
+        if (i !== courseIndex) return course;
+
+        return {
+          ...course,
+          subCourses: course.subCourses.map((sub, j) => {
+            if (j !== subIndex) return sub;
+
+            return {
+              ...sub, // <-- create new subCourse object
+              [field]: value, // <-- update field safely
+            };
+          }),
+        };
+      });
+
+      return {
+        ...prev,
+        courses: updatedCourses,
+      };
+    });
   };
 
+  // const handleAddSubCourse = (courseIndex) => {
+  //   const updated = [...form.courses];
+  //   updated[courseIndex].subCourses.push({ subCourseName: "", fee: 0 });
+  //   setForm({ ...form, courses: updated });
+  // };
   const handleAddSubCourse = (courseIndex) => {
-    const updated = [...form.courses];
-    updated[courseIndex].subCourses.push({ subCourseName: "", fee: 0 });
-    setForm({ ...form, courses: updated });
+    setForm((prev) => {
+      const updatedCourses = prev.courses.map((course, i) => {
+        if (i !== courseIndex) return course;
+
+        return {
+          ...course,
+          subCourses: [
+            ...course.subCourses,
+            { name: "", fee: 0 }, // <-- your sub-course structure
+          ],
+        };
+      });
+
+      return { ...prev, courses: updatedCourses };
+    });
   };
 
+  // const handleRemoveSubCourse = (courseIndex, subIndex) => {
+  //   const updated = [...form.courses];
+  //   updated[courseIndex].subCourses.splice(subIndex, 1);
+  //   setForm({ ...form, courses: updated });
+  // };
   const handleRemoveSubCourse = (courseIndex, subIndex) => {
-    const updated = [...form.courses];
-    updated[courseIndex].subCourses.splice(subIndex, 1);
-    setForm({ ...form, courses: updated });
+    setForm((prev) => {
+      const updatedCourses = prev.courses.map((course, i) => {
+        if (i !== courseIndex) return course;
+
+        return {
+          ...course,
+          subCourses: course.subCourses.filter((_, j) => j !== subIndex),
+        };
+      });
+
+      return { ...prev, courses: updatedCourses };
+    });
   };
 
   // ------------------ Submit ------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.put("/client/update", form); // your API endpoint
+      const res = await api.put("admin/client/update", form); // your API endpoint
       toast.success("Client updated successfully");
       console.log(res.data);
     } catch (error) {
       console.error(error);
-      toast.error(`${error?.response?.data}` || "Error updating client");
+      toast.error(
+        `${error?.response?.data?.error}` ||
+          `${error?.response?.data?.message}` ||
+          `${error?.response?.data}` ||
+          "Error updating client"
+      );
     }
   };
 
@@ -163,13 +240,12 @@ const UpdateClientForm = () => {
       {form.franchiseFinance.map((tier, i) => (
         <div key={i} className={styles.tierRow}>
           <input
-            type="number"
-            placeholder="City Tier"
-            value={tier.cityTier}
-            onChange={(e) =>
-              handleFranchiseChange(i, "cityTier", Number(e.target.value))
-            }
+            type="text"
+            value={`Tier-${i + 1} City`}
+            readOnly
+            className={styles.readOnlyInput}
           />
+
           <input
             type="number"
             placeholder="Franchise Fee"

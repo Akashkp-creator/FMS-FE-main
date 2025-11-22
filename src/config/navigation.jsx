@@ -23,6 +23,7 @@ import {
   ShieldUser,
   ClipboardPenLine,
   ChartNoAxesCombined,
+  UserCog,
 } from "lucide-react";
 
 export const publicNavLinks = [
@@ -62,9 +63,9 @@ export const roleBasedNavLinks = {
       icon: <ClipboardPenLine size={18} />,
     },
     {
-      href: "/author/my-submissions",
-      label: "My Submissions",
-      icon: <Home size={18} />,
+      href: "/manager/",
+      label: "Manager",
+      icon: <UserCog size={18} />,
     },
     // { href: "/author/submit-paper", label: "Submit Paper" ,icon: <Home size={18} />},
     {
@@ -72,7 +73,7 @@ export const roleBasedNavLinks = {
       label: "stats",
       icon: <ChartNoAxesCombined size={18} />,
     },
-    { href: "/guidelines", label: "Guidelines", icon: <Home size={18} /> },
+    // { href: "/guidelines", label: "Guidelines", icon: <Home size={18} /> },
     // { href: "/author/review-status", label: "Review Status" ,icon: <Home size={18} />},
     // { href: "/author/co-authors", label: "Co-Authors" ,icon: <Home size={18} />},
   ],
