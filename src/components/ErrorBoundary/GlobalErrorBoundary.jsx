@@ -4,7 +4,7 @@ import styles from "./GlobalErrorBoundary.module.css";
 
 const GlobalErrorBoundary = () => {
   const error = useRouteError();
-  // console.log(error);
+  console.log(error);
 
   return (
     <div className={styles.container}>

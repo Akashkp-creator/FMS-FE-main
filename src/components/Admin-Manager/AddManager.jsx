@@ -300,6 +300,7 @@ import "leaflet-draw/dist/leaflet.draw.css";
 
 import { useState } from "react";
 import styles from "./AddManager.module.css";
+import { useSelector } from "react-redux";
 
 const mapStyles = [
   { name: "Light", url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" },
@@ -310,6 +311,8 @@ const mapStyles = [
 ];
 
 const AddManager = () => {
+  const { user } = useSelector((state) => state.auth);
+  // console.log(user?.client?.id);
   const navigation = useNavigation();
   const isLoading =
     navigation.state === "submitting" || navigation.state === "loading";
@@ -371,6 +374,9 @@ const AddManager = () => {
 
   return (
     <Form method="POST" className={styles.loginForm}>
+      {/* Hidden Client ID (you can update value dynamically) */}
+      <input type="hidden" name="clientId" value={user?.client?.id || ""} />
+
       {/* Name */}
       <div className={styles.formGroup}>
         <label className={styles.formLabel}>Name</label>
@@ -396,6 +402,17 @@ const AddManager = () => {
           disabled={isLoading}
         />
       </div>
+      <div className={styles.formGroup}>
+        <label className={styles.formLabel}>Password</label>
+        <input
+          type="password"
+          name="password"
+          className={styles.formInput}
+          placeholder="Enter manager name"
+          required
+          disabled={isLoading}
+        />
+      </div>
 
       {/* Phone */}
       <div className={styles.formGroup}>
@@ -408,19 +425,6 @@ const AddManager = () => {
           required
           disabled={isLoading}
         />
-      </div>
-
-      {/* Active Status */}
-      <div className={styles.formGroup}>
-        <label className={styles.formLabel}>Active Status</label>
-        <select
-          name="isActive"
-          className={styles.formInput}
-          defaultValue="true"
-        >
-          <option value="true">Active</option>
-          <option value="false">Inactive</option>
-        </select>
       </div>
 
       {/* REGION MODE DROPDOWN HERE */}
@@ -438,7 +442,7 @@ const AddManager = () => {
         >
           <option value="all">All Regions</option>
           <option value="polygon">One Region</option>
-          <option value="multi">Multiple Regions</option>
+          <option value="multiPolygon">Multiple Regions</option>
         </select>
       </div>
 
@@ -502,31 +506,34 @@ const AddManager = () => {
       )}
 
       {/* JSON OUTPUT */}
-      <textarea
-        id="regionJson"
-        name="regionJson"
-        className={styles.formInput}
-        style={{ marginTop: "15px" }}
-        placeholder="Region GeoJSON will appear here automatically"
-        readOnly
-        value={
-          regionMode === "all"
-            ? ""
-            : JSON.stringify(
-                regionMode === "polygon"
-                  ? {
-                      type: "Polygon",
-                      coordinates: polygons.map((p) => p.coordinates)[0] || [],
-                    }
-                  : {
-                      type: "MultiPolygon",
-                      coordinates: polygons.map((p) => [p.coordinates]) || [],
-                    },
-                null,
-                2
-              )
-        }
-      />
+      {regionMode !== "all" && (
+        <textarea
+          id="regionJson"
+          name="regionJson"
+          className={styles.formInput}
+          style={{ marginTop: "15px" }}
+          placeholder="Region GeoJSON will appear here automatically"
+          readOnly
+          value={
+            regionMode === "all"
+              ? ""
+              : JSON.stringify(
+                  regionMode === "polygon"
+                    ? {
+                        type: "Polygon",
+                        coordinates:
+                          polygons.map((p) => p.coordinates)[0] || [],
+                      }
+                    : {
+                        type: "MultiPolygon",
+                        coordinates: polygons.map((p) => [p.coordinates]) || [],
+                      },
+                  null,
+                  2
+                )
+          }
+        />
+      )}
 
       {/* Submit */}
       <button
@@ -543,5 +550,244 @@ const AddManager = () => {
     </Form>
   );
 };
+// const AddManager = () => {
+//   const { user } = useSelector((state) => state.auth);
+//   const navigation = useNavigation();
+
+//   const isLoading =
+//     navigation.state === "submitting" || navigation.state === "loading";
+
+//   // Always start with a safe initial value
+//   const [regionMode, setRegionMode] = useState("all");
+//   const [polygons, setPolygons] = useState([]);
+//   const [themeIndex, setThemeIndex] = useState(0);
+
+//   const handleChangeTheme = () =>
+//     setThemeIndex((prev) => (prev + 1) % mapStyles.length);
+
+//   // DRAW HANDLERS -----------------------------------------------------------------
+
+//   const handleCreated = (e) => {
+//     const layer = e.layer;
+//     const latlngs = layer.getLatLngs()[0];
+
+//     const coordinates = latlngs.map((p) => [p.lng, p.lat]);
+//     coordinates.push([latlngs[0].lng, latlngs[0].lat]);
+
+//     setPolygons((prev) => [
+//       ...prev,
+//       {
+//         id: layer._leaflet_id,
+//         coordinates,
+//         color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+//       },
+//     ]);
+//   };
+
+//   const handleEdited = (e) => {
+//     const updates = [];
+
+//     e.layers.eachLayer((layer) => {
+//       const latlngs = layer.getLatLngs()[0];
+//       const coordinates = latlngs.map((p) => [p.lng, p.lat]);
+//       coordinates.push([latlngs[0].lng, latlngs[0].lat]);
+
+//       updates.push({ id: layer._leaflet_id, coordinates });
+//     });
+
+//     setPolygons((prev) =>
+//       prev.map((p) => {
+//         const updated = updates.find((u) => u.id === p.id);
+//         return updated ? { ...p, coordinates: updated.coordinates } : p;
+//       })
+//     );
+//   };
+
+//   const handleDeleted = (e) => {
+//     const deletedIds = [];
+//     e.layers.eachLayer((layer) => deletedIds.push(layer._leaflet_id));
+
+//     setPolygons((prev) => prev.filter((p) => !deletedIds.includes(p.id)));
+//   };
+
+//   // BUILD GEOJSON ---------------------------------------------------------
+
+//   const geoJson =
+//     regionMode === "all"
+//       ? ""
+//       : regionMode === "polygon"
+//       ? JSON.stringify(
+//           {
+//             type: "Polygon",
+//             coordinates: polygons[0]?.coordinates || [],
+//           },
+//           null,
+//           2
+//         )
+//       : JSON.stringify(
+//           {
+//             type: "MultiPolygon",
+//             coordinates: polygons.map((p) => [p.coordinates]),
+//           },
+//           null,
+//           2
+//         );
+
+//   return (
+//     <Form method="POST" className={styles.loginForm}>
+//       <input type="hidden" name="clientId" value={user?.client?.id || ""} />
+
+//       {/* Name */}
+//       <div className={styles.formGroup}>
+//         <label className={styles.formLabel}>Name</label>
+//         <input
+//           type="text"
+//           name="name"
+//           className={styles.formInput}
+//           placeholder="Enter manager name"
+//           required
+//           disabled={isLoading}
+//         />
+//       </div>
+
+//       {/* Email */}
+//       <div className={styles.formGroup}>
+//         <label className={styles.formLabel}>Email</label>
+//         <input
+//           type="email"
+//           name="email"
+//           className={styles.formInput}
+//           placeholder="Enter email"
+//           required
+//           disabled={isLoading}
+//         />
+//       </div>
+
+//       {/* Password */}
+//       <div className={styles.formGroup}>
+//         <label className={styles.formLabel}>Password</label>
+//         <input
+//           type="password"
+//           name="password"
+//           className={styles.formInput}
+//           required
+//           disabled={isLoading}
+//         />
+//       </div>
+
+//       {/* Phone */}
+//       <div className={styles.formGroup}>
+//         <label className={styles.formLabel}>Phone</label>
+//         <input
+//           type="text"
+//           name="phone"
+//           className={styles.formInput}
+//           required
+//           disabled={isLoading}
+//         />
+//       </div>
+
+//       {/* REGION MODE */}
+//       <div className={styles.formGroup}>
+//         <label className={styles.formLabel}>Allowed Region</label>
+
+//         <select
+//           name="allowedRegionType"
+//           className={styles.formInput}
+//           value={regionMode || "all"} // SAFE FALLBACK
+//           onChange={(e) => {
+//             setRegionMode(e.target.value);
+//             setPolygons([]);
+//           }}
+//         >
+//           <option value="all">All Regions</option>
+//           <option value="polygon">One Region</option>
+//           <option value="multiPolygon">Multiple Regions</option>
+//         </select>
+//       </div>
+
+//       {/* MAP */}
+//       {regionMode !== "all" && (
+//         <div style={{ marginTop: "15px", position: "relative" }}>
+//           <MapContainer
+//             center={[20.59, 78.96]}
+//             zoom={5}
+//             style={{ height: "450px", width: "100%" }}
+//           >
+//             <TileLayer url={mapStyles[themeIndex].url} />
+
+//             <FeatureGroup>
+//               <EditControl
+//                 position="topright"
+//                 draw={{
+//                   rectangle: false,
+//                   marker: false,
+//                   circle: false,
+//                   circlemarker: false,
+//                   polyline: false,
+//                   polygon:
+//                     regionMode === "polygon" ? polygons.length === 0 : true,
+//                 }}
+//                 onCreated={handleCreated}
+//                 onEdited={handleEdited}
+//                 onDeleted={handleDeleted}
+//               />
+
+//               {polygons.map((p) => (
+//                 <Polygon
+//                   key={p.id}
+//                   positions={p.coordinates.map(([lng, lat]) => [lat, lng])}
+//                   pathOptions={{ color: p.color }}
+//                 />
+//               ))}
+//             </FeatureGroup>
+//           </MapContainer>
+
+//           <button
+//             type="button"
+//             onClick={handleChangeTheme}
+//             style={{
+//               position: "absolute",
+//               top: "80px",
+//               left: "10px",
+//               padding: "8px 14px",
+//               borderRadius: "4px",
+//               background: "#222",
+//               color: "#fff",
+//               border: "none",
+//               zIndex: 999,
+//             }}
+//           >
+//             Theme: {mapStyles[themeIndex].name}
+//           </button>
+//         </div>
+//       )}
+
+//       {/* JSON OUTPUT */}
+//       {regionMode !== "all" && (
+//         <textarea
+//           name="regionJson"
+//           className={styles.formInput}
+//           readOnly
+//           style={{ marginTop: "15px" }}
+//           value={geoJson || ""} // SAFE FALLBACK → NEVER undefined
+//         />
+//       )}
+
+//       {/* SUBMIT */}
+//       <button
+//         type="submit"
+//         className={styles.submitButton}
+//         disabled={isLoading}
+//       >
+//         {isLoading ? (
+//           <div className={styles.loadingSpinner}></div>
+//         ) : (
+//           "Add Manager"
+//         )}
+//       </button>
+//     </Form>
+//   );
+// };
 
 export default AddManager;

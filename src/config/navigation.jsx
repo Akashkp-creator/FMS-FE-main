@@ -82,14 +82,14 @@ export const roleBasedNavLinks = {
   Manager: [
     { label: "Home", href: "/", icon: <Home size={18} /> },
     {
-      href: "/reviewer",
-      label: "Dashboard",
-      icon: <LayoutDashboard size={18} />,
+      href: "/add-lead",
+      label: "Add Lead",
+      icon: <UserPlus size={18} />,
     },
     {
       href: "/manager/add-users",
       label: "Add users",
-      icon: <UserPlus size={18} />,
+      icon: <LayoutDashboard size={18} />,
     },
     // { href: "/reviewer/review-history", label: "Review History" ,icon: <Home size={18} />},
     // { href: "/reviewer/guidelines", label: "Review Guidelines" ,icon: <Home size={18} />},
