@@ -32,12 +32,32 @@ export const addFranchiseLeadAction = async ({ request }) => {
   try {
     const formData = await request.formData();
 
+    // const data = {
+    //   ownerName: formData.get("ownerName"),
+    //   ownerEmail: formData.get("ownerEmail"),
+    //   ownerPhone: formData.get("ownerPhone"),
+    //   fullAddress: formData.get("fullAddress"),
+    // };
+    // collect address fields
+    const house = formData.get("house");
+    const street = formData.get("street");
+    const locality = formData.get("locality");
+    const city = formData.get("city");
+    const district = formData.get("district");
+    const state = formData.get("state");
+    const pincode = formData.get("pincode");
+
+    // merge into one clean full address
+    const fullAddress = `${house}, ${street}, ${locality}, ${city}, ${district}, ${state} - ${pincode}`;
+
     const data = {
       ownerName: formData.get("ownerName"),
       ownerEmail: formData.get("ownerEmail"),
       ownerPhone: formData.get("ownerPhone"),
-      fullAddress: formData.get("fullAddress"),
+      fullAddress, // final merged address
     };
+    console.log(data);
+    // return null;
 
     const res = await api.post("/manager/franchise/create", data, {
       withCredentials: true, // for cookies/JWT
