@@ -1,0 +1,198 @@
+/* FranchiseEnrollmentTable.module.css */
+
+/* Container / card */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 1.5rem auto;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(3, 43, 243, 0.06);
+  color: #0b2545;
+}
+
+/* Heading */
+.heading {
+  margin: 0 0 14px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgba(3, 43, 243, 0.88);
+}
+
+/* Make table horizontally scrollable on small screens */
+.container {
+  overflow-x: auto;
+}
+
+/* Table basics */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px; /* keeps layout tidy on wider screens */
+  background: transparent;
+  font-size: 0.95rem;
+}
+
+/* Header */
+.table thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #0b2545;
+  background: linear-gradient(
+    180deg,
+    rgba(3, 43, 243, 0.04),
+    rgba(3, 43, 243, 0.01)
+  );
+  border-bottom: 1px solid rgba(11, 37, 69, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* Rows and cells */
+.table tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(11, 37, 69, 0.04);
+  vertical-align: middle;
+  color: #21334a;
+}
+
+/* Zebra striping for readability */
+.table tbody tr:nth-child(odd) {
+  background: rgba(3, 43, 243, 0.02);
+}
+
+/* Hover effect */
+.table tbody tr:hover {
+  background: rgba(3, 43, 243, 0.045);
+  transform: translateY(-0.5px);
+}
+
+/* Small, subtle text for phone / meta */
+.table .muted {
+  color: #6b7a90;
+  font-size: 0.9rem;
+}
+
+/* Status cell default styling */
+.table tbody td:nth-child(3) {
+  /* 3rd column is Status in your markup */
+  font-weight: 600;
+  color: #0b2545;
+}
+
+/* Optional status colors (apply manually if you want) */
+.statusBadge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* Example status color utilities (use these classes on a span inside the cell) */
+.statusNew {
+  background: rgba(3, 43, 243, 0.08);
+  color: rgba(3, 43, 243, 0.9);
+}
+.statusInProgress {
+  background: rgba(255, 193, 7, 0.08);
+  color: #b36b00;
+}
+.statusInterested {
+  background: rgba(16, 185, 129, 0.08);
+  color: #0f766e;
+}
+.statusNotInterested {
+  background: rgba(220, 38, 38, 0.06);
+  color: #b91c1c;
+}
+.statusClosed {
+  background: rgba(78, 70, 229, 0.06);
+  color: #4e46e5;
+}
+
+/* Pagination/meta info */
+.paginationInfo {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #46546a;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Empty state */
+.container p {
+  margin: 12px 0;
+  color: #445;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .heading {
+    font-size: 1.05rem;
+  }
+  .table thead th,
+  .table tbody td {
+    padding: 10px 12px;
+  }
+  .table {
+    min-width: 560px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 1rem;
+  }
+  .table {
+    min-width: 480px;
+    font-size: 0.92rem;
+  }
+  .paginationInfo {
+    font-size: 0.9rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Status badge base style */
+.statusBadge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Status colors */
+.New {
+  background: rgba(3, 43, 243, 0.1);
+  color: rgba(3, 43, 243, 0.9);
+}
+
+.InProgress {
+  background: rgba(255, 193, 7, 0.15);
+  color: #b36b00;
+}
+
+.Interested {
+  background: rgba(16, 185, 129, 0.1);
+  color: #0f766e;
+}
+
+.NotInterested {
+  background: rgba(220, 38, 38, 0.12);
+  color: #b91c1c;
+}
+
+.Closed {
+  background: rgba(78, 70, 229, 0.12);
+  color: #4e46e5;
+}

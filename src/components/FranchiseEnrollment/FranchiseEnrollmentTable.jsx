@@ -42,27 +42,46 @@ const FranchiseEnrollmentTable = () => {
             <tr>
               <th>Name</th>
               <th>Contact</th>
-              <th>Course</th>
               <th>Status</th>
-              <th>Source</th>
+
+              {/* ✅ Newly Added */}
+              <th>Action</th>
+              <th>Others</th>
             </tr>
           </thead>
 
           <tbody>
             {leads.map((lead) => (
               <tr key={lead._id}>
-                <td>{lead.name}</td>
-                <td>{lead.contact?.phone || "—"}</td>
-                <td>{lead.course || "—"}</td>
-                <td>{lead.status}</td>
-                <td>{lead.source}</td>
+                <td>{lead.ownerName}</td>
+                <td>{lead.ownerPhone || "—"}</td>
+
+                {/* ✅ Correct way to show colored Status */}
+                <td>
+                  <span
+                    className={`${styles.statusBadge} ${
+                      styles[lead.status.replace(/\s+/g, "")]
+                    }`}
+                  >
+                    {lead.status}
+                  </span>
+                </td>
+
+                {/* ✅ Action Column */}
+                <td>
+                  <button className={styles.enrollBtn}>View</button>
+                </td>
+
+                {/* ✅ Others Column */}
+                <td>
+                  <button className={styles.updateBtn}>More</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
 
-      {/* Pagination info */}
       <div className={styles.paginationInfo}>
         Page: {meta.page} / {meta.pageCount} | Total: {meta.total}
       </div>
@@ -71,3 +90,48 @@ const FranchiseEnrollmentTable = () => {
 };
 
 export default FranchiseEnrollmentTable;
+//   return (
+//     <div className={styles.container}>
+//       <h2 className={styles.heading}>Franchise Leads</h2>
+
+//       {leads.length === 0 ? (
+//         <p>No leads found</p>
+//       ) : (
+//         <table className={styles.table}>
+//           <thead>
+//             <tr>
+//               <th>Name</th>
+//               <th>Contact</th>
+//               {/* <th>Course</th> */}
+//               <th>Status</th>
+//               {/* <th>Source</th> */}
+//             </tr>
+//           </thead>
+
+//           <tbody>
+//             {leads.map((lead) => (
+//               <tr key={lead._id}>
+//                 <td>{lead.ownerName}</td>
+//                 <td>{lead.ownerPhone || "—"}</td>
+//                 {/* <td>{lead.course || "—"}</td> */}
+//                 <span
+//                   className={`${styles.statusBadge} ${
+//                     styles[lead.status.replace(/\s+/g, "")]
+//                   }`}
+//                 >
+//                   <td>{lead.status}</td>
+//                 </span>
+
+//                 {/* <td>{lead.source}</td> */}
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       )}
+
+//       {/* Pagination info */}
+//       <div className={styles.paginationInfo}>
+//         Page: {meta.page} / {meta.pageCount} | Total: {meta.total}
+//       </div>
+//     </div>
+//   );
