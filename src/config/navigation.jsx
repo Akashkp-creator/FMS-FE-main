@@ -87,9 +87,9 @@ export const roleBasedNavLinks = {
       icon: <UserPlus size={18} />,
     },
     {
-      href: "/manager/add-users",
-      label: "Add users",
-      icon: <LayoutDashboard size={18} />,
+      href: "/manager/enroll-lead/franchise",
+      label: "Enrolment",
+      icon: <NotebookPen size={18} />,
     },
     // { href: "/reviewer/review-history", label: "Review History" ,icon: <Home size={18} />},
     // { href: "/reviewer/guidelines", label: "Review Guidelines" ,icon: <Home size={18} />},

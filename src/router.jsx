@@ -115,6 +115,8 @@ import Manager from "./pages/Admin/Manager";
 import { AddManagerAction } from "./utils/AddManagerAction";
 import AddFranchiseLead from "./pages/manager/AddFranchiseLead";
 import { addFranchiseLeadAction } from "./utils/franchiseLeadAction";
+import FranchiseEnrollmentContainer from "./pages/manager/FranchiseEnrollmentContainer";
+import { franchiseLeadLoader } from "./utils/franchiseLeadLoader";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -173,7 +175,16 @@ const router = createBrowserRouter([
       {
         element: <RoleProtectedRoute allowedRoles={["Manager"]} />,
         children: [
-          { path: "add-lead", element: <AddFranchiseLead />, action: addFranchiseLeadAction },
+          {
+            path: "add-lead",
+            element: <AddFranchiseLead />,
+            action: addFranchiseLeadAction,
+          },
+          {
+            path: "manager/enroll-lead/franchise",
+            element: <FranchiseEnrollmentContainer />,
+            loader: franchiseLeadLoader(store),
+          },
           // { path: "fee-details", element: <AddDetails /> },
           // {
           //   path: "admin-manager",
