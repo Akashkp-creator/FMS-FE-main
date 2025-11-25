@@ -112,7 +112,7 @@ const FranchiseEnrollmentTable = () => {
   const navigate = useNavigate();
 
   const handleEnroll = (leadId) => {
-    navigate(`/franchise/my-lead-list/${leadId}`);
+    navigate(`/manager/my-FranchiseLead/${leadId}`);
   };
   const [showModal, setShowModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false); // 🎯 NEW
@@ -267,6 +267,7 @@ const FranchiseEnrollmentTable = () => {
                 <td>{lead.ownerName}</td>
                 <td>{lead.ownerPhone || "—"}</td>
                 <td>{lead.ownerEmail || "—"}</td>
+
                 <td>{lead.status}</td>
                 {/* <td>{lead.source}</td> */}
                 <td>
