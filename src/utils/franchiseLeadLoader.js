@@ -22,7 +22,7 @@ export const franchiseLeadLoader =
 
     try {
       const res = await api.get("/manager/franchise/my-leads", { params });
-      console.log(res);
+      // console.log(res);
 
       store.dispatch(setLeads(res.data.data)); // leads array
       store.dispatch(setMeta(res.data.meta)); // pagination meta

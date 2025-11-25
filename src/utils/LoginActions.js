@@ -67,7 +67,7 @@ export const LoginAction = (store) => {
       // Combine user and client info in one object
       const userData = { ...user, client };
       // Save to Redux
-      console.log(userData);
+      // console.log(userData);
       store.dispatch(login(userData));
 
       // Save to localStorage

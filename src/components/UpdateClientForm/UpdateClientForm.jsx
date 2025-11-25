@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 // const UpdateClientForm = ({ clientData }) => {
 const UpdateClientForm = () => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
+  // console.log(user);
 
   const clientData = useMemo(() => {
     return {

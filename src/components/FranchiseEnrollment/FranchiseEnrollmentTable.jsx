@@ -106,7 +106,7 @@ import Loading from "../Loading/Loading";
 
 const FranchiseEnrollmentTable = () => {
   const loaderLeads = useLoaderData();
-  console.log(loaderLeads);
+  // console.log(loaderLeads);
   const { meta } = loaderLeads;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -183,7 +183,7 @@ const FranchiseEnrollmentTable = () => {
     }
   };
   const data = useSelector((state) => state.franchiseLeads);
-  console.log(data);
+  // console.log(data);
   const { leads, loading, error } = useSelector(
     (state) => state.franchiseLeads
   );
