@@ -103,6 +103,8 @@ import { FileClock, NotebookPen, UserX } from "lucide-react";
 // import Loading from "../Loading/Loading";
 import { setLeads } from "../../features/franchiseLeadSlice/franchiseLeadSlice";
 import Loading from "../Loading/Loading";
+import followUpOptions from "../../utils/followUpOptions";
+import { toast } from "react-toastify";
 
 const FranchiseEnrollmentTable = () => {
   const loaderLeads = useLoaderData();
@@ -150,16 +152,72 @@ const FranchiseEnrollmentTable = () => {
       console.error("History Fetch Error:", err);
     }
   };
+  // const handleSave = async () => {
+  //   if (!note.trim()) return alert("Please enter a note");
+  //   if (note.length > 50) return alert("Note cannot exceed 50 characters.");
+
+  //   try {
+  //     const res = await api.post(
+  //       `/contacted-leads/${selectedLeadId}`,
+  //       {
+  //         note,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     // 🎯 FIX: Axios automatically throws for 4xx/5xx status codes.
+  //     // We only check for success here.
+  //     if (res.status === 201 || res.status === 200) {
+  //       alert("Lead update saved successfully!");
+  //       closeModal();
+  //     } else {
+  //       // This branch should ideally not be reached if Axios is configured correctly
+  //       throw new Error(res.data?.message || "Error saving lead update");
+  //     }
+  //   } catch (err) {
+  //     // 🎯 Catch block handles API errors (4xx/5xx)
+  //     alert(err.response?.data?.message || "Error saving lead update");
+  //     console.error("API Error:", err);
+  //   }
+  // };
+  // const handleSave = async () => {
+  //   if (!note.trim()) return alert("Please select  a note");
+  //   // /:leadId/add-note
+  //   try {
+  //     const res = await api.post(
+  //       `/manager/franchise/${selectedLeadId}/add-note`,
+  //       { note },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     // Success response
+  //     if (res.status === 200) {
+  //       alert("Follow-up note added successfully!");
+  //       closeModal();
+  //     }
+  //   } catch (err) {
+  //     alert(err.response?.data?.message || "Error saving follow-up note");
+  //     console.error("API Error:", err);
+  //   }
+  // };
   const handleSave = async () => {
-    if (!note.trim()) return alert("Please enter a note");
-    if (note.length > 50) return alert("Note cannot exceed 50 characters.");
+    if (!note.trim()) {
+      toast.warning("Please select a note");
+      return;
+    }
 
     try {
       const res = await api.post(
-        `/contacted-leads/${selectedLeadId}`,
-        {
-          note,
-        },
+        `/manager/franchise/${selectedLeadId}/add-note`,
+        { note },
         {
           headers: {
             "Content-Type": "application/json",
@@ -167,21 +225,16 @@ const FranchiseEnrollmentTable = () => {
         }
       );
 
-      // 🎯 FIX: Axios automatically throws for 4xx/5xx status codes.
-      // We only check for success here.
-      if (res.status === 201 || res.status === 200) {
-        alert("Lead update saved successfully!");
+      if (res.status === 200) {
+        toast.success("Follow-up note added successfully!");
         closeModal();
-      } else {
-        // This branch should ideally not be reached if Axios is configured correctly
-        throw new Error(res.data?.message || "Error saving lead update");
       }
     } catch (err) {
-      // 🎯 Catch block handles API errors (4xx/5xx)
-      alert(err.response?.data?.message || "Error saving lead update");
+      toast.error(err.response?.data?.message || "Error saving follow-up note");
       console.error("API Error:", err);
     }
   };
+
   const data = useSelector((state) => state.franchiseLeads);
   // console.log(data);
   const { leads, loading, error } = useSelector(
@@ -329,13 +382,26 @@ const FranchiseEnrollmentTable = () => {
               <h3>Lead Update</h3>
               <p>Contacted Date: {new Date().toLocaleDateString("en-IN")}</p>
 
-              <textarea
+              {/* <textarea
                 placeholder=" Ex : Needs to check with parents, Status: Interested in Full Stack,  Lead is demanding a discount (maximum 50 characters)"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 maxLength={50}
                 className={styles.textarea}
-              ></textarea>
+              ></textarea> */}
+              <select
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                className={styles.dropdown}
+              >
+                <option value="">Select Follow-up Status</option>
+
+                {followUpOptions.map((item, idx) => (
+                  <option key={idx} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
 
               <div className={styles.modalActions}>
                 <button onClick={handleSave} className={styles.saveBtn}>

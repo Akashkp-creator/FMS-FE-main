@@ -128,14 +128,46 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // ⭐ Improved RecenterMap with useEffect for better performance
+// function RecenterMap({ lat, lng }) {
+//   const map = useMap();
+
+//   useEffect(() => {
+//     if (lat == null || lng == null) return;
+//     if (!isNaN(lat) && !isNaN(lng)) {
+//       map.setView([lat, lng], map.getZoom());
+//     }
+//   }, [lat, lng, map]);
+
+//   return null;
+// }
+
+// ⭐ Improved RecenterMap with useEffect for better performance
+// function RecenterMap({ lat, lng }) {
+//   const map = useMap();
+
+//   useEffect(() => {
+//     // 🔥 CRITICAL FIX: Tell Leaflet to recalculate its size based on its container.
+//     // This resolves issues where the map renders before its CSS is fully applied.
+//     map.invalidateSize();
+
+//     // Recenter logic
+//     if (lat == null || lng == null) return;
+//     if (!isNaN(lat) && !isNaN(lng)) {
+//       map.setView([lat, lng], map.getZoom());
+//     }
+//   }, [lat, lng, map]); // dependencies must include lat, lng, map
+
+//   return null;
+// }
 function RecenterMap({ lat, lng }) {
   const map = useMap();
 
   useEffect(() => {
     if (lat == null || lng == null) return;
-    if (!isNaN(lat) && !isNaN(lng)) {
-      map.setView([lat, lng], map.getZoom());
-    }
+    if (isNaN(lat) || isNaN(lng)) return;
+
+    map.setView([lat, lng], map.getZoom());
+    map.invalidateSize();
   }, [lat, lng, map]);
 
   return null;
@@ -167,7 +199,14 @@ export default function MapPicker({ lat, lng, setLat, setLng }) {
       ? [lat, lng]
       : [20.5937, 78.9629];
 
-  const hasValidCoordinates = !isNaN(lat) && !isNaN(lng);
+  // const hasValidCoordinates = !isNaN(lat) && !isNaN(lng);
+  const hasValidCoordinates =
+    lat !== null &&
+    lng !== null &&
+    typeof lat === "number" &&
+    typeof lng === "number" &&
+    !isNaN(lat) &&
+    !isNaN(lng);
 
   return (
     <div className={styles.mapContainer}>
@@ -183,7 +222,7 @@ export default function MapPicker({ lat, lng, setLat, setLng }) {
       >
         <MapContainer
           center={defaultCenter}
-          zoom={13}
+          zoom={5}
           style={{ height: "100%", width: "100%" }}
           scrollWheelZoom={true} // Added for better UX
         >

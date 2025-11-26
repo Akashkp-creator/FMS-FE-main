@@ -24,7 +24,25 @@ function App() {
         <RouterProvider router={router} />
       </React.Suspense>
       {/* MUST be present */}
-      <ToastContainer position="top-center" autoClose={2000} />
+      {/* <ToastContainer
+        position="top-center"
+        // autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+        autoClose={2000}
+      /> */}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="dark" // Use dark as base for better contrast
+      />
     </>
   );
 }

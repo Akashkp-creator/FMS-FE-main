@@ -1,0 +1,61 @@
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+  --blur-effect: blur(20px);
+}
+
+.Toastify__toast {
+  backdrop-filter: var(--blur-effect) !important;
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--glass-shadow) !important;
+  color: white !important;
+  margin-bottom: 12px !important;
+}
+
+.Toastify__toast-body {
+  color: white !important;
+  font-weight: 500;
+}
+
+.Toastify__progress-bar {
+  background: var(--gold-gradient) !important;
+  height: 3px !important;
+}
+
+.Toastify__close-button {
+  color: white !important;
+  opacity: 0.7 !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+  color: #ffd700 !important;
+}
+
+.Toastify__toast--success {
+  border-left: 4px solid #10b981 !important;
+}
+
+.Toastify__toast--error {
+  border-left: 4px solid #ef4444 !important;
+}
+
+.Toastify__toast--warning {
+  border-left: 4px solid #f59e0b !important;
+}
+
+.Toastify__toast--info {
+  border-left: 4px solid #3b82f6 !important;
+}
+
+.Toastify__toast-container {
+  z-index: 9999 !important;
+}
+
+.Toastify__toast-container--top-center {
+  top: 80px !important;
+}

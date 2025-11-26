@@ -2,7 +2,7 @@
 //   return <div>AddFranchise</div>;
 // };
 // export default AddFranchise;
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Form, useNavigation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +14,19 @@ const AddFranchise = () => {
 
   // console.log("Lead ID:", FranchiseLeadId);
   const navigation = useNavigation();
+
+  // ⬇️ ONLY RUN WHEN PAGE IS REFRESHED
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   const isRefresh =
+  //     window.performance &&
+  //     window.performance.navigation &&
+  //     window.performance.navigation.type === 1;
+
+  //   if (isRefresh) {
+  //     navigate("/manager/enroll-lead/franchise", { replace: true });
+  //   }
+  // }, []);
 
   const isSubmitting = navigation.state === "submitting";
 
@@ -38,8 +51,10 @@ const AddFranchise = () => {
   const [address, setAddress] = useState("");
 
   // Geo Location fields
-  const [lng, setLng] = useState("");
-  const [lat, setLat] = useState("");
+  // const [lng, setLng] = useState("");
+  // const [lat, setLat] = useState("");
+  const [lng, setLng] = useState(null);
+  const [lat, setLat] = useState(null);
 
   // Payment fields
   const [franchiseFee, setFranchiseFee] = useState(0);
@@ -288,9 +303,17 @@ const AddFranchise = () => {
         />
 
         {/* Hidden GeoJSON Fields */}
-        {/* <input type="hidden" name="location[type]" value="Point" />
-        <input type="hidden" name="location[coordinates][0]" value={lng} />
-        <input type="hidden" name="location[coordinates][1]" value={lat} /> */}
+        <input type="hidden" name="location[type]" value="Point" />
+        <input
+          type="hidden"
+          name="location[coordinates][0]"
+          value={lng ?? ""}
+        />
+        <input
+          type="hidden"
+          name="location[coordinates][1]"
+          value={lat ?? ""}
+        />
 
         <h3 className={styles.fullWidth}>Submit</h3>
 
