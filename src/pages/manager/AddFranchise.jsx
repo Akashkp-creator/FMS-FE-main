@@ -15,18 +15,7 @@ const AddFranchise = () => {
   // console.log("Lead ID:", FranchiseLeadId);
   const navigation = useNavigation();
 
-  // ⬇️ ONLY RUN WHEN PAGE IS REFRESHED
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   const isRefresh =
-  //     window.performance &&
-  //     window.performance.navigation &&
-  //     window.performance.navigation.type === 1;
 
-  //   if (isRefresh) {
-  //     navigate("/manager/enroll-lead/franchise", { replace: true });
-  //   }
-  // }, []);
 
   const isSubmitting = navigation.state === "submitting";
 
@@ -50,9 +39,7 @@ const AddFranchise = () => {
   const [franchisePassword, setFranchisePassword] = useState("Franchise@123");
   const [address, setAddress] = useState("");
 
-  // Geo Location fields
-  // const [lng, setLng] = useState("");
-  // const [lat, setLat] = useState("");
+  // Geo Location field
   const [lng, setLng] = useState(null);
   const [lat, setLat] = useState(null);
 

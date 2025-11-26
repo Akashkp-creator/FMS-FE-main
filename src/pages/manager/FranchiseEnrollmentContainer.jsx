@@ -5,13 +5,9 @@ import FranchiseEnrollmentTable from "../../components/FranchiseEnrollment/Franc
 const FranchiseEnrollmentContainer = () => {
   return (
     <div>
-      {/* Background with gradient */}
-      {/* <div className={styles.backgroundGradient}></div> */}
-      <div>
-        <FranchiseEnrollmentFilter />
-        <FranchiseEnrollmentTable />
-        <FranchiseEnrollmentPagination />
-      </div>
+      <FranchiseEnrollmentFilter />
+      <FranchiseEnrollmentTable />
+      <FranchiseEnrollmentPagination />
     </div>
   );
 };
