@@ -122,7 +122,7 @@ const Login = () => {
           <div className={styles.brandContent}>
             <div className={styles.logo}>
               <Building2 className={styles.logoIcon} />
-              <span className={styles.logoText}>Snipe Partner</span>
+              <span className={styles.logoText}>UPL Partner</span>
             </div>
             <h1 className={styles.welcomeTitle}>Welcome Back</h1>
             <p className={styles.welcomeSubtitle}>

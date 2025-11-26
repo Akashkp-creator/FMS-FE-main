@@ -64,7 +64,7 @@ const Footer = () => {
         <div className={styles.companySection}>
           <div className={styles.logo}>
             <Building2 className={styles.logoIcon} />
-            <span className={styles.logoText}>Snipe Partner</span>
+            <span className={styles.logoText}>UPL Partner</span>
           </div>
           <p className={styles.companyDescription}>
             Transform your franchise management with our all-in-one platform.

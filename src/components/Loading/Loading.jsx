@@ -19,7 +19,7 @@ const Loading = ({ message = "Loading....." }) => {
 
           {/* Loading Text */}
           <div className={styles.loadingContent}>
-            <h3 className={styles.loadingTitle}>Snipe Partner</h3>
+            <h3 className={styles.loadingTitle}>UPL Partner</h3>
             <p className={styles.loadingMessage}>{message}</p>
           </div>
 

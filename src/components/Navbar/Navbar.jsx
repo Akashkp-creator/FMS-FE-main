@@ -81,7 +81,7 @@ const Navbar = () => {
           {/* Logo */}
           {/* <div className={styles.logo}>
             <Building2 className={styles.logoIcon} />
-            <span className={styles.logoText}>Snipe Partner</span>
+            <span className={styles.logoText}>UPL Partner</span>
           </div> */}
 
           <div className={styles.logo}>
@@ -92,7 +92,7 @@ const Navbar = () => {
                 className={styles.logoImg}
               />
             ) : (
-              <span className={styles.logoText}>Snipe Partner</span>
+              <span className={styles.logoText}>UPL Partner</span>
             )}
           </div>
 

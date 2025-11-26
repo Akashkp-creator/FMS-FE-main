@@ -27,6 +27,60 @@ const FranchiseEnrollmentTable = () => {
   const [historyData, setHistoryData] = useState([]); // 🎯 NEW
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [note, setNote] = useState("");
+
+  const [showReasonModal, setShowReasonModal] = useState(false);
+  const [reasonText, setReasonText] = useState("");
+  const [selectedLeadForReason, setSelectedLeadForReason] = useState(null);
+
+  const openReasonModal = (leadId) => {
+    setSelectedLeadForReason(leadId);
+    setReasonText("");
+    setShowReasonModal(true);
+  };
+
+  const closeReasonModal = () => {
+    setShowReasonModal(false);
+    setSelectedLeadForReason(null);
+    setReasonText("");
+  };
+
+  const submitNotInterestedReason = async () => {
+    if (!reasonText.trim()) {
+      toast.warning("Please enter a reason");
+      return;
+    }
+
+    try {
+      const res = await api.put(
+        `/manager/franchise/franchise-leads/status-not-interested/${selectedLeadForReason}`,
+        { reason: reasonText }, // pass reason here
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (res.status === 200) {
+        toast.success("Lead status updated to 'Not Interested'");
+        // Update Redux or local state if needed
+        dispatch(
+          setLeads(
+            leads.map((lead) =>
+              lead._id === selectedLeadForReason
+                ? { ...lead, status: "Not Interested", reason: reasonText }
+                : lead
+            )
+          )
+        );
+        closeReasonModal();
+      } else {
+        throw new Error(res.data?.message || "Failed to update status");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Error updating lead status");
+      console.error("Update Not Interested Error:", err);
+    }
+  };
+
   const openModal = (leadId) => {
     setSelectedLeadId(leadId);
     setNote("");
@@ -63,7 +117,7 @@ const FranchiseEnrollmentTable = () => {
 
     try {
       const res = await api.get(`/manager/franchise/${leadId}/notes`);
-      console.log(res.data);
+      // console.log(res.data);
 
       setHistoryData(res.data.notes); // <- GET ONLY NOTES ARRAY
       setShowHistoryModal(true);
@@ -100,53 +154,11 @@ const FranchiseEnrollmentTable = () => {
     }
   };
 
-  const data = useSelector((state) => state.franchiseLeads);
+  // const data = useSelector((state) => state.franchiseLeads);
   // console.log(data);
   const { leads, loading, error } = useSelector(
     (state) => state.franchiseLeads
   );
-
-  const handleNotInterested = async (leadId) => {
-    // 🎯 NEW FUNCTION
-    if (
-      !window.confirm(
-        "Are you sure you want to mark this lead as 'Not Interested'?"
-      )
-    ) {
-      return;
-    }
-
-    try {
-      const res = await api.put(
-        `/leads/${leadId}/status`, // 👈 Assumes this new API route exists
-        { status: "Not Interested" },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (res.status === 200) {
-        alert("Lead status successfully updated to 'Not Interested'.");
-
-        // OPTIONAL: Update Redux state immediately to reflect change in UI
-        // Find the updated lead and replace it in the leads array
-        dispatch(
-          setLeads(
-            leads.map((lead) =>
-              lead._id === leadId ? { ...lead, status: "Not Interested" } : lead
-            )
-          )
-        );
-      } else {
-        throw new Error(res.data?.message || "Failed to update status.");
-      }
-    } catch (err) {
-      alert(err.response?.data?.message || "Error updating lead status.");
-      console.error("Not Interested Error:", err);
-    }
-  };
 
   // ... rest of the component
 
@@ -187,7 +199,7 @@ const FranchiseEnrollmentTable = () => {
 
                 <td>{lead.status}</td>
                 {/* <td>{lead.source}</td> */}
-                <td>
+                {/* <td>
                   {lead.status !== "Enrolled" &&
                   lead.status !== "Not Interested" ? (
                     <button
@@ -199,36 +211,60 @@ const FranchiseEnrollmentTable = () => {
                   ) : (
                     <span className={styles.enrolled}>Already Enrolled</span>
                   )}
+                </td> */}
+                <td>
+                  {lead.status === "Enrolled" ? (
+                    <span className={styles.enrolled}>Already Enrolled</span>
+                  ) : lead.status === "Not Interested" ? (
+                    <span className={styles.notInterested}>Not Interested</span>
+                  ) : (
+                    <button
+                      className={styles.enrollBtn}
+                      onClick={() => handleEnroll(lead._id)}
+                    >
+                      Enroll
+                    </button>
+                  )}
                 </td>
+
                 {/* ✅ New Lead Update column */}
                 <td>
-                  {lead.status !== "Enrolled" && (
-                    <>
-                      <button
-                        className={styles.updateBtn}
-                        onClick={() => openModal(lead._id)}
-                      >
-                        <NotebookPen />
-                        <span className={styles.tooltip}>Add Follow-ups</span>
-                      </button>
-                      <button
-                        className={styles.updateBtn}
-                        style={{ margin: "5px" }}
-                        onClick={() => handleViewHistory(lead._id)} // 🎯 Attach new handler
-                      >
-                        <FileClock />
-                        <span className={styles.tooltip}>View History</span>
-                      </button>
-                      <button
+                  {lead.status !== "Enrolled" &&
+                    lead.status != "Not Interested" && (
+                      <>
+                        <button
+                          className={styles.updateBtn}
+                          onClick={() => openModal(lead._id)}
+                        >
+                          <NotebookPen />
+                          <span className={styles.tooltip}>Add Follow-ups</span>
+                        </button>
+                        <button
+                          className={styles.updateBtn}
+                          style={{ margin: "5px" }}
+                          onClick={() => handleViewHistory(lead._id)} // 🎯 Attach new handler
+                        >
+                          <FileClock />
+                          <span className={styles.tooltip}>View History</span>
+                        </button>
+                        {/* <button
                         className={styles.updateBtn}
                         style={{ margin: "5px" }}
                         onClick={() => handleNotInterested(lead._id)} // 🎯 ADDED onClick
                       >
                         <UserX />
                         <span className={styles.tooltip}>Not Interested</span>
-                      </button>
-                    </>
-                  )}
+                      </button> */}
+                        <button
+                          className={styles.updateBtn}
+                          style={{ margin: "5px" }}
+                          onClick={() => openReasonModal(lead._id)}
+                        >
+                          <UserX />
+                          <span className={styles.tooltip}>Not Interested</span>
+                        </button>
+                      </>
+                    )}
                 </td>
               </tr>
             ))}
@@ -341,6 +377,69 @@ const FranchiseEnrollmentTable = () => {
           </div>,
           document.getElementById("modal-root")
         )}
+      {showReasonModal &&
+        ReactDOM.createPortal(
+          <div className={styles.modalOverlay}>
+            {/* <div className={styles.modal}>
+              <h3>Enter Reason for Not Interested</h3>
+              <textarea
+                placeholder="Enter reason (max 200 characters)"
+                value={reasonText}
+                onChange={(e) => setReasonText(e.target.value)}
+                maxLength={200}
+                rows={5}
+                className={styles.textarea}
+                style={{
+                  width: "100%",
+                  height: "100px",
+                  padding: "10px",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                  background: "#111",
+                  color: "white",
+                }}
+              ></textarea>
+              <div className={styles.modalActions}>
+                <button
+                  onClick={submitNotInterestedReason}
+                  className={styles.saveBtn}
+                >
+                  Submit
+                </button>
+                <button onClick={closeReasonModal} className={styles.cancelBtn}>
+                  Cancel
+                </button>
+              </div>
+            </div> */}
+            <div className={styles.reasonModal}>
+              <h3>Enter Reason for Not Interested</h3>
+
+              <textarea
+                placeholder="Enter reason (max 200 characters)"
+                value={reasonText}
+                onChange={(e) => setReasonText(e.target.value)}
+                maxLength={200}
+                rows={5}
+                className={styles.reasonTextarea}
+              ></textarea>
+
+              <div className={styles.modalActions}>
+                <button
+                  onClick={submitNotInterestedReason}
+                  className={styles.saveBtn}
+                >
+                  Submit
+                </button>
+
+                <button onClick={closeReasonModal} className={styles.cancelBtn}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.getElementById("modal-root")
+        )}
+
       <div className={styles.paginationInfo}>
         Page: {meta.page} / {meta.pageCount} | Total: {meta.total}{" "}
       </div>
