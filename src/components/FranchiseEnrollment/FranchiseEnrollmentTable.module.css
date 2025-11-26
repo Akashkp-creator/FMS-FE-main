@@ -332,18 +332,33 @@
 }
 
 /* History Modal Styles */
-.historyList {
-  max-height: 400px;
+/* .historyList {
+  max-height: 200px;
   overflow-y: auto;
   margin: 1rem 0;
+} */
+.historyList {
+  max-height: 220px;
+  overflow-y: auto;
+  margin: 1rem 0;
+
+  /* Hide scrollbar for Chrome, Safari, Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE, Edge */
+}
+
+.historyList::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 .historyItem {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
-  padding: 1.5rem;
+  /* padding: 1.5rem; */
+  padding: 0.7rem 1rem; /* reduced vertical + horizontal padding */
   margin-bottom: 1rem;
+
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
 }
@@ -360,6 +375,19 @@
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
+}
+
+/* .historyDate svg {
+  color: inherit !important;
+  stroke: inherit !important;
+} */
+.historyDate {
+  color: #ffd700 !important;
+}
+
+.historyDate svg {
+  stroke: #ffd700 !important; /* 🎯 THIS is what makes icon gold */
+  color: #ffd700 !important; /* optional, doesn't hurt */
 }
 
 .historyNote {

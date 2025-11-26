@@ -46,74 +46,33 @@ const FranchiseEnrollmentTable = () => {
     setSelectedLeadId(null);
   };
   // --- New History Fetch Function ---
+  // const handleViewHistory = async (leadId) => {
+  //   // 🎯 NEW
+  //   setSelectedLeadId(leadId);
+  //   try {
+  //     const res = await api.get(`/contacted-leads/${leadId}/contact-updates`);
+  //     setHistoryData(res.data);
+  //     setShowHistoryModal(true);
+  //   } catch (err) {
+  //     alert(err.response?.data?.message || "Error fetching history.");
+  //     console.error("History Fetch Error:", err);
+  //   }
+  // };
   const handleViewHistory = async (leadId) => {
-    // 🎯 NEW
     setSelectedLeadId(leadId);
+
     try {
-      const res = await api.get(`/contacted-leads/${leadId}/contact-updates`);
-      setHistoryData(res.data);
+      const res = await api.get(`/manager/franchise/${leadId}/notes`);
+      console.log(res.data);
+
+      setHistoryData(res.data.notes); // <- GET ONLY NOTES ARRAY
       setShowHistoryModal(true);
     } catch (err) {
-      alert(err.response?.data?.message || "Error fetching history.");
+      toast.error(err.response?.data?.message || "Error fetching history.");
       console.error("History Fetch Error:", err);
     }
   };
-  // const handleSave = async () => {
-  //   if (!note.trim()) return alert("Please enter a note");
-  //   if (note.length > 50) return alert("Note cannot exceed 50 characters.");
 
-  //   try {
-  //     const res = await api.post(
-  //       `/contacted-leads/${selectedLeadId}`,
-  //       {
-  //         note,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     // 🎯 FIX: Axios automatically throws for 4xx/5xx status codes.
-  //     // We only check for success here.
-  //     if (res.status === 201 || res.status === 200) {
-  //       alert("Lead update saved successfully!");
-  //       closeModal();
-  //     } else {
-  //       // This branch should ideally not be reached if Axios is configured correctly
-  //       throw new Error(res.data?.message || "Error saving lead update");
-  //     }
-  //   } catch (err) {
-  //     // 🎯 Catch block handles API errors (4xx/5xx)
-  //     alert(err.response?.data?.message || "Error saving lead update");
-  //     console.error("API Error:", err);
-  //   }
-  // };
-  // const handleSave = async () => {
-  //   if (!note.trim()) return alert("Please select  a note");
-  //   // /:leadId/add-note
-  //   try {
-  //     const res = await api.post(
-  //       `/manager/franchise/${selectedLeadId}/add-note`,
-  //       { note },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     // Success response
-  //     if (res.status === 200) {
-  //       alert("Follow-up note added successfully!");
-  //       closeModal();
-  //     }
-  //   } catch (err) {
-  //     alert(err.response?.data?.message || "Error saving follow-up note");
-  //     console.error("API Error:", err);
-  //   }
-  // };
   const handleSave = async () => {
     if (!note.trim()) {
       toast.warning("Please select a note");
@@ -146,7 +105,6 @@ const FranchiseEnrollmentTable = () => {
   const { leads, loading, error } = useSelector(
     (state) => state.franchiseLeads
   );
-  // ... existing functions (handleSave, handleViewHistory, etc.)
 
   const handleNotInterested = async (leadId) => {
     // 🎯 NEW FUNCTION
@@ -264,7 +222,6 @@ const FranchiseEnrollmentTable = () => {
                       <button
                         className={styles.updateBtn}
                         style={{ margin: "5px" }}
-                        // onClick={() => handleViewHistory(lead._id)} // 🎯 Attach new handler
                         onClick={() => handleNotInterested(lead._id)} // 🎯 ADDED onClick
                       >
                         <UserX />
@@ -288,13 +245,6 @@ const FranchiseEnrollmentTable = () => {
               <h3>Lead Update</h3>
               <p>Contacted Date: {new Date().toLocaleDateString("en-IN")}</p>
 
-              {/* <textarea
-                placeholder=" Ex : Needs to check with parents, Status: Interested in Full Stack,  Lead is demanding a discount (maximum 50 characters)"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                maxLength={50}
-                className={styles.textarea}
-              ></textarea> */}
               <select
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -338,18 +288,38 @@ const FranchiseEnrollmentTable = () => {
                 <div className={styles.historyList}>
                   {historyData.map((item) => (
                     <div key={item._id} className={styles.historyItem}>
-                      <p className={styles.historyDate}>
-                        <FileClock size={16} style={{ marginRight: "8px" }} />
-                        **
-                        {new Date(item.createdAt).toLocaleDateString("en-IN", {
+                      {/* <p className={styles.historyDate}>
+                        <FileClock
+                          size={16}
+                          style={{ marginRight: "8px", color: "inherit" }}
+                        />
+                        {new Date(item.date).toLocaleString("en-IN", {
                           year: "numeric",
                           month: "short",
                           day: "numeric",
                           hour: "2-digit",
                           minute: "2-digit",
+                          hour12: true,
                         })}
-                        **
+                      </p> */}
+                      <p className={styles.historyDate}>
+                        <FileClock
+                          size={16}
+                          style={{ marginRight: "8px", color: "inherit" }}
+                        />
+                        {new Date(item.date?.$date || item.date).toLocaleString(
+                          "en-IN",
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          }
+                        )}
                       </p>
+
                       <p className={styles.historyNote}>{item.note}</p>
                       {/* You can show the franchise ID here if you populate it in the controller */}
                     </div>
