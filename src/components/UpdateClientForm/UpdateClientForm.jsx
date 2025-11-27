@@ -193,7 +193,7 @@ const UpdateClientForm = () => {
   // ------------------ Render ------------------
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <h2>Update Client</h2>
+      <h2>Update the Fee Structure</h2>
 
       <input
         type="text"
@@ -344,7 +344,7 @@ const UpdateClientForm = () => {
       </button>
 
       <button type="submit" className={styles.submitBtn}>
-        Update Client
+        Update fee structure
       </button>
     </form>
   );

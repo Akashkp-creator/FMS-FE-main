@@ -119,6 +119,7 @@ import FranchiseEnrollmentContainer from "./pages/manager/FranchiseEnrollmentCon
 import { franchiseLeadLoader } from "./utils/franchiseLeadLoader";
 import AddFranchise from "./pages/manager/AddFranchise";
 import { AddFranchiseAction } from "./utils/franchiseAction";
+import Profile from "./pages/franchise/Profile";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -197,6 +198,32 @@ const router = createBrowserRouter([
           //   element: <Manager />,
           //   action: AddManagerAction,
           // },
+        ],
+      },
+      // MANAGER ROUTES
+      {
+        element: <RoleProtectedRoute allowedRoles={["Franchise"]} />,
+        children: [
+          {
+            path: "franchise/profile",
+            element: <Profile />,
+            action: addFranchiseLeadAction,
+          },
+          // {
+          //   path: "manager/enroll-lead/franchise",
+          //   element: <FranchiseEnrollmentContainer />,
+          //   loader: franchiseLeadLoader(store),
+          // },
+          // {
+          //   path: "manager/my-FranchiseLead/:FranchiseLeadId",
+          //   element: <AddFranchise />,
+          //   action: AddFranchiseAction,
+          // },
+          // // {
+          // //   path: "admin-manager",
+          // //   element: <Manager />,
+          // //   action: AddManagerAction,
+          // // },
         ],
       },
 

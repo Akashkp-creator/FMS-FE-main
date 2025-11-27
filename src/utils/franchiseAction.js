@@ -203,11 +203,13 @@ export async function AddFranchiseAction({ request, params }) {
     const ownerName = formData.get("ownerName");
     const franchisePassword = formData.get("franchisePassword");
     const franchiseEmail = formData.get("franchiseEmail");
+    const ownerPhone = formData.get("ownerPhone");
 
     // --- Payload to Backend ---
     const payload = {
       franchiseName,
       ownerName,
+      ownerPhone,
       franchisePassword,
       franchiseEmail,
       address,
@@ -226,7 +228,7 @@ export async function AddFranchiseAction({ request, params }) {
       },
     };
 
-    console.log("FINAL PAYLOAD:", payload);
+    // console.log("FINAL PAYLOAD:", payload);
     // return null;
     // --- SEND TO BACKEND ---
     const response = await api.post(

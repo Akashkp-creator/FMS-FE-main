@@ -24,6 +24,7 @@ import {
   ClipboardPenLine,
   ChartNoAxesCombined,
   UserCog,
+  CircleUser,
 } from "lucide-react";
 
 export const publicNavLinks = [
@@ -100,24 +101,26 @@ export const roleBasedNavLinks = {
   Franchise: [
     { label: "Home", href: "/", icon: <Home size={18} /> },
     {
-      href: "/editorial",
-      label: "Dashboard",
-      icon: <LayoutDashboard size={18} />,
+      href: "/franchise/profile",
+      label: "Profile",
+      icon: <CircleUser size={18} />,
+      // icon: <LayoutDashboard size={18} />,
     },
     {
       href: "/franchise/add-lead",
       label: "Lead",
       icon: <UserStar size={18} />,
     },
-    {
-      href: "/franchise/installment-payment/list",
-      label: "Installments",
-      icon: <IndianRupee size={18} />,
-    },
+
     {
       href: "/franchise/my-lead-list",
       label: "Enrollment",
       icon: <NotebookPen size={18} />,
+    },
+    {
+      href: "/franchise/installment-payment/list",
+      label: "Installments",
+      icon: <IndianRupee size={18} />,
     },
     // {
     //   href: "/editorial/assign-reviewers",

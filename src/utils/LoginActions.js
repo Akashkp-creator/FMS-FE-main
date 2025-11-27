@@ -58,14 +58,14 @@ export const LoginAction = (store) => {
 
       const res = await api.post("/auth/login", credentials);
 
-      const { user, client } = res.data;
+      const { user, client, franchise } = res.data;
       console.log(res);
       if (!user) {
         toast.error("Invalid server response");
         return null;
       }
       // Combine user and client info in one object
-      const userData = { ...user, client };
+      const userData = { ...user, client, franchise };
       // Save to Redux
       // console.log(userData);
       store.dispatch(login(userData));
@@ -73,7 +73,7 @@ export const LoginAction = (store) => {
       // Save to localStorage
       // localStorage.setItem("user", JSON.stringify(user));
 
-      toast.success("Login successful");
+      toast.success(`${res.data.message}` || "Login successful");
 
       // -----------------------------------
       // ROLE-BASED REDIRECTS (clean version)
