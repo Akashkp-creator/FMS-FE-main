@@ -135,6 +135,14 @@ const AddClient = React.lazy(function LazyAddClient() {
   return import("./pages/SuperAdmin/AddClient");
 });
 
+const Contact = React.lazy(function LazyContactSection() {
+  return import("./components/Contact/Contact");
+});
+
+const FeaturesSection = React.lazy(function LazyContactSection() {
+  return import("./components/FeaturesSection/FeaturesSection");
+});
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -143,6 +151,24 @@ const router = createBrowserRouter([
 
     children: [
       { index: true, element: <Home /> },
+
+      // contact page (public)
+      {
+        path: "contact",
+        element: (
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <Contact />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "features",
+        element: (
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <FeaturesSection />
+          </React.Suspense>
+        ),
+      },
 
       // SUPER ADMIN ROUTES
       {
