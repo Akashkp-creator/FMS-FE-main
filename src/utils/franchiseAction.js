@@ -204,12 +204,14 @@ export async function AddFranchiseAction({ request, params }) {
     const franchisePassword = formData.get("franchisePassword");
     const franchiseEmail = formData.get("franchiseEmail");
     const ownerPhone = formData.get("ownerPhone");
+    const revenueSharePercent = formData.get("revenueSharePercent");
 
     // --- Payload to Backend ---
     const payload = {
       franchiseName,
       ownerName,
       ownerPhone,
+      revenueSharePercent,
       franchisePassword,
       franchiseEmail,
       address,

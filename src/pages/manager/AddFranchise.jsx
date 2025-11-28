@@ -51,6 +51,7 @@ const AddFranchise = () => {
   const [discount, setDiscount] = useState(0);
   const [ownerName, setOwnerName] = useState("");
   const [ownerPhone, setOwnerPhone] = useState("");
+  const [revenueSharePercent, setRevenueSharePercent] = useState(0);
   const [nonRefundPercent, setNonRefundPercent] = useState("");
   const [discountPercent, setDiscountPercent] = useState("");
 
@@ -162,6 +163,14 @@ const AddFranchise = () => {
           value={ownerPhone}
           onChange={(e) => setOwnerPhone(e.target.value)}
           name="ownerPhone"
+        />
+        <label>Revenue Share Percent</label>
+        <input
+          type="text"
+          required
+          value={revenueSharePercent}
+          onChange={(e) => setRevenueSharePercent(e.target.value)}
+          name="revenueSharePercent"
         />
 
         {/* ------------------ Location Section ------------------ */}
@@ -276,21 +285,6 @@ const AddFranchise = () => {
           required
         />
 
-        {/* <label>Non-Refundable Amount</label>
-        <input
-          type="number"
-          value={nonRefundAmount}
-          onChange={(e) => setNonRefundAmount(e.target.value)}
-          name="nonRefundAmount"
-        />
-
-        <label>Discount</label>
-        <input
-          type="number"
-          value={discount}
-          onChange={(e) => setDiscount(e.target.value)}
-          name="discount"
-        /> */}
         <label>Non-Refundable Amount</label>
         <input
           type="number"
