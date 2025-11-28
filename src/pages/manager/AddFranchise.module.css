@@ -506,3 +506,21 @@ select:focus {
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   color: white !important;
 }
+
+.readOnly {
+  user-select: none;
+  pointer-events: none; /* optional: completely ignore mouse events */
+}
+
+/* ================== */
+.coordLink {
+  margin-bottom: 10px;
+}
+
+.coordLink {
+  color: #ffd700;
+  /* border: 2px solid #ffd700; */
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -4,18 +4,17 @@
 // export default AddFranchise;
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, useNavigation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import styles from "./AddFranchise.module.css";
 import MapPicker from "../../components/MapPicker/MapPicker";
+import { MapPinCheck } from "lucide-react";
 
 const AddFranchise = () => {
   const { FranchiseLeadId } = useParams();
 
   // console.log("Lead ID:", FranchiseLeadId);
   const navigation = useNavigation();
-
-
 
   const isSubmitting = navigation.state === "submitting";
 
@@ -48,32 +47,35 @@ const AddFranchise = () => {
   const [depositAmount, setDepositAmount] = useState(0);
   const [extraCharges, setExtraCharges] = useState(0);
   const [yearlyRenewalFee, setYearlyRenewalFee] = useState(0);
-  const [refundAmount, setRefundAmount] = useState(0);
+  const [nonRefundAmount, setNonRefundAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [ownerName, setOwnerName] = useState("");
   const [ownerPhone, setOwnerPhone] = useState("");
+  const [nonRefundPercent, setNonRefundPercent] = useState("");
+  const [discountPercent, setDiscountPercent] = useState("");
 
   const [netTotal, setNetTotal] = useState(0);
-
-  // Auto-calc net total
-  useEffect(() => {
-    const total =
+  // const baseTotal =
+  //   Number(franchiseFee) +
+  //   Number(depositAmount) +
+  //   Number(extraCharges) +
+  //   Number(yearlyRenewalFee);
+  const baseTotal = useMemo(() => {
+    return (
       Number(franchiseFee) +
       Number(depositAmount) +
       Number(extraCharges) +
-      Number(yearlyRenewalFee) -
-      Number(discount) +
-      Number(refundAmount);
+      Number(yearlyRenewalFee)
+    );
+  }, [franchiseFee, depositAmount, extraCharges, yearlyRenewalFee]);
 
+  // Auto-calc net total
+
+  useEffect(() => {
+    const total = baseTotal - Number(discount);
     setNetTotal(total >= 0 ? total : 0);
-  }, [
-    franchiseFee,
-    depositAmount,
-    extraCharges,
-    yearlyRenewalFee,
-    discount,
-    refundAmount,
-  ]);
+  }, [baseTotal, discount]);
+
   const [cityTier, setCityTier] = useState("");
 
   useEffect(() => {
@@ -163,7 +165,7 @@ const AddFranchise = () => {
         />
 
         {/* ------------------ Location Section ------------------ */}
-        <h3 className={styles.fullWidth}>Location</h3>
+        <h3 className={styles.fullWidth}>Location </h3>
 
         <label>Address</label>
         <input
@@ -173,7 +175,18 @@ const AddFranchise = () => {
           onChange={(e) => setAddress(e.target.value)}
           name="address"
         />
-
+        <label>To Get Coordinates</label>
+        <div>
+          <a
+            href="https://www.gps-coordinates.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.coordLink}
+          >
+            {/* <span className={styles.mapIcon}>📍</span> */}
+            <MapPinCheck /> Click to get coordinates
+          </a>
+        </div>
         <label>Longitude (lng)</label>
         <input
           type="number"
@@ -263,12 +276,12 @@ const AddFranchise = () => {
           required
         />
 
-        <label>Refund Amount</label>
+        {/* <label>Non-Refundable Amount</label>
         <input
           type="number"
-          value={refundAmount}
-          onChange={(e) => setRefundAmount(e.target.value)}
-          name="refundAmount"
+          value={nonRefundAmount}
+          onChange={(e) => setNonRefundAmount(e.target.value)}
+          name="nonRefundAmount"
         />
 
         <label>Discount</label>
@@ -277,6 +290,52 @@ const AddFranchise = () => {
           value={discount}
           onChange={(e) => setDiscount(e.target.value)}
           name="discount"
+        /> */}
+        <label>Non-Refundable Amount</label>
+        <input
+          type="number"
+          value={nonRefundAmount}
+          name="nonRefundAmount"
+          readOnly
+          className={styles.readOnly}
+        />
+
+        <label>Discount</label>
+        <input
+          type="number"
+          value={discount}
+          name="discount"
+          readOnly
+          className={styles.readOnly}
+        />
+        {/* -------- New Percentage Inputs -------- */}
+
+        <label>Discount (%)</label>
+        <input
+          type="text"
+          min="0"
+          max="100"
+          value={discountPercent}
+          onChange={(e) => {
+            const p = Number(e.target.value);
+            setDiscountPercent(p);
+            // setDiscount(Math.round((p / 100) * netTotal)); // discount affects net total
+            setDiscount(Math.round((p / 100) * baseTotal));
+          }}
+        />
+
+        {/* <label>Non-Refundable (%)</label> */}
+        <label>Non-Refundable (%)</label>
+        <input
+          type="text"
+          min="0"
+          max="100"
+          value={nonRefundPercent}
+          onChange={(e) => {
+            const p = Number(e.target.value);
+            setNonRefundPercent(p);
+            setNonRefundAmount(Math.round((p / 100) * netTotal)); // does NOT affect netTotal
+          }}
         />
 
         {/* ------------------ Net Total ------------------ */}

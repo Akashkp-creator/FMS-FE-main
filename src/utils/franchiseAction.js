@@ -195,7 +195,7 @@ export async function AddFranchiseAction({ request, params }) {
     const depositAmount = Number(formData.get("depositAmount"));
     const extraCharges = Number(formData.get("extraCharges"));
     const yearlyRenewalFee = Number(formData.get("yearlyRenewalFee"));
-    const refundAmount = Number(formData.get("refundAmount"));
+    const nonRefundAmount = Number(formData.get("nonRefundAmount"));
     const discount = Number(formData.get("discount"));
     const netTotal = Number(formData.get("netTotal"));
 
@@ -222,7 +222,7 @@ export async function AddFranchiseAction({ request, params }) {
         depositAmount,
         extraCharges,
         yearlyRenewalFee,
-        refundAmount,
+        nonRefundAmount,
         discount,
         netTotal,
       },
