@@ -15,6 +15,25 @@ const FranchiseProfile = () => {
   //   console.log(user + "  the user data ");
 
   return (
+    // <div className={styles.card}>
+    //   <h2 className={styles.title}>Profile Details</h2>
+
+    //   <div className={styles.section}>
+    //     <p className={styles.label}>Name</p>
+    //     <p className={styles.value}>{name}</p>
+    //   </div>
+
+    //   <div className={styles.section}>
+    //     <p className={styles.label}>Address</p>
+    //     <p className={styles.value}>{address}</p>
+    //   </div>
+
+    //   <div className={styles.section}>
+    //     <p className={styles.label}>Phone</p>
+    //     <p className={styles.value}>{phone}</p>
+    //   </div>
+    //   <DownloadCertificateButton franchiseId={id} />
+    // </div>
     <div className={styles.card}>
       <h2 className={styles.title}>Profile Details</h2>
 
@@ -32,7 +51,10 @@ const FranchiseProfile = () => {
         <p className={styles.label}>Phone</p>
         <p className={styles.value}>{phone}</p>
       </div>
-      <DownloadCertificateButton franchiseId={id} />
+
+      <div className={styles.downloadContainer}>
+        <DownloadCertificateButton franchiseId={id} />
+      </div>
     </div>
   );
 };

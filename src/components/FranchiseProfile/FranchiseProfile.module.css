@@ -38,3 +38,333 @@
   transform: translateY(-3px);
   transition: 0.2s ease-in-out;
 }
+
+/* =========================== */
+/* ProfileCard.module.css */
+.card {
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3),
+    0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  max-width: 600px;
+  margin: 0 auto;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #fff 0%, #ffd700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.section:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 215, 0, 0.3);
+  transform: translateX(5px);
+}
+
+.label {
+  font-weight: 600;
+  color: #ffd700;
+  font-size: 0.9rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.label::before {
+  content: "";
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.value {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Download Certificate Button Container */
+.downloadContainer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .card {
+    padding: 3rem;
+    border-radius: 28px;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .section {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .label {
+    font-size: 1rem;
+    min-width: 120px;
+    margin-top: 0.125rem;
+  }
+
+  .value {
+    font-size: 1.15rem;
+    flex: 1;
+  }
+
+  .downloadContainer {
+    margin-top: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    padding: 3.5rem;
+    max-width: 700px;
+  }
+
+  .title {
+    font-size: 2.25rem;
+  }
+
+  .section {
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .label {
+    min-width: 140px;
+    font-size: 1.05rem;
+  }
+
+  .value {
+    font-size: 1.2rem;
+  }
+}
+
+/* Small Mobile Optimization */
+@media (max-width: 480px) {
+  .card {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    margin: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .section {
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    border-radius: 10px;
+  }
+
+  .label {
+    font-size: 0.85rem;
+  }
+
+  .value {
+    font-size: 1rem;
+  }
+
+  .downloadContainer {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 360px) {
+  .card {
+    padding: 1.5rem 1.25rem;
+    border-radius: 16px;
+    margin: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.375rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .section {
+    padding: 0.875rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+  }
+
+  .label {
+    font-size: 0.8rem;
+  }
+
+  .value {
+    font-size: 0.95rem;
+  }
+}
+
+/* Loading state for dynamic data */
+.section.loading .value {
+  color: rgba(255, 255, 255, 0.5);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  min-height: 1.2em;
+}
+
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Empty state styling */
+.value:empty::before {
+  content: "Not provided";
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+/* Focus states for accessibility */
+.card:focus-within {
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4),
+    0 8px 25px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 0 0 3px rgba(255, 215, 0, 0.3);
+}
+
+/* Print styles */
+@media print {
+  .card {
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .title {
+    color: black;
+    background: none;
+    -webkit-text-fill-color: black;
+    border-bottom-color: #ccc;
+  }
+
+  .section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+  }
+
+  .label {
+    color: #2d3748;
+  }
+
+  .value {
+    color: #4a5568;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .section {
+    animation: none;
+    transition: none;
+  }
+
+  .section:hover {
+    transform: none;
+  }
+
+  .section.loading .value {
+    animation: none;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid #ffd700;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .section {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .label {
+    color: #ffd700;
+  }
+
+  .value {
+    color: white;
+  }
+}
