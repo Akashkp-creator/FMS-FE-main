@@ -14,6 +14,7 @@ import {
   Users,
   BarChart3,
   Phone,
+  CircleUser,
 } from "lucide-react";
 import styles from "./Navbar.module.css";
 // import { Link, NavLink } from "react-router";
@@ -24,6 +25,7 @@ import api from "../../utils/axiosConfig"; // 👈 your custom axios instance
 // import { Link, Navigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Link, Navigate, NavLink, useNavigate } from "react-router-dom";
+import { roleRoutes } from "../../utils/roleRoutes";
 
 const logoutUser = async () => {
   try {
@@ -73,6 +75,11 @@ const Navbar = () => {
   // ===============================
 
   const navItems = getAllNavLinks();
+
+  const handleProfileClick = () => {
+    const route = roleRoutes[user?.role];
+    if (route) navigate(route);
+  };
 
   return (
     <>
@@ -129,9 +136,20 @@ const Navbar = () => {
             </NavLink> */}
             {isAuthenticated ? (
               <>
-                {/* <span className={styles.welcomeText}>
-                  {user?.name || "User"}😊
+                {/* <span className={styles.profile}> */}
+                {/* {user?.name || "User"}😊 {console.log(user)} */}
+                {/* {console.log(user)}
+                  <CircleUser />
                 </span> */}
+                <span
+                  className={styles.profile}
+                  onClick={handleProfileClick}
+                  // data-tooltip={`user?.name` || "User"}
+                  data-tooltip={`${user?.name || "User"} Profile`}
+                >
+                  <CircleUser />
+                  Profile
+                </span>
                 {/* // ✅ Show Logout when user is logged in */}
                 <button
                   className={styles.loginBtn}
@@ -228,9 +246,18 @@ const Navbar = () => {
           <div className={styles.mobileCtaButtons}>
             {isAuthenticated ? (
               <>
-                <p className={styles.mobileWelcome}>
-                  👋 Welcome, {user?.name || "User"}
-                </p>
+                <span
+                  className={styles.profile}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    handleProfileClick();
+                  }}
+                  // data-tooltip={`user?.name` || "User"}
+                  data-tooltip={`${user?.name || "User"} Profile`}
+                >
+                  <CircleUser />
+                  Profile
+                </span>
 
                 <button
                   className={styles.mobileLoginBtn}

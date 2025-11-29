@@ -568,3 +568,70 @@
     height: 28px;
   }
 }
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: #ffd700;
+}
+
+.profile:hover {
+  background: rgba(255, 215, 0, 0.4);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.profile svg {
+  width: 24px;
+  height: 24px;
+  color: #ffd700;
+}
+
+/* Tooltip */
+.profile::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -35px; /* Below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffd700;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Tooltip Arrow */
+.profile::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #ffd700 transparent transparent transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.profile:hover::after,
+.profile:hover::before {
+  opacity: 1;
+}

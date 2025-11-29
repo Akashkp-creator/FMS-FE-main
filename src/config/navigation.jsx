@@ -100,12 +100,12 @@ export const roleBasedNavLinks = {
   // Editorial specific links
   Franchise: [
     { label: "Home", href: "/", icon: <Home size={18} /> },
-    {
-      href: "/franchise/profile",
-      label: "Profile",
-      icon: <CircleUser size={18} />,
-      // icon: <LayoutDashboard size={18} />,
-    },
+    // {
+    //   href: "/franchise/profile",
+    //   label: "Profile",
+    //   icon: <CircleUser size={18} />,
+    //   // icon: <LayoutDashboard size={18} />,
+    // },
     {
       href: "/franchise/add-lead",
       label: "Lead",

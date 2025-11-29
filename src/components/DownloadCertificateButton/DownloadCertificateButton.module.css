@@ -22,13 +22,18 @@
 }
 
 .button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -66,13 +71,17 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Download icon animation */
 .button:not(:disabled)::after {
-  content: '📄';
+  /* content: '📄'; */
   font-size: 1.1em;
   transition: transform 0.3s ease;
 }
@@ -82,7 +91,7 @@
 }
 
 .button:disabled::after {
-  content: '⏳';
+  content: "⏳";
 }
 
 /* Success state animation */
@@ -96,7 +105,7 @@
 }
 
 .button.success::after {
-  content: '✅';
+  content: "✅";
 }
 
 /* Error state */
@@ -110,7 +119,7 @@
 }
 
 .button.error::after {
-  content: '❌';
+  content: "❌";
 }
 
 /* Focus states for accessibility */
@@ -122,7 +131,7 @@
 
 /* Ripple effect */
 .button::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -157,7 +166,7 @@
     border-radius: 8px;
     gap: 0.5rem;
   }
-  
+
   .button::after {
     font-size: 1em;
   }
@@ -185,17 +194,17 @@
     transition: none;
     animation: none;
   }
-  
+
   .button:hover:not(:disabled) {
     transform: none;
   }
-  
+
   .loadingSpinner {
     animation: none;
     border: 2px solid currentColor;
     border-top-color: transparent;
   }
-  
+
   .button::before {
     display: none;
   }
@@ -207,7 +216,7 @@
     border: 2px solid #ffd700;
     background: #ffd700;
   }
-  
+
   .button:disabled {
     background: #666;
     border-color: #999;
@@ -222,8 +231,8 @@
     border: 1px solid #ccc !important;
     box-shadow: none !important;
   }
-  
+
   .button::after {
-    content: 'Download PDF' !important;
+    content: "Download PDF" !important;
   }
 }
