@@ -1,7 +1,4 @@
-// const AddFranchise = () => {
-//   return <div>AddFranchise</div>;
-// };
-// export default AddFranchise;
+// AddFranchise.jsx
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, useNavigation } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
@@ -9,106 +6,193 @@ import { useSelector } from "react-redux";
 import styles from "./AddFranchise.module.css";
 import MapPicker from "../../components/MapPicker/MapPicker";
 import { MapPinCheck } from "lucide-react";
+import api from "../../utils/axiosConfig";
+
+const clampPercent = (v) => {
+  if (Number.isNaN(v)) return 0;
+  return Math.max(0, Math.min(100, Math.round(v)));
+};
 
 const AddFranchise = () => {
   const { FranchiseLeadId } = useParams();
-
-  // console.log("Lead ID:", FranchiseLeadId);
   const navigation = useNavigation();
-
   const isSubmitting = navigation.state === "submitting";
 
-  // ✔ Get all PIN data from Redux
+  // Redux sources
   const pinData = useSelector((state) => state.auth.user);
-  // Get leads from Redux
-  const leads = useSelector((state) => state.franchiseLeads.leads);
-  //   console.log(leads);
+  const leads = useSelector((state) => state.franchiseLeads.leads || []);
 
-  // Find the selected lead
-  const selectedLead = leads.find((lead) => lead._id === FranchiseLeadId);
-  // console.log("Selected lead:", selectedLead);
-  //   const leadData = useSelector((state) => state.franchiseLeads.leads);
-  //   console.log("to find lead data" + leadData);
+  // local fallback for client finance (populated only if backend returned)
+  const [localFranchiseFinance, setLocalFranchiseFinance] = useState([]);
 
-  // console.log("PIN DATA:", pinData); // verify
-
-  // Franchise fields
+  // form fields
   const [franchiseName, setFranchiseName] = useState("");
   const [franchiseEmail, setFranchiseEmail] = useState("");
   const [franchisePassword, setFranchisePassword] = useState("Franchise@123");
   const [address, setAddress] = useState("");
 
-  // Geo Location field
+  // geo
   const [lng, setLng] = useState(null);
   const [lat, setLat] = useState(null);
 
-  // Payment fields
+  // payment fields
   const [franchiseFee, setFranchiseFee] = useState(0);
   const [depositAmount, setDepositAmount] = useState(0);
   const [extraCharges, setExtraCharges] = useState(0);
   const [yearlyRenewalFee, setYearlyRenewalFee] = useState(0);
+
   const [nonRefundAmount, setNonRefundAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
+
+  // owner / contact
   const [ownerName, setOwnerName] = useState("");
   const [ownerPhone, setOwnerPhone] = useState("");
-  const [revenueSharePercent, setRevenueSharePercent] = useState(0);
+
+  // misc
+  const [revenueSharePercent, setRevenueSharePercent] = useState("");
   const [nonRefundPercent, setNonRefundPercent] = useState("");
   const [discountPercent, setDiscountPercent] = useState("");
+  const [validUpTo, setValidUpTo] = useState("");
+  const [cityTier, setCityTier] = useState("");
 
   const [netTotal, setNetTotal] = useState(0);
-  // const baseTotal =
-  //   Number(franchiseFee) +
-  //   Number(depositAmount) +
-  //   Number(extraCharges) +
-  //   Number(yearlyRenewalFee);
+
+  // Compute source lead from Redux (if present)
+  const selectedLead = useMemo(
+    () => leads.find((l) => l._id === FranchiseLeadId),
+    [leads, FranchiseLeadId]
+  );
+
+  // financeToUse: prefer local fetched finance, otherwise Redux pinData finance
+  const financeToUse = useMemo(() => {
+    if (localFranchiseFinance && localFranchiseFinance.length > 0)
+      return localFranchiseFinance;
+    return pinData?.client?.franchiseFinance || [];
+  }, [localFranchiseFinance, pinData]);
+
+  // baseTotal = sum of static fees (before discount / nonRefund)
   const baseTotal = useMemo(() => {
     return (
-      Number(franchiseFee) +
-      Number(depositAmount) +
-      Number(extraCharges) +
-      Number(yearlyRenewalFee)
+      Number(franchiseFee || 0) +
+      Number(depositAmount || 0) +
+      Number(extraCharges || 0) +
+      Number(yearlyRenewalFee || 0)
     );
   }, [franchiseFee, depositAmount, extraCharges, yearlyRenewalFee]);
 
-  // Auto-calc net total
-
+  // When user selects a cityTier from dropdown, fill fees from financeToUse
   useEffect(() => {
-    const total = baseTotal - Number(discount);
-    setNetTotal(total >= 0 ? total : 0);
-  }, [baseTotal, discount]);
+    if (!cityTier) return;
+    const selected = financeToUse.find((f) => f.cityTier === cityTier);
+    if (selected) {
+      setFranchiseFee(selected.franchiseFee ?? 0);
+      setDepositAmount(selected.depositAmount ?? 0);
+      setExtraCharges(selected.extraCharges ?? 0);
+      setYearlyRenewalFee(selected.yearlyRenewalFee ?? 0);
+    }
+  }, [cityTier, financeToUse]);
 
-  const [cityTier, setCityTier] = useState("");
+  // If Redux has selectedLead data, use it to prefill owner / email / address
+  useEffect(() => {
+    if (!selectedLead) return;
+
+    if (selectedLead.ownerName) setOwnerName(selectedLead.ownerName);
+    if (selectedLead.ownerPhone) setOwnerPhone(selectedLead.ownerPhone);
+    if (selectedLead.ownerEmail) setFranchiseEmail(selectedLead.ownerEmail);
+    if (selectedLead.fullAddress) setAddress(selectedLead.fullAddress);
+    // we do NOT fetch client finance here if Redux already has it — financeToUse will handle that
+  }, [selectedLead]);
+
+  // Fetch backend only if those fields are still empty (Option A)
+  useEffect(() => {
+    const shouldUseRedux =
+      ownerName || ownerPhone || franchiseEmail || address || selectedLead;
+
+    if (shouldUseRedux) {
+      // We already have something (either state filled or selectedLead present) — do not fetch
+      return;
+    }
+
+    // Only fetch when FranchiseLeadId exists
+    if (!FranchiseLeadId) return;
+
+    let cancelled = false;
+    const fetchData = async () => {
+      try {
+        const res = await api.get(
+          `/getLeadFranchiseData/manager/franchise-lead/${FranchiseLeadId}`
+        );
+
+        if (cancelled) return;
+
+        const { lead, clientFinance } = res.data || {};
+
+        if (lead) {
+          if (!ownerName && lead.ownerName) setOwnerName(lead.ownerName);
+          if (!ownerPhone && lead.ownerPhone) setOwnerPhone(lead.ownerPhone);
+          if (!franchiseEmail && lead.ownerEmail)
+            setFranchiseEmail(lead.ownerEmail);
+          if (!address && lead.fullAddress) setAddress(lead.fullAddress);
+        }
+
+        if (clientFinance && clientFinance.length) {
+          setLocalFranchiseFinance(clientFinance);
+        }
+      } catch (err) {
+        console.error("Error fetching lead/client data:", err);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      cancelled = true;
+    };
+    // We intentionally do not include ownerName/ownerPhone/franchiseEmail/address in deps,
+    // because we only want the "initial emptiness" check to decide whether to fetch.
+    // Note: selectedLead is included above in the early exit condition so fetch won't run if selectedLead exists.
+    // FranchiseLeadId and selectedLead control the effect re-evaluation.
+  }, [FranchiseLeadId, selectedLead]);
 
   useEffect(() => {
     if (!cityTier) return;
+    console.log("🔥 Effect triggered", {
+      baseTotal,
+      discountPercent,
+      nonRefundPercent,
+    });
 
-    const selected = pinData?.client?.franchiseFinance?.find(
-      (item) => item.cityTier === cityTier
-    );
+    const dP = Number(discountPercent);
+    const nRP = Number(nonRefundPercent);
 
-    if (selected) {
-      setFranchiseFee(selected.franchiseFee || 0);
-      setDepositAmount(selected.depositAmount || 0);
-      setExtraCharges(selected.extraCharges || 0);
-      setYearlyRenewalFee(selected.yearlyRenewalFee || 0);
+    if (baseTotal <= 0 || isNaN(dP) || isNaN(nRP)) {
+      return;
     }
-  }, [cityTier, pinData]);
-  // Autofill from selected lead
-  useEffect(() => {
-    if (selectedLead) {
-      setFranchiseEmail(selectedLead.ownerEmail || "");
-      setAddress(selectedLead.fullAddress || "");
-      //   setFranchiseName(selectedLead.name || "");
 
-      // NEW FIELDS
-      setOwnerName(selectedLead.ownerName || "");
-      setOwnerPhone(selectedLead.ownerPhone || selectedLead.mobile || "");
-    }
-  }, [selectedLead]);
-  useEffect(() => {
-    console.log("LAT TYPE:", typeof lat, lat);
-    console.log("LNG TYPE:", typeof lng, lng);
-  }, [lat, lng]);
+    const calculateAmounts = async () => {
+      try {
+        const res = await api.post(
+          "/getLeadFranchiseData/manager/calculateFranchiseAmounts",
+          {
+            baseTotal,
+            discountPercent: dP,
+            nonRefundPercent: nRP,
+          }
+        );
+
+        const { discount, netTotal, nonRefundAmount } = res.data.data;
+
+        setDiscount(discount);
+        setNetTotal(netTotal);
+        setNonRefundAmount(nonRefundAmount);
+      } catch (error) {
+        console.error("Error calculating franchise amounts:", error);
+      }
+    };
+
+    const timer = setTimeout(calculateAmounts, 300);
+    return () => clearTimeout(timer);
+  }, [baseTotal, discountPercent, nonRefundPercent]);
 
   return (
     <div className={styles.container}>
@@ -145,6 +229,7 @@ const AddFranchise = () => {
           onChange={(e) => setFranchisePassword(e.target.value)}
           name="franchisePassword"
         />
+
         <h3 className={styles.fullWidth}>Owner Details</h3>
 
         <label>Owner Name</label>
@@ -164,6 +249,7 @@ const AddFranchise = () => {
           onChange={(e) => setOwnerPhone(e.target.value)}
           name="ownerPhone"
         />
+
         <label>Revenue Share Percent</label>
         <input
           type="text"
@@ -173,8 +259,18 @@ const AddFranchise = () => {
           name="revenueSharePercent"
         />
 
+        {/* --- Valid Up To Date Field --- */}
+        <label>Valid Up To</label>
+        <input
+          type="date"
+          required
+          value={validUpTo}
+          onChange={(e) => setValidUpTo(e.target.value)}
+          name="validUpTo"
+        />
+
         {/* ------------------ Location Section ------------------ */}
-        <h3 className={styles.fullWidth}>Location </h3>
+        <h3 className={styles.fullWidth}>Location</h3>
 
         <label>Address</label>
         <input
@@ -184,6 +280,7 @@ const AddFranchise = () => {
           onChange={(e) => setAddress(e.target.value)}
           name="address"
         />
+
         <label>To Get Coordinates</label>
         <div>
           <a
@@ -192,34 +289,32 @@ const AddFranchise = () => {
             rel="noopener noreferrer"
             className={styles.coordLink}
           >
-            {/* <span className={styles.mapIcon}>📍</span> */}
             <MapPinCheck /> Click to get coordinates
           </a>
         </div>
+
         <label>Longitude (lng)</label>
         <input
           type="number"
-          required
           step="any"
           value={lng ?? ""}
-          // onChange={(e) => setLng(e.target.value)}
-          onChange={(e) => setLng(Number(e.target.value))}
+          onChange={(e) =>
+            setLng(e.target.value === "" ? "" : Number(e.target.value))
+          }
           name="lng"
         />
 
         <label>Latitude (lat)</label>
         <input
           type="number"
-          required
           step="any"
           value={lat ?? ""}
-          // onChange={(e) => setLat(e.target.value)}
-          onChange={(e) => setLat(Number(e.target.value))}
+          onChange={(e) =>
+            setLat(e.target.value === "" ? "" : Number(e.target.value))
+          }
           name="lat"
         />
-        {/* ⭐ Add Leaflet Map Here */}
-        {/* <MapPicker lat={lat} lng={lng} setLat={setLat} setLng={setLng} /> */}
-        {/* ⭐ Add Leaflet Map Here */}
+
         <div className={styles.mapContainer}>
           <MapPicker lat={lat} lng={lng} setLat={setLat} setLng={setLng} />
         </div>
@@ -227,112 +322,122 @@ const AddFranchise = () => {
         {/* ------------------ Payment Details ------------------ */}
         <h3 className={styles.fullWidth}>Payment Details</h3>
 
-        <label>City Tier</label>
-        <select
-          name="cityTier"
-          value={cityTier}
-          onChange={(e) => setCityTier(e.target.value)}
-          required
-        >
-          <option value="">-- Select City Tier --</option>
-          {pinData?.client?.franchiseFinance?.map((item, index) => (
-            <option key={index} value={item.cityTier}>
-              {item.cityTier}
-            </option>
-          ))}
-        </select>
+        <div>
+          <label>City Tier</label>
+          <select
+            name="cityTier"
+            value={cityTier}
+            onChange={(e) => setCityTier(e.target.value)}
+            required
+          >
+            <option value="">-- Select City Tier --</option>
+            {financeToUse.map((item, idx) => (
+              <option key={idx} value={item.cityTier}>
+                {item.cityTier}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Franchise Fee</label>
+          <input
+            type="number"
+            value={franchiseFee}
+            readOnly
+            className={`${styles.readOnly}`}
+            name="franchiseFee"
+          />
+        </div>
+        <div>
+          <label>Deposit Amount</label>
+          <input
+            type="number"
+            value={depositAmount}
+            readOnly
+            className={`${styles.readOnly}`}
+            name="depositAmount"
+          />
+        </div>
+        <div>
+          <label>Extra Charges</label>
+          <input
+            type="number"
+            value={extraCharges}
+            readOnly
+            className={`${styles.readOnly}`}
+            name="extraCharges"
+          />
+        </div>
+        <div>
+          <label>Yearly Renewal Fee</label>
+          <input
+            type="number"
+            value={yearlyRenewalFee}
+            readOnly
+            className={`${styles.readOnly}`}
+            name="yearlyRenewalFee"
+          />
+        </div>
 
-        <label>Franchise Fee</label>
-        <input
-          type="number"
-          value={franchiseFee}
-          onChange={(e) => setFranchiseFee(e.target.value)}
-          name="franchiseFee"
-          readOnly
-          className={`${styles.readOnly}`}
-          required
-        />
+        <div>
+          <label>Base total</label>
+          <input
+            type="number"
+            value={baseTotal}
+            readOnly
+            className={`${styles.readOnly}`}
+          />
+        </div>
 
-        <label>Deposit Amount</label>
-        <input
-          type="number"
-          value={depositAmount}
-          onChange={(e) => setDepositAmount(e.target.value)}
-          name="depositAmount"
-          readOnly
-          className={`${styles.readOnly}`}
-          required
-        />
+        <div>
+          <label>Non-Refundable Amount</label>
+          <input
+            type="number"
+            value={nonRefundAmount}
+            name="nonRefundAmount"
+            readOnly
+            className={styles.readOnly}
+          />
+        </div>
+        <div>
+          <label>Non-Refundable (%)</label>
+          <input
+            type="number"
+            min="0"
+            max="100"
+            value={nonRefundPercent}
+            onWheel={(e) => e.target.blur()} // <=== FIX
+            onChange={(e) => {
+              const p = clampPercent(Number(e.target.value));
+              setNonRefundPercent(p);
+            }}
+          />
+        </div>
+        <div>
+          <label>Discount</label>
+          <input
+            type="number"
+            value={discount}
+            name="discount"
+            readOnly
+            className={styles.readOnly}
+          />
+        </div>
+        <div>
+          <label>Discount (%)</label>
+          <input
+            type="number"
+            min="0"
+            max="100"
+            value={discountPercent}
+            onWheel={(e) => e.target.blur()} // <=== FIX
+            onChange={(e) => {
+              const p = clampPercent(Number(e.target.value));
+              setDiscountPercent(p);
+            }}
+          />
+        </div>
 
-        <label>Extra Charges</label>
-        <input
-          type="number"
-          value={extraCharges}
-          onChange={(e) => setExtraCharges(e.target.value)}
-          name="extraCharges"
-          readOnly
-          className={`${styles.readOnly}`}
-        />
-
-        <label>Yearly Renewal Fee</label>
-        <input
-          type="number"
-          value={yearlyRenewalFee}
-          onChange={(e) => setYearlyRenewalFee(e.target.value)}
-          name="yearlyRenewalFee"
-          readOnly
-          className={`${styles.readOnly}`}
-          required
-        />
-
-        <label>Non-Refundable Amount</label>
-        <input
-          type="number"
-          value={nonRefundAmount}
-          name="nonRefundAmount"
-          readOnly
-          className={styles.readOnly}
-        />
-
-        <label>Discount</label>
-        <input
-          type="number"
-          value={discount}
-          name="discount"
-          readOnly
-          className={styles.readOnly}
-        />
-        {/* -------- New Percentage Inputs -------- */}
-
-        <label>Discount (%)</label>
-        <input
-          type="text"
-          min="0"
-          max="100"
-          value={discountPercent}
-          onChange={(e) => {
-            const p = Number(e.target.value);
-            setDiscountPercent(p);
-            // setDiscount(Math.round((p / 100) * netTotal)); // discount affects net total
-            setDiscount(Math.round((p / 100) * baseTotal));
-          }}
-        />
-
-        {/* <label>Non-Refundable (%)</label> */}
-        <label>Non-Refundable (%)</label>
-        <input
-          type="text"
-          min="0"
-          max="100"
-          value={nonRefundPercent}
-          onChange={(e) => {
-            const p = Number(e.target.value);
-            setNonRefundPercent(p);
-            setNonRefundAmount(Math.round((p / 100) * netTotal)); // does NOT affect netTotal
-          }}
-        />
-
-        {/* ------------------ Net Total ------------------ */}
         <label>Net Total</label>
         <input
           type="number"

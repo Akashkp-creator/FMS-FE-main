@@ -205,6 +205,7 @@ export async function AddFranchiseAction({ request, params }) {
     const franchiseEmail = formData.get("franchiseEmail");
     const ownerPhone = formData.get("ownerPhone");
     const revenueSharePercent = formData.get("revenueSharePercent");
+    const validUpTo = formData.get("validUpTo");
 
     // --- Payload to Backend ---
     const payload = {
@@ -214,6 +215,7 @@ export async function AddFranchiseAction({ request, params }) {
       revenueSharePercent,
       franchisePassword,
       franchiseEmail,
+      validUpTo,
       address,
       location: {
         type: "Point",
