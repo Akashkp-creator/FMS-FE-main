@@ -524,3 +524,9 @@ select:focus {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.netTotalLabel {
+  font-size: 90rem; /* increase size */
+  font-weight: 700; /* optional: make it bold */
+  color: #ffd700; /* optional: gold color to highlight */
+}

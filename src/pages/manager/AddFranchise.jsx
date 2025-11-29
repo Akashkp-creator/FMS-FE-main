@@ -252,11 +252,15 @@ const AddFranchise = () => {
 
         <label>Revenue Share Percent</label>
         <input
-          type="text"
+          type="number"
           required
           value={revenueSharePercent}
           onChange={(e) => setRevenueSharePercent(e.target.value)}
           name="revenueSharePercent"
+          onWheel={(e) => {
+            e.target.blur();
+            e.preventDefault();
+          }}
         />
 
         {/* --- Valid Up To Date Field --- */}
@@ -302,6 +306,10 @@ const AddFranchise = () => {
             setLng(e.target.value === "" ? "" : Number(e.target.value))
           }
           name="lng"
+          onWheel={(e) => {
+            e.target.blur();
+            e.preventDefault();
+          }}
         />
 
         <label>Latitude (lat)</label>
@@ -313,6 +321,10 @@ const AddFranchise = () => {
             setLat(e.target.value === "" ? "" : Number(e.target.value))
           }
           name="lat"
+          onWheel={(e) => {
+            e.target.blur();
+            e.preventDefault();
+          }}
         />
 
         <div className={styles.mapContainer}>
@@ -438,14 +450,17 @@ const AddFranchise = () => {
           />
         </div>
 
-        <label>Net Total</label>
+        {/* <label>Net Total</label> */}
+
+        {/* <label className={styles.netTotalLabel}>Net Total</label>
+
         <input
           type="number"
           readOnly
           value={netTotal}
           name="netTotal"
           className={`${styles.readOnly}`}
-        />
+        /> */}
 
         {/* Hidden GeoJSON Fields */}
         <input type="hidden" name="location[type]" value="Point" />
@@ -460,7 +475,7 @@ const AddFranchise = () => {
           value={lat ?? ""}
         />
 
-        <h3 className={styles.fullWidth}>Submit</h3>
+        <h3 className={styles.fullWidth}>Net Total is {netTotal}</h3>
 
         <button
           disabled={isSubmitting}
