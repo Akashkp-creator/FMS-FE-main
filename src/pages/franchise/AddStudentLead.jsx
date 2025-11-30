@@ -20,7 +20,7 @@ import {
 import api from "../../utils/axiosConfig";
 import { toast } from "react-toastify";
 import styles from "./AddStudentLead.module.css";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 const AddStudentLead = () => {
   const [loading, setLoading] = useState(false);
@@ -28,6 +28,7 @@ const AddStudentLead = () => {
   const [selectedCourse, setSelectedCourse] = useState("");
   const [selectedSubCourse, setSelectedSubCourse] = useState("");
   const [fee, setFee] = useState(0);
+  const navigate = useNavigate();
 
   const data = useLoaderData();
 
@@ -79,7 +80,7 @@ const AddStudentLead = () => {
         source: form.source,
         otherSource:
           form.source === "Other" ? form.otherSource.trim() : undefined,
-        status: form.status,
+        // status: form.status,
         contact: {
           phone: form.phone,
           email: form.email,
@@ -96,10 +97,14 @@ const AddStudentLead = () => {
         };
       }
 
-      console.log(payload);
-      // const res = await api.post("/getLeadStudentData/create-studentLead", payload);
-      // console.log(res);
+      // console.log(payload);
+      const res = await api.post(
+        "/LeadStudentData/create-studentLead",
+        payload
+      );
+      console.log(res?.data?.message);
       toast.success("🎉 Lead created successfully!");
+      navigate("/");
       // console.log("Lead Created:", res.data);
 
       // Reset form
@@ -113,13 +118,34 @@ const AddStudentLead = () => {
         notes: "",
         source: "",
         otherSource: "",
-        status: "New",
+        // status: "New",
         digitalMarketingPayment: { amount: "", paidTo: "", date: "" },
       });
+      setSelectedCourse("");
+      setSelectedSubCourse("");
+      setFee(0);
       setShowDigitalMarketing(false);
     } catch (error) {
       console.error("❌ Error creating lead:", error);
       toast.error(error.response?.data?.message || "Error creating lead");
+      // Reset form
+      setForm({
+        name: "",
+        phone: "",
+        email: "",
+        qualification: "",
+        specification: "",
+        course: "",
+        notes: "",
+        source: "",
+        otherSource: "",
+        // status: "New",
+        digitalMarketingPayment: { amount: "", paidTo: "", date: "" },
+      });
+      setSelectedCourse("");
+      setSelectedSubCourse("");
+      setFee(0);
+      setShowDigitalMarketing(false);
     } finally {
       setLoading(false);
     }

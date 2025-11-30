@@ -122,6 +122,10 @@ import { AddFranchiseAction } from "./utils/franchiseAction";
 import Profile from "./pages/franchise/Profile";
 import AddStudentLead from "./pages/franchise/AddStudentLead";
 import { franchiseCoursesLoader } from "./utils/getCourseDetailsStudentLeadForm";
+import LeadStudentList from "./pages/franchise/LeadStudentList";
+import { leadListLoader } from "./utils/studentLeadListLoader";
+import Contact from "./components/Contact/Contact";
+import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -140,14 +144,6 @@ const AddClient = React.lazy(function LazyAddClient() {
   return import("./pages/SuperAdmin/AddClient");
 });
 
-const Contact = React.lazy(function LazyContactSection() {
-  return import("./components/Contact/Contact");
-});
-
-const FeaturesSection = React.lazy(function LazyContactSection() {
-  return import("./components/FeaturesSection/FeaturesSection");
-});
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -160,19 +156,11 @@ const router = createBrowserRouter([
       // contact page (public)
       {
         path: "contact",
-        element: (
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <Contact />
-          </React.Suspense>
-        ),
+        element: <Contact />,
       },
       {
         path: "features",
-        element: (
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <FeaturesSection />
-          </React.Suspense>
-        ),
+        element: <FeaturesSection />,
       },
 
       // SUPER ADMIN ROUTES
@@ -243,11 +231,11 @@ const router = createBrowserRouter([
             loader: franchiseCoursesLoader,
             // action: addFranchiseLeadAction,
           },
-          // {
-          //   path: "manager/enroll-lead/franchise",
-          //   element: <FranchiseEnrollmentContainer />,
-          //   loader: franchiseLeadLoader(store),
-          // },
+          {
+            path: "/franchise/my-lead-list",
+            element: <LeadStudentList />,
+            loader: leadListLoader,
+          },
           // {
           //   path: "manager/my-FranchiseLead/:FranchiseLeadId",
           //   element: <AddFranchise />,
