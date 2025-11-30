@@ -104,7 +104,7 @@ const AddStudentLead = () => {
       );
       console.log(res?.data?.message);
       toast.success("🎉 Lead created successfully!");
-      navigate("/");
+      navigate("/franchise/my-lead-list");
       // console.log("Lead Created:", res.data);
 
       // Reset form

@@ -58,18 +58,18 @@ const StudentFilter = () => {
           </div>
 
           {/* Course Input Field */}
-          {/* <div className={styles.inputGroup}>
+          <div className={styles.inputGroup}>
             <label htmlFor="course" className={styles.label}>
-              <span>Course</span>
+              <span>Phone</span>
             </label>
             <input
-              type="text"
-              name="course"
-              id="course"
-              placeholder="e.g., Web Development"
+              type="number"
+              name="phone"
+              id="phone"
+              placeholder="1234567890"
               className={styles.input}
             />
-          </div> */}
+          </div>
 
           {/* Source Select Field */}
           {/* <div className={styles.inputGroup}>

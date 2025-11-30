@@ -1,9 +1,16 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import styles from "./StudentsList.module.css";
+import { FileClock, NotebookPen, UserX } from "lucide-react";
 
 const StudentsList = () => {
   const { data, meta } = useLoaderData(); // from your loader
+  console.log(data);
+  const navigate = useNavigate();
+  const handleEnroll = (StudentLeadId) => {
+    // console.log(StudentLeadId);
+    navigate(`/Franchise-add/my-StudentLead/${StudentLeadId}`);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -85,10 +92,69 @@ const StudentsList = () => {
                     {new Date(item.createdAt).toLocaleDateString("en-IN")}
                   </td>
                   <td>
-                    {new Date(item.createdAt).toLocaleDateString("en-IN")}
+                    {item.status === "Enrolled" ? (
+                      <span className={styles.enrolled}>Already Enrolled</span>
+                    ) : item.status === "Not Interested" ? (
+                      <span className={styles.notInterested}>
+                        Not Interested
+                      </span>
+                    ) : (
+                      <button
+                        className={styles.enrollBtn}
+                        onClick={() => handleEnroll(item._id)}
+                      >
+                        Enroll
+                      </button>
+                    )}
                   </td>
-                  <td>
-                    {new Date(item.createdAt).toLocaleDateString("en-IN")}
+                  {/* ✅ New Lead Update column */}
+                  <td
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    {item.status !== "Enrolled" &&
+                      item.status != "Not Interested" && (
+                        <>
+                          <button
+                            className={styles.updateBtn}
+                            // onClick={() => openModal(item._id)}
+                          >
+                            <NotebookPen />
+                            <span className={styles.tooltip}>
+                              Add Follow-ups
+                            </span>
+                          </button>
+                          <button
+                            className={styles.updateBtn}
+                            style={{ margin: "5px" }}
+                            // onClick={() => handleViewHistory(item._id)} // 🎯 Attach new handler
+                          >
+                            <FileClock />
+                            <span className={styles.tooltip}>View History</span>
+                          </button>
+                          {/* <button
+                        className={styles.updateBtn}
+                        style={{ margin: "5px" }}
+                        onClick={() => handleNotInterested(lead._id)} // 🎯 ADDED onClick
+                      >
+                        <UserX />
+                        <span className={styles.tooltip}>Not Interested</span>
+                      </button> */}
+                          <button
+                            className={styles.updateBtn}
+                            style={{ margin: "5px" }}
+                            // onClick={() => openReasonModal(item._id)}
+                          >
+                            <UserX />
+                            <span className={styles.tooltip}>
+                              Not Interested
+                            </span>
+                          </button>
+                        </>
+                      )}
                   </td>
                 </tr>
               ))

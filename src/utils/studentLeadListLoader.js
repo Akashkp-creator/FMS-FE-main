@@ -10,16 +10,18 @@ export const leadListLoader = async ({ request }) => {
     const dateFrom = url.searchParams.get("dateFrom") || "";
     const dateTo = url.searchParams.get("dateTo") || "";
     const page = url.searchParams.get("page") || 1;
-    const pageSize = url.searchParams.get("pageSize") || 10;
+    const phone = url.searchParams.get("phone") || "";
+    const pageSize = 10;
+    // const pageSize = url.searchParams.get("pageSize") || 10;
 
     // API call
     const response = await api.get(
       "/LeadStudentData/student-leadList/my-leads",
       {
-        params: { name, status, dateFrom, dateTo, page, pageSize },
+        params: { name, status, dateFrom, dateTo, page, pageSize, phone },
       }
     );
-    console.log(response);
+    // console.log(response);
 
     // return response.data; // returns { data:[], meta:{} ,}
     return {

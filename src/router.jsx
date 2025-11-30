@@ -126,6 +126,7 @@ import LeadStudentList from "./pages/franchise/LeadStudentList";
 import { leadListLoader } from "./utils/studentLeadListLoader";
 import Contact from "./components/Contact/Contact";
 import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
+import AddStudent from "./pages/franchise/AddStudent";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -235,6 +236,11 @@ const router = createBrowserRouter([
             path: "/franchise/my-lead-list",
             element: <LeadStudentList />,
             loader: leadListLoader,
+          },
+          {
+            path: "/Franchise-add/my-StudentLead/:StudentLeadId",
+            element: <AddStudent />,
+            // loader: leadListLoader,
           },
           // {
           //   path: "manager/my-FranchiseLead/:FranchiseLeadId",
