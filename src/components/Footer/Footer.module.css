@@ -80,6 +80,13 @@
   gap: 0.75rem;
   font-weight: 700;
   font-size: 1.5rem;
+  /* background: white; */
+  /* width: auto; */
+}
+.logo img {
+  height: 3rem;
+  background: white;
+  /* width: auto; */
 }
 
 .logoIcon {

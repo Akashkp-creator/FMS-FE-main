@@ -107,7 +107,7 @@ export const roleBasedNavLinks = {
     //   // icon: <LayoutDashboard size={18} />,
     // },
     {
-      href: "/franchise/add-lead",
+      href: "/franchise/add-student/lead",
       label: "Lead",
       icon: <UserStar size={18} />,
     },

@@ -91,17 +91,26 @@ const Navbar = () => {
             <span className={styles.logoText}>UPL Partner</span>
           </div> */}
 
-          <div className={styles.logo}>
-            {user?.client?.logoUrl ? (
-              <img
-                src={user.client.logoUrl}
-                alt="Logo"
-                className={styles.logoImg}
-              />
-            ) : (
-              <span className={styles.logoText}>UPL Partner</span>
-            )}
-          </div>
+          <Link to="/" className={styles.logoLink}>
+            {" "}
+            {/* Use Link component with 'to' prop */}
+            <div className={styles.logo}>
+              {user?.client?.logoUrl ? (
+                <img
+                  src={user.client.logoUrl}
+                  alt="Logo"
+                  className={styles.logoImg}
+                />
+              ) : (
+                <span className={styles.logoText}>
+                  <img
+                    src="https://www.snipe.co.in/img/logo.png"
+                    alt="Snipe Pvt Ltd"
+                  />
+                </span>
+              )}
+            </div>
+          </Link>
 
           {/* Navigation Links - Desktop */}
           <div className={styles.navLinks}>

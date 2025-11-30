@@ -120,6 +120,8 @@ import { franchiseLeadLoader } from "./utils/franchiseLeadLoader";
 import AddFranchise from "./pages/manager/AddFranchise";
 import { AddFranchiseAction } from "./utils/franchiseAction";
 import Profile from "./pages/franchise/Profile";
+import AddStudentLead from "./pages/franchise/AddStudentLead";
+import { franchiseCoursesLoader } from "./utils/getCourseDetailsStudentLeadForm";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -234,6 +236,12 @@ const router = createBrowserRouter([
             path: "franchise/profile",
             element: <Profile />,
             action: addFranchiseLeadAction,
+          },
+          {
+            path: "/franchise/add-student/lead",
+            element: <AddStudentLead />,
+            loader: franchiseCoursesLoader,
+            // action: addFranchiseLeadAction,
           },
           // {
           //   path: "manager/enroll-lead/franchise",

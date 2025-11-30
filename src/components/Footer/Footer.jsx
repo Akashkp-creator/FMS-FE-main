@@ -63,8 +63,12 @@ const Footer = () => {
         {/* Company Info */}
         <div className={styles.companySection}>
           <div className={styles.logo}>
-            <Building2 className={styles.logoIcon} />
-            <span className={styles.logoText}>UPL Partner</span>
+            {/* <Building2 className={styles.logoIcon} /> */}
+            {/* <span className={styles.logoText}>UPL Partner</span> */}
+            <img
+              src="https://www.snipe.co.in/img/logo.png"
+              alt="Snipe Tech Pvt Ltd"
+            />
           </div>
           <p className={styles.companyDescription}>
             Transform your franchise management with our all-in-one platform.

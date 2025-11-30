@@ -43,6 +43,9 @@
   font-size: 1.25rem;
   color: white;
   text-decoration: none;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 8px;
 }
 
 .logoIcon {
