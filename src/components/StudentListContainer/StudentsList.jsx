@@ -7,9 +7,24 @@ const StudentsList = () => {
   const { data, meta } = useLoaderData(); // from your loader
   console.log(data);
   const navigate = useNavigate();
-  const handleEnroll = (StudentLeadId) => {
-    // console.log(StudentLeadId);
-    navigate(`/Franchise-add/my-StudentLead/${StudentLeadId}`);
+
+  // const handleEnroll = (lead) => {
+  //   navigate(
+  //     `/Franchise-add/my-StudentLead/${lead._id}?name=${encodeURIComponent(
+  //       lead.name
+  //     )}&phone=${lead.contact.phone}&email=${encodeURIComponent(
+  //       lead.contact.email
+  //     )}`
+  //   );
+  // };
+  const handleEnroll = (lead) => {
+    navigate(
+      `/Franchise-add/my-StudentLead/${lead._id}?name=${encodeURIComponent(
+        lead.name
+      )}&phone=${lead.contact.phone}&email=${encodeURIComponent(
+        lead.contact.email
+      )}&qualification=${encodeURIComponent(lead.qualification)}`
+    );
   };
 
   return (
@@ -92,16 +107,16 @@ const StudentsList = () => {
                     {new Date(item.createdAt).toLocaleDateString("en-IN")}
                   </td>
                   <td>
-                    {item.status === "Enrolled" ? (
+                    {item.status === "Converted" ? (
                       <span className={styles.enrolled}>Already Enrolled</span>
-                    ) : item.status === "Not Interested" ? (
+                    ) : item.status === "Rejected" ? (
                       <span className={styles.notInterested}>
                         Not Interested
                       </span>
                     ) : (
                       <button
                         className={styles.enrollBtn}
-                        onClick={() => handleEnroll(item._id)}
+                        onClick={() => handleEnroll(item)}
                       >
                         Enroll
                       </button>
@@ -115,8 +130,8 @@ const StudentsList = () => {
                       gap: "8px",
                     }}
                   >
-                    {item.status !== "Enrolled" &&
-                      item.status != "Not Interested" && (
+                    {item.status !== "Converted" &&
+                      item.status != "Rejected" && (
                         <>
                           <button
                             className={styles.updateBtn}

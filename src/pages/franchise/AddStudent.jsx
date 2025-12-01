@@ -1,4 +1,10 @@
+import StudentEnrollmentForm from "../../components/StudentEnrollmentForm/StudentEnrollmentForm";
+
 const AddStudent = () => {
-  return <div>AddStudent</div>;
+  return (
+    <>
+      <StudentEnrollmentForm />
+    </>
+  );
 };
 export default AddStudent;
