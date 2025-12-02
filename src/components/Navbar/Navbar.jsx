@@ -154,7 +154,7 @@ const Navbar = () => {
                   className={styles.profile}
                   onClick={handleProfileClick}
                   // data-tooltip={`user?.name` || "User"}
-                  data-tooltip={`${user?.name || "User"} Profile`}
+                  data-tooltip={`${user?.name || "User"}'s Profile`}
                 >
                   <CircleUser />
                   Profile

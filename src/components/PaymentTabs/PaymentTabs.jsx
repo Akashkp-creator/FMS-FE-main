@@ -666,14 +666,14 @@ const PaymentTabs = () => {
             // Payment Tab Content
             <div className={styles.paymentContent}>
               <div className={styles.paymentHeader}>
-                <h3>Payment History</h3>
+                {/* <h3>Payment History</h3> */}
                 <div className={styles.actionButtons}>
                   {/* <button className={styles.actionBtn}>
                     <FaDownload /> Export
                   </button> */}
-                  <button className={styles.actionBtn}>
+                  {/* <button className={styles.actionBtn}>
                     <FaPrint /> Print
-                  </button>
+                  </button> */}
                   {/* <button className={styles.actionBtn}>
                     <FaShare /> Share
                   </button> */}

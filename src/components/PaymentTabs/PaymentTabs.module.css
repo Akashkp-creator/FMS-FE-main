@@ -89,7 +89,7 @@
 .tabNav {
   display: flex;
   /* background: #f8fafc; */
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  /* background: linear-gradient(135deg, #ffd700, #ffed4e); */
   /* color: #000; */
   border-bottom: 1px solid #e2e8f0;
   padding: 0.5rem;
@@ -100,7 +100,8 @@
   padding: 1rem 1.5rem;
   border: none;
   background: transparent;
-  color: #64748b;
+  /* color: #64748b; */
+  color: rgba(255, 255, 255, 0.9);
 
   font-size: 1rem;
   font-weight: 600;
@@ -114,13 +115,16 @@
 }
 
 .tabButton:hover {
-  color: #3b82f6;
-  background: rgba(59, 130, 246, 0.1);
+  /* color: #3b82f6; */
+  color: white;
+  /* background: rgba(59, 130, 246, 0.1); */
+  background: 0 8px 25px rgba(255, 215, 0, 0.4),
+    0 0 0 3px rgba(255, 215, 0, 0.3);
 }
 
 .activeTab {
-  color: #3b82f6;
-  background: white;
+  color: gold;
+  background: rgba(221, 218, 218, 0.459);
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
 }
 
@@ -219,7 +223,7 @@
 
 /* Transactions */
 .transactions h4 {
-  color: #475569;
+  color: #dddee0;
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -400,8 +404,13 @@
   transition: all 0.2s ease;
 }
 
-.payNowBtn:hover {
+/* .payNowBtn:hover {
   background: #2563eb;
+} */
+.payNowBtn:hover {
+  background: #ffcc00; /* slightly darker gold */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Payment Summary */

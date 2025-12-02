@@ -129,6 +129,7 @@ import FeaturesSection from "./components/FeaturesSection/FeaturesSection";
 import AddStudent from "./pages/franchise/AddStudent";
 import { createStudentAction } from "./utils/studentActions";
 import PaymentContainer from "./pages/franchise/PaymentContainer";
+import { installmentPaymentsLoader } from "./utils/paymentListLoader";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -219,7 +220,7 @@ const router = createBrowserRouter([
           // },
         ],
       },
-      // MANAGER ROUTES
+      // Franchise ROUTES
       {
         element: <RoleProtectedRoute allowedRoles={["Franchise"]} />,
         children: [
@@ -248,6 +249,7 @@ const router = createBrowserRouter([
           {
             path: "/student/installment-payments",
             element: <PaymentContainer />,
+            loader: installmentPaymentsLoader,
             // loader: franchiseCoursesLoader,
             // action: createStudentAction,
           },
