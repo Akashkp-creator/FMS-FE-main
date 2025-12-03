@@ -3,9 +3,10 @@ import { Search, Filter as FilterIcon, RefreshCw } from "lucide-react";
 import styles from "./PaymentFilter.module.css";
 
 const PaymentFilter = () => {
-  //   const { params } = useLoaderData();
+  const { params } = useLoaderData();
+  console.log(params);
   return (
-    <Form className={styles.filterContainer}>
+    <Form className={styles.filterContainer} key={JSON.stringify(params)}>
       {/* Background Effects */}
       <div className={styles.backgroundEffects}>
         <div className={styles.glowCircle1}></div>
@@ -35,7 +36,7 @@ const PaymentFilter = () => {
               id="name"
               placeholder="e.g., Raju"
               className={styles.input}
-              //   defaultValue={params.name}
+              defaultValue={params.name}
             />
           </div>
 
@@ -70,7 +71,7 @@ const PaymentFilter = () => {
               id="phone"
               placeholder="10 digits phone number"
               className={styles.input}
-              //   defaultValue={params.phone}
+              defaultValue={params.phone}
             />
           </div>
 
@@ -103,6 +104,7 @@ const PaymentFilter = () => {
               name="dueDateFrom"
               id="dateFrom"
               className={styles.input}
+              defaultValue={params.dueDateFrom}
             />
           </div>
 
@@ -112,9 +114,10 @@ const PaymentFilter = () => {
             </label>
             <input
               type="date"
-              name="DueDateTo"
+              name="dueDateTo"
               id="dateTo"
               className={styles.input}
+              defaultValue={params.dueDateTo}
             />
           </div>
         </div>

@@ -16,6 +16,7 @@ const UpdateClientForm = () => {
       institutionAddress: user?.client?.institutionAddress || "",
       institutionPhone: user?.client?.institutionPhone || "",
       logoUrl: user?.client?.logoUrl || "",
+      gst: user?.client?.gst || "",
       courses: user?.client?.courses || [],
       franchiseFinance: (user?.client?.franchiseFinance || []).map(
         (t, idx) => ({
@@ -176,6 +177,7 @@ const UpdateClientForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // console.log(form);
       const res = await api.put("admin/client/update", form); // your API endpoint
       toast.success("Client updated successfully");
       console.log(res.data);
@@ -233,6 +235,15 @@ const UpdateClientForm = () => {
         placeholder="Logo URL"
         disabled={true}
         className={styles.disabledInput}
+      />
+      <input
+        type="text"
+        name="gst"
+        value={form.gst}
+        onChange={handleChange}
+        placeholder="GST No."
+        // disabled={true}
+        className={styles.input}
       />
 
       {/* Franchise Finance */}

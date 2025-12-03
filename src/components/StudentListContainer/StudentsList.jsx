@@ -108,7 +108,7 @@ const StudentsList = () => {
                   </td>
                   <td>
                     {item.status === "Converted" ? (
-                      <span className={styles.enrolled}>Already Enrolled</span>
+                      <span className={styles.enrolled}>Enrolled</span>
                     ) : item.status === "Rejected" ? (
                       <span className={styles.notInterested}>
                         Not Interested

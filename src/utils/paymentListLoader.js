@@ -45,7 +45,16 @@ export async function installmentPaymentsLoader({ request }) {
       }
     );
     console.log(res.data);
-    return res.data; // { success, data, meta }
+    // return res.data; // { success, data, meta }
+    return {
+      ...res.data, // { data: [], meta: {} }
+      params: {
+        name: params.name,
+        dueDateTo: params.dueDateTo,
+        dueDateFrom: params.dueDateFrom,
+        phone: params.phone,
+      }, // Add your params
+    };
   } catch (error) {
     // Axios error handling
     if (error.response) {

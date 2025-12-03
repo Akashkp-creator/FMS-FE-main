@@ -1,0 +1,574 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #242222;
+  font-weight: bold;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Tooltip text (hidden by default) */
+.tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 8px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* above the text */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+  font-size: 13px;
+  white-space: normal;
+}
+
+/* Tooltip arrow */
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* arrow at bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Due date text colors */
+.paid {
+  color: green;
+  font-weight: bold;
+}
+
+.pending {
+  color: red;
+  font-weight: bold;
+}
+
+/* Row hover */
+/* .table tr:hover {
+  background-color: #f9f9f9;
+} */
+
+.table tr {
+  color: #f9f9f9;
+}
+
+/* =============================================================new css============== */
+/* InstallmentTable.module.css */
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  position: relative;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Background Effects */
+.backgroundEffects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.glowCircle1,
+.glowCircle2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: floatBackground 15s ease-in-out infinite;
+}
+
+.glowCircle1 {
+  width: 200px;
+  height: 200px;
+  background: rgba(102, 126, 234, 0.15);
+  top: -50px;
+  right: -50px;
+  animation-delay: 0s;
+}
+
+.glowCircle2 {
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 215, 0, 0.1);
+  bottom: -30px;
+  left: -30px;
+  animation-delay: 5s;
+}
+
+@keyframes floatBackground {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, -20px) scale(1.1);
+  }
+  66% {
+    transform: translate(-10px, 10px) scale(0.9);
+  }
+}
+
+/* Table Container */
+.tableContainer {
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3),
+    0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Table Header */
+.tableHeader {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.tableHeader th {
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+}
+
+/* Table Body */
+.tableBody {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tableBody tr {
+  transition: all 0.3s ease;
+}
+
+.tableBody tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.tableBody td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+/* Remove border from last row */
+.tableBody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Link Styles */
+.link {
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.nameLink {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.nameLink:hover {
+  color: #ffed4a;
+  text-decoration: underline;
+}
+
+.dataLink {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dataLink:hover {
+  color: #ffd700;
+}
+
+/* Due Date Cell */
+.dueDateCell {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dateText {
+  font-weight: 600;
+}
+
+.dateRed {
+  color: #ff6b6b;
+}
+
+.dateOrange {
+  color: #ffa94d;
+}
+
+.dateGreen {
+  color: #51cf66;
+}
+
+/* Tooltip */
+.tooltipContainer {
+  position: absolute;
+  z-index: 50;
+  visibility: hidden;
+  background-color: rgba(26, 32, 44, 0.95);
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+}
+
+.tooltipContainer::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(26, 32, 44, 0.95) transparent transparent transparent;
+}
+
+.dueDateCell:hover .tooltipContainer {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltipHeader {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.7rem;
+}
+
+.tooltipRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.tooltipStatus {
+  font-weight: 600;
+}
+
+.tooltipPaid {
+  color: #51cf66;
+}
+
+.tooltipOverdue {
+  color: #ff6b6b;
+}
+
+.tooltipPending {
+  color: #ffd700;
+}
+
+.tooltipFooter {
+  margin-top: 0.25rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.7rem;
+}
+
+/* Status Badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.statusPaid {
+  background: rgba(81, 207, 102, 0.2);
+  color: #51cf66;
+  border: 1px solid rgba(81, 207, 102, 0.3);
+}
+
+.statusOverdue {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.statusPending {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.statusBadge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Pagination */
+.pagination {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+}
+
+.paginationInfo {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+}
+
+.paginationInfo span {
+  font-weight: 600;
+  color: #ffd700;
+}
+
+.paginationNav {
+  display: flex;
+  align-items: center;
+}
+
+.paginationButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.paginationButton:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-right: none;
+}
+
+.paginationButton:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-left: none;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginationButtonActive {
+  background: rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.paginationButtonActive:hover {
+  background: rgba(255, 215, 0, 0.4);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.emptyStateIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.emptyStateText {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.emptyStateSubtext {
+  font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+    margin: 1.5rem auto;
+  }
+
+  .tableContainer {
+    padding: 1rem;
+    border-radius: 20px;
+  }
+
+  .tableHeader th,
+  .tableBody td {
+    padding: 0.75rem 1rem;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .paginationInfo {
+    text-align: center;
+  }
+
+  .tooltipContainer {
+    min-width: 180px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem;
+    margin: 1rem auto;
+  }
+
+  .tableContainer {
+    padding: 0.75rem;
+    border-radius: 16px;
+  }
+
+  .tableHeader th,
+  .tableBody td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .statusBadge {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .paginationButton {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Loading State */
+.loadingRow {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Multiple Installments Badge */
+.multipleBadge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.375rem;
+  background: rgba(102, 126, 234, 0.3);
+  color: white;
+  font-size: 0.625rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
