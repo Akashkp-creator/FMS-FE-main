@@ -1,8 +1,17 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useActionData } from "react-router-dom";
 import styles from "./AddClient.module.css";
 import { FilterIcon, RefreshCw, Search } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 const AddClient = () => {
+  const actionData = useActionData();
+  const formRef = useRef(null);
+  useEffect(() => {
+    if (actionData?.ok === true && formRef.current) {
+      formRef.current.reset();  // clears all input fields
+    }
+  }, [actionData]);
+
   return (
     // <Form className={styles.filterContainer}>
     //   {/* Background Effects */}
@@ -266,7 +275,7 @@ const AddClient = () => {
     //   </div>
     // </Form>
     <div className={styles.formWrapper}>
-      <Form method="post" replace className={styles.formContainer}>
+      <Form method="post" replace className={styles.formContainer} ref={formRef}>
         <h2 className={styles.formTitle}>Create Admin</h2>
 
         <div className={styles.grid}>
@@ -337,10 +346,16 @@ const AddClient = () => {
             />
           </div>
         </div>
-
         <button className={styles.submitBtn} type="submit">
           Create Admin
         </button>
+        <div style={{ textAlign: "center", color: "white" }}>
+          {actionData?.message && (
+        <p style={{ textAlign: "center", color: "white", marginBottom: "1rem" }}>
+          {actionData.message}
+        </p>
+      )}
+        </div>
       </Form>
     </div>
   );
