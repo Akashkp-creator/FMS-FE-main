@@ -324,7 +324,7 @@ import PaymentModal from "./PaymentModal";
 
 const PaymentTabs = () => {
   const { data } = useLoaderData();
-  console.log(data);
+  // console.log(data);
   const [activeTab, setActiveTab] = useState("installment");
   const [paymentMethod, setPaymentMethod] = useState("online");
   const [showPaymentForm, setShowPaymentForm] = useState(false);

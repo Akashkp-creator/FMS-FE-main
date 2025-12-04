@@ -1,30 +1,33 @@
 // import { useLoaderData } from "react-router-dom";
 import { FaPrint } from "react-icons/fa";
 import styles from "./PaymentTabContent.module.css";
+import { useLoaderData } from "react-router-dom";
 
 const PaymentTabContent = () => {
-  //   const { data } = useLoaderData();
-  const paymentData = {
-    // totalAmount: 25000,
-    // paidAmount: 10000,
-    // pendingAmount: 15000,
-    transactions: [
-      {
-        id: 1,
-        date: "2024-01-15",
-        amount: 5000,
-        method: "UPI",
-        status: "completed",
-      },
-      {
-        id: 2,
-        date: "2024-01-30",
-        amount: 5000,
-        method: "Bank Transfer",
-        status: "completed",
-      },
-    ],
-  };
+  const { data } = useLoaderData();
+  console.log(data);
+  // const paymentData=
+  // const paymentData = {
+  //   // totalAmount: 25000,
+  //   // paidAmount: 10000,
+  //   // pendingAmount: 15000,
+  //   transactions: [
+  //     {
+  //       id: 1,
+  //       date: "2024-01-15",
+  //       amount: 5000,
+  //       method: "UPI",
+  //       status: "completed",
+  //     },
+  //     {
+  //       id: 2,
+  //       date: "2024-01-30",
+  //       amount: 5000,
+  //       method: "Bank Transfer",
+  //       status: "completed",
+  //     },
+  //   ],
+  // };
   return (
     <div className={styles.paymentContent}>
       <div className={styles.paymentHeader}>
@@ -89,7 +92,7 @@ const PaymentTabContent = () => {
       <div className={styles.transactions}>
         <h4>Recent Transactions</h4>
         <div className={styles.transactionList}>
-          {paymentData.transactions.map((transaction) => (
+          {data.transactions.map((transaction) => (
             <div key={transaction.id} className={styles.transactionItem}>
               <div className={styles.transactionInfo}>
                 <div className={styles.transactionDate}>{transaction.date}</div>

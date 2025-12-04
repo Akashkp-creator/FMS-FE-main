@@ -10,24 +10,24 @@ import {
 } from "react-icons/fa";
 
 import styles from "./PaymentModal.module.css";
-import { useLoaderData } from "react-router-dom";
+import api from "../../utils/axiosConfig";
+// import { useLoaderData } from "react-router-dom";
 const PaymentModal = ({
   showPaymentForm,
   setShowPaymentForm,
   selectedInstallment,
   studentId,
-  onPaymentSuccess,
 }) => {
   const [paymentMethod, setPaymentMethod] = useState("");
-  const { data } = useLoaderData();
-  console.log(selectedInstallment);
+  // const { data } = useLoaderData();
+  // console.log(selectedInstallment);
   const [paymentDetails, setPaymentDetails] = useState({
-    transactionId: "",
-    utrNumber: "",
-    bankName: "",
-    accountNumber: "",
-    cashReceiptNumber: "",
-    paidAmount: data.paymentSummary.paidAmount || 0,
+    // transactionId: "",
+    // utrNumber: "",
+    // bankName: "",
+    // accountNumber: "",
+    // cashReceiptNumber: "",
+    paidAmount: selectedInstallment.paidAmount || 0,
     paidDate: new Date().toISOString().split("T")[0],
     status: "Completed",
     notes: "",
@@ -35,50 +35,34 @@ const PaymentModal = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  // Handle payment submission
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
     setIsProcessing(true);
 
     try {
-      // Prepare data for API
-      const paymentData = {
-        studentId,
-        installmentNo: selectedInstallment.installmentNo,
-        paymentData: {
-          ...paymentDetails,
-          method: paymentMethod,
-          paidDate: new Date(paymentDetails.paidDate),
-          paidAmount: parseFloat(paymentDetails.paidAmount),
-        },
+      const payload = {
+        installmentNo: selectedInstallment.id,
+        // paidAmount: Number(paymentDetails.paidAmount),
+        paidAmount: selectedInstallment.originalAmount,
+        method: paymentMethod,
+        notes: paymentDetails.notes,
+        paidDate: paymentDetails.paidDate, // send as string or date
       };
 
-      // API call to update payment
-      const response = await fetch(`/api/students/${studentId}/make-payment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(paymentData),
-      });
+      // console.log("Payload to backend:", payload);
 
-      if (!response.ok) {
-        throw new Error("Payment failed");
-      }
+      const response = await api.post(
+        `/student-payment/payment-tabs/${studentId}/make-payment`,
+        payload
+      );
 
-      const result = await response.json();
+      console.log("Payment Success:", response.data);
 
-      // Notify parent component
-      onPaymentSuccess(result);
-
-      // Close modal
       setShowPaymentForm(false);
-
-      // Reset form
       resetForm();
-    } catch (error) {
-      console.error("Payment error:", error);
-      alert("Payment failed. Please try again.");
+    } catch (err) {
+      console.error(err);
+      alert(err?.response?.data?.message || "Payment failed");
     } finally {
       setIsProcessing(false);
     }
@@ -92,7 +76,7 @@ const PaymentModal = ({
       bankName: "",
       accountNumber: "",
       cashReceiptNumber: "",
-      paidAmount: selectedInstallment?.totalPayable || 0,
+      paidAmount: selectedInstallment?.paidAmount || 0,
       paidDate: new Date().toISOString().split("T")[0],
       status: "Completed",
       notes: "",
@@ -101,202 +85,202 @@ const PaymentModal = ({
   };
 
   // Render payment form based on selected method
-  const renderPaymentForm = () => {
-    switch (paymentMethod) {
-      case "UPI":
-        return (
-          <div className={styles.methodForm}>
-            <div className={styles.formGroup}>
-              <label>
-                <FaMobileAlt /> UPI Transaction ID
-              </label>
-              <input
-                type="text"
-                placeholder="Enter UPI Transaction ID"
-                value={paymentDetails.transactionId}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    transactionId: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>
-                <FaCalendarAlt /> Payment Date
-              </label>
-              <input
-                type="date"
-                value={paymentDetails.paidDate}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    paidDate: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>
-                <FaReceipt /> UTR Number
-              </label>
-              <input
-                type="text"
-                placeholder="Enter UTR Number"
-                value={paymentDetails.utrNumber}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    utrNumber: e.target.value,
-                  })
-                }
-              />
-            </div>
-          </div>
-        );
+  // const renderPaymentForm = () => {
+  //   switch (paymentMethod) {
+  //     case "UPI":
+  //       return (
+  //         <div className={styles.methodForm}>
+  //           <div className={styles.formGroup}>
+  //             <label>
+  //               <FaMobileAlt /> UPI Transaction ID
+  //             </label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter UPI Transaction ID"
+  //               value={paymentDetails.transactionId}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   transactionId: e.target.value,
+  //                 })
+  //               }
+  //               required
+  //             />
+  //           </div>
+  // <div className={styles.formGroup}>
+  //   <label>
+  //     <FaCalendarAlt /> Payment Date
+  //   </label>
+  //   <input
+  //     type="date"
+  //     value={paymentDetails.paidDate}
+  //     onChange={(e) =>
+  //       setPaymentDetails({
+  //         ...paymentDetails,
+  //         paidDate: e.target.value,
+  //       })
+  //     }
+  //     required
+  //   />
+  // </div>
+  //           <div className={styles.formGroup}>
+  //             <label>
+  //               <FaReceipt /> UTR Number
+  //             </label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter UTR Number"
+  //               value={paymentDetails.utrNumber}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   utrNumber: e.target.value,
+  //                 })
+  //               }
+  //             />
+  //           </div>
+  //         </div>
+  //       );
 
-      case "Online":
-        return (
-          <div className={styles.methodForm}>
-            <div className={styles.formGroup}>
-              <label>
-                <FaCreditCard /> Transaction ID
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Transaction ID"
-                value={paymentDetails.transactionId}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    transactionId: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>
-                <FaCalendarAlt /> Payment Date
-              </label>
-              <input
-                type="date"
-                value={paymentDetails.paidDate}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    paidDate: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-          </div>
-        );
+  //     case "Online":
+  //       return (
+  //         <div className={styles.methodForm}>
+  //           <div className={styles.formGroup}>
+  //             <label>
+  //               <FaCreditCard /> Transaction ID
+  //             </label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter Transaction ID"
+  //               value={paymentDetails.transactionId}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   transactionId: e.target.value,
+  //                 })
+  //               }
+  //               required
+  //             />
+  //           </div>
+  //           <div className={styles.formGroup}>
+  //             <label>
+  //               <FaCalendarAlt /> Payment Date
+  //             </label>
+  //             <input
+  //               type="date"
+  //               value={paymentDetails.paidDate}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   paidDate: e.target.value,
+  //                 })
+  //               }
+  //               required
+  //             />
+  //           </div>
+  //         </div>
+  //       );
 
-      case "Bank Transfer":
-        return (
-          <div className={styles.methodForm}>
-            <div className={styles.formGroup}>
-              <label>
-                <FaUniversity /> Bank Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Bank Name"
-                value={paymentDetails.bankName}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    bankName: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Account Number (Last 4 digits)</label>
-              <input
-                type="text"
-                placeholder="XXXX XXXX XXXX 1234"
-                value={paymentDetails.accountNumber}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    accountNumber: e.target.value,
-                  })
-                }
-                maxLength={4}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>UTR/Reference Number</label>
-              <input
-                type="text"
-                placeholder="Enter UTR/Reference Number"
-                value={paymentDetails.utrNumber}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    utrNumber: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-          </div>
-        );
+  //     case "Bank Transfer":
+  //       return (
+  //         <div className={styles.methodForm}>
+  //           <div className={styles.formGroup}>
+  //             <label>
+  //               <FaUniversity /> Bank Name
+  //             </label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter Bank Name"
+  //               value={paymentDetails.bankName}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   bankName: e.target.value,
+  //                 })
+  //               }
+  //               required
+  //             />
+  //           </div>
+  //           <div className={styles.formGroup}>
+  //             <label>Account Number (Last 4 digits)</label>
+  //             <input
+  //               type="text"
+  //               placeholder="XXXX XXXX XXXX 1234"
+  //               value={paymentDetails.accountNumber}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   accountNumber: e.target.value,
+  //                 })
+  //               }
+  //               maxLength={4}
+  //             />
+  //           </div>
+  //           <div className={styles.formGroup}>
+  //             <label>UTR/Reference Number</label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter UTR/Reference Number"
+  //               value={paymentDetails.utrNumber}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   utrNumber: e.target.value,
+  //                 })
+  //               }
+  //               required
+  //             />
+  //           </div>
+  //         </div>
+  //       );
 
-      case "Cash":
-        return (
-          <div className={styles.methodForm}>
-            <div className={styles.formGroup}>
-              <label>
-                <FaMoneyBill /> Cash Receipt Number
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Receipt Number"
-                value={paymentDetails.cashReceiptNumber}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    cashReceiptNumber: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>
-                <FaCalendarAlt /> Payment Date
-              </label>
-              <input
-                type="date"
-                value={paymentDetails.paidDate}
-                onChange={(e) =>
-                  setPaymentDetails({
-                    ...paymentDetails,
-                    paidDate: e.target.value,
-                  })
-                }
-                required
-              />
-            </div>
-          </div>
-        );
+  //     case "Cash":
+  //       return (
+  //         <div className={styles.methodForm}>
+  //           <div className={styles.formGroup}>
+  //             <label>
+  //               <FaMoneyBill /> Cash Receipt Number
+  //             </label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter Receipt Number"
+  //               value={paymentDetails.cashReceiptNumber}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   cashReceiptNumber: e.target.value,
+  //                 })
+  //               }
+  //               required
+  //             />
+  //           </div>
+  //           <div className={styles.formGroup}>
+  //             <label>
+  //               <FaCalendarAlt /> Payment Date
+  //             </label>
+  //             <input
+  //               type="date"
+  //               value={paymentDetails.paidDate}
+  //               onChange={(e) =>
+  //                 setPaymentDetails({
+  //                   ...paymentDetails,
+  //                   paidDate: e.target.value,
+  //                 })
+  //               }
+  //               required
+  //             />
+  //           </div>
+  //         </div>
+  //       );
 
-      default:
-        return (
-          <div className={styles.selectMethodPrompt}>
-            <p>Please select a payment method to proceed</p>
-          </div>
-        );
-    }
-  };
+  //     default:
+  //       return (
+  //         <div className={styles.selectMethodPrompt}>
+  //           <p>Please select a payment method to proceed</p>
+  //         </div>
+  //       );
+  //   }
+  // };
 
   return (
     showPaymentForm &&
@@ -323,7 +307,7 @@ const PaymentModal = ({
             <div className={styles.detailCard}>
               <div className={styles.detailItem}>
                 <span>Installment:</span>
-                <strong>#{selectedInstallment.installmentNo}</strong>
+                <strong>#{selectedInstallment.id}</strong>
               </div>
               <div className={styles.detailItem}>
                 <span>Due Date:</span>
@@ -331,12 +315,12 @@ const PaymentModal = ({
                   {new Date(selectedInstallment.dueDate).toLocaleDateString()}
                 </strong>
               </div>
-              <div className={styles.detailItem}>
+              {/* <div className={styles.detailItem}>
                 <span>Original Amount:</span>
                 <strong>
                   ₹{selectedInstallment.originalAmount.toLocaleString()}
                 </strong>
-              </div>
+              </div> */}
               {selectedInstallment.franchiseDiscount > 0 && (
                 <div className={styles.detailItem}>
                   <span>Discount:</span>
@@ -356,7 +340,7 @@ const PaymentModal = ({
               <div className={styles.detailItem}>
                 <span>Total Payable:</span>
                 <strong className={styles.amountHighlight}>
-                  ₹{selectedInstallment.totalPayable.toLocaleString()}
+                  ₹{selectedInstallment.amount.toLocaleString()}
                 </strong>
               </div>
             </div>
@@ -364,7 +348,7 @@ const PaymentModal = ({
 
           {/* Payment Method Selection */}
           <div className={styles.modalMethods}>
-            <h4>Select Payment Method</h4>
+            <h2>Select Payment Method</h2>
             <div className={styles.methodButtons}>
               {[
                 { value: "UPI", label: "📱 UPI", icon: <FaMobileAlt /> },
@@ -394,32 +378,52 @@ const PaymentModal = ({
 
           {/* Payment Form */}
           <form onSubmit={handlePaymentSubmit} className={styles.paymentForm}>
-            {renderPaymentForm()}
+            {/* {renderPaymentForm()} */}
 
             {/* Payment Amount (Editable for partial payments) */}
+            <div className={styles.formGroup}>
+              <label>
+                <FaCalendarAlt /> Payment Date
+              </label>
+              <input
+                type="date"
+                value={paymentDetails.paidDate}
+                onChange={(e) =>
+                  setPaymentDetails({
+                    ...paymentDetails,
+                    paidDate: e.target.value,
+                  })
+                }
+                // disabled="true"
+                disabled={true}
+                required
+              />
+            </div>
             <div className={styles.amountSection}>
               <div className={styles.formGroup}>
                 <label>Payment Amount (₹)</label>
                 <input
                   type="number"
-                  value={paymentDetails.paidAmount}
-                  onChange={(e) =>
-                    setPaymentDetails({
-                      ...paymentDetails,
-                      paidAmount: Math.min(
-                        Math.max(0, parseFloat(e.target.value) || 0),
-                        selectedInstallment.totalPayable
-                      ),
-                    })
-                  }
+                  value={selectedInstallment.finalAmount}
+                  // onChange={(e) =>
+                  //   setPaymentDetails({
+                  //     ...paymentDetails,
+                  //     paidAmount: Math.min(
+                  //       Math.max(0, parseFloat(e.target.value) || 0)
+                  //       // selectedInstallment.totalPayable
+                  //     ),
+                  //   })
+                  // }
                   min="0"
-                  max={selectedInstallment.totalPayable}
+                  // max={selectedInstallment.totalPayable}
                   step="0.01"
                   required
-                  disabled={isProcessing}
+                  // disabled={isProcessing}
+                  // disabled="true"
+                  disabled={true}
                 />
                 <small className={styles.amountHint}>
-                  Maximum: ₹{selectedInstallment.totalPayable.toLocaleString()}
+                  {/* Maximum: ₹{selectedInstallment.totalPayable.toLocaleString()} */}
                 </small>
               </div>
             </div>
