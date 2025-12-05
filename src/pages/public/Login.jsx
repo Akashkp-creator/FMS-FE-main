@@ -121,8 +121,14 @@ const Login = () => {
         <div className={styles.brandSection}>
           <div className={styles.brandContent}>
             <div className={styles.logo}>
-              <Building2 className={styles.logoIcon} />
-              <span className={styles.logoText}>UPL Partner</span>
+              {/* <Building2 className={styles.logoIcon} /> */}
+              <span>
+                <img
+                  className={styles.logoText}
+                  src="https://www.snipe.co.in/img/logo.png"
+                  alt="Snipe Tech Pvt Ltd"
+                />
+              </span>
             </div>
             <h1 className={styles.welcomeTitle}>Welcome Back</h1>
             <p className={styles.welcomeSubtitle}>

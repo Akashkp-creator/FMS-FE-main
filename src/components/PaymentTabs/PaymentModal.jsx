@@ -21,6 +21,7 @@ const PaymentModal = ({
   const [paymentMethod, setPaymentMethod] = useState("");
   // const { data } = useLoaderData();
   // console.log(selectedInstallment);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
     // transactionId: "",
     // utrNumber: "",
@@ -58,8 +59,13 @@ const PaymentModal = ({
 
       console.log("Payment Success:", response.data);
 
-      setShowPaymentForm(false);
-      resetForm();
+      // setShowPaymentForm(false);
+      // resetForm();
+      setPaymentSuccess(true);
+
+      setTimeout(() => {
+        window.location.href = `/student/payment-tabs/${studentId}`;
+      }, 2000); // 2 seconds animation time
     } catch (err) {
       console.error(err);
       alert(err?.response?.data?.message || "Payment failed");
@@ -282,6 +288,18 @@ const PaymentModal = ({
   //   }
   // };
 
+  if (paymentSuccess) {
+    return (
+      <div className={styles.successOverlay}>
+        <div className={styles.successBox}>
+          <div className={styles.checkmark}></div>
+          <h2>Payment Successful!</h2>
+          <p>Redirecting...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     showPaymentForm &&
     selectedInstallment && (
@@ -340,7 +358,10 @@ const PaymentModal = ({
               <div className={styles.detailItem}>
                 <span>Total Payable:</span>
                 <strong className={styles.amountHighlight}>
-                  ₹{selectedInstallment.amount.toLocaleString()}
+                  {/* ₹{selectedInstallment.amount.toLocaleString()} */}₹
+                  {Math.round(selectedInstallment.amount).toLocaleString(
+                    "en-IN"
+                  )}
                 </strong>
               </div>
             </div>
@@ -402,7 +423,7 @@ const PaymentModal = ({
             <div className={styles.amountSection}>
               <div className={styles.formGroup}>
                 <label>Payment Amount (₹)</label>
-                <input
+                {/* <input
                   type="number"
                   value={selectedInstallment.finalAmount}
                   // onChange={(e) =>
@@ -421,7 +442,16 @@ const PaymentModal = ({
                   // disabled={isProcessing}
                   // disabled="true"
                   disabled={true}
+                /> */}
+                <input
+                  type="number"
+                  value={Math.round(selectedInstallment.finalAmount)}
+                  min="0"
+                  step="1"
+                  required
+                  disabled={true}
                 />
+
                 <small className={styles.amountHint}>
                   {/* Maximum: ₹{selectedInstallment.totalPayable.toLocaleString()} */}
                 </small>
@@ -488,7 +518,9 @@ const PaymentModal = ({
                     Processing...
                   </>
                 ) : (
-                  `Pay ₹${paymentDetails.paidAmount.toLocaleString()}`
+                  `Pay ₹${Math.round(
+                    selectedInstallment.finalAmount
+                  ).toLocaleString("en-IN")}`
                 )}
               </button>
             </div>

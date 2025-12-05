@@ -1,7 +1,8 @@
 // import { useLoaderData } from "react-router-dom";
-import { FaPrint } from "react-icons/fa";
+import { FaDownload, FaPrint } from "react-icons/fa";
 import styles from "./PaymentTabContent.module.css";
 import { useLoaderData } from "react-router-dom";
+import PDFDownloadButton from "./PDFDownloadButton";
 
 const PaymentTabContent = () => {
   const { data } = useLoaderData();
@@ -46,47 +47,6 @@ const PaymentTabContent = () => {
       </div>
 
       {/* Payment Methods */}
-      {/* <div className={styles.paymentMethods}>
-                    <h4>Make Payment</h4>
-                    <div className={styles.methodGrid}>
-                      <button
-                        className={`${styles.methodButton} ${
-                          paymentMethod === "online" ? styles.activeMethod : ""
-                        }`}
-                        onClick={() => setPaymentMethod("online")}
-                      >
-                        <div className={styles.methodIcon}>💳</div>
-                        <span>Online Payment</span>
-                      </button>
-                      <button
-                        className={`${styles.methodButton} ${
-                          paymentMethod === "bank" ? styles.activeMethod : ""
-                        }`}
-                        onClick={() => setPaymentMethod("bank")}
-                      >
-                        <div className={styles.methodIcon}>🏦</div>
-                        <span>Bank Transfer</span>
-                      </button>
-                      <button
-                        className={`${styles.methodButton} ${
-                          paymentMethod === "upi" ? styles.activeMethod : ""
-                        }`}
-                        onClick={() => setPaymentMethod("upi")}
-                      >
-                        <div className={styles.methodIcon}>📱</div>
-                        <span>UPI</span>
-                      </button>
-                      <button
-                        className={`${styles.methodButton} ${
-                          paymentMethod === "cash" ? styles.activeMethod : ""
-                        }`}
-                        onClick={() => setPaymentMethod("cash")}
-                      >
-                        <div className={styles.methodIcon}>💵</div>
-                        <span>Cash</span>
-                      </button>
-                    </div>
-                  </div> */}
 
       {/* Transactions List */}
       <div className={styles.transactions}>
@@ -112,9 +72,14 @@ const PaymentTabContent = () => {
                   {transaction.status}
                 </span>
                 {/* ✅ Add Print Button here */}
-                <button className={styles.actionBtn}>
-                  <FaPrint /> Print
-                </button>
+                {/* <button className={styles.actionBtn}> */}
+                {/* <FaDownload /> Download */}
+                <PDFDownloadButton
+                  studentId={data.student.id}
+                  installmentNo={transaction.installmentNo}
+                  buttonText="Download Slip"
+                />
+                {/* // </button> */}
               </div>
             </div>
           ))}

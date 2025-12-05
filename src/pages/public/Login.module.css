@@ -120,10 +120,12 @@
 }
 
 .logoText {
-  background: linear-gradient(135deg, #fff, #ffd700);
-  -webkit-background-clip: text;
+  /* background: linear-gradient(135deg, #fff, #ffd700); */
+  background: linear-gradient(135deg, #fff, #dddcd5);
+  /* width: auto; */
+  /* -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background-clip: text; */
 }
 
 .welcomeTitle {
