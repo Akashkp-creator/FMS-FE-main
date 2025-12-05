@@ -4,6 +4,7 @@
 import AboutSection from "../../components/AboutSection/AboutSection";
 import HeroSection from "../../components/HeroSection/HeroSection";
 import MissionVision from "../../components/MissionVision/MissionVision";
+import FranchiseMap from "../../components/FranchiseMap/FranchiseMap";
 // import HeroSection from "../components/HeroSection/HeroSection";
 // import Navbar from "../components/Navbar/Navbar";
 
@@ -18,7 +19,7 @@ const Home = () => {
           <AboutSection />
         </div>
         <MissionVision />
-
+        <FranchiseMap />
         {/* <FranchiseMap /> */}
       </div>
       {/* <Footer /> */}
