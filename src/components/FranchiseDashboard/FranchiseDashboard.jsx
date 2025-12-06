@@ -10,7 +10,7 @@
 // };
 // export default FranchiseDashboard;
 import styles from "./FranchiseDashboard.module.css";
-const StatsCard = ({ title, value, icon, change, color }) => {
+const StatsCard = ({ title, value, icon, color }) => {
   const getColorClass = (color) => {
     switch (color) {
       case "blue":
@@ -34,13 +34,13 @@ const StatsCard = ({ title, value, icon, change, color }) => {
       </div>
       <div className={styles.cardContent}>
         <h2 className={styles.cardValue}>{value}</h2>
-        <span
+        {/* <span
           className={`${styles.cardChange} ${
             change.includes("+") ? styles.positive : styles.negative
           }`}
         >
           {change}
-        </span>
+        </span> */}
       </div>
     </div>
   );

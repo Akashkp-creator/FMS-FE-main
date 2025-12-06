@@ -8,6 +8,7 @@ const FranchiseCompleteDashboard = () => {
   //   </div>
   // );
   const { data } = useLoaderData();
+  console.log(data);
 
   // console.log("Analytics Data:", dashboardData);
 
