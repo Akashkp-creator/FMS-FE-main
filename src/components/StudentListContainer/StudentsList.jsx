@@ -9,13 +9,25 @@ import api from "../../utils/axiosConfig";
 
 const StudentsList = () => {
   const { data, meta } = useLoaderData(); // from your loader
-  console.log(data);
+  // console.log(data);
+  const [showHistoryModal, setShowHistoryModal] = useState(false); // 🎯 NEW
+  const [historyData, setHistoryData] = useState([]); // 🎯 NEW
+  const [showReasonModal, setShowReasonModal] = useState(false);
+  const [reasonText, setReasonText] = useState("");
+  const [selectedLeadForReason, setSelectedLeadForReason] = useState(null);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [note, setNote] = useState("");
   const [selectedLeadId, setSelectedLeadId] = useState(null);
+  const closeHistoryModal = () => {
+    // 🎯 NEW function
+    setShowHistoryModal(false);
+    setHistoryData([]);
+    setSelectedLeadId(null);
+  };
 
   const openModal = (leadId) => {
+    // console.log(leadId);
     setSelectedLeadId(leadId);
     setNote("");
     setShowModal(true);
@@ -25,6 +37,17 @@ const StudentsList = () => {
     setShowModal(false);
     setSelectedLeadId(null);
     setNote("");
+  };
+  const openReasonModal = (leadId) => {
+    setSelectedLeadForReason(leadId);
+    setReasonText("");
+    setShowReasonModal(true);
+  };
+
+  const closeReasonModal = () => {
+    setShowReasonModal(false);
+    setSelectedLeadForReason(null);
+    setReasonText("");
   };
 
   // const handleEnroll = (lead) => {
@@ -50,10 +73,11 @@ const StudentsList = () => {
       toast.warning("Please select a note");
       return;
     }
-
+    //:id/
     try {
-      const res = await api.post(
-        `/manager/franchise/${selectedLeadId}/add-note`,
+      const res = await api.put(
+        ///LeadStudentData/lead/:selectedLeadId/followup
+        `/LeadStudentData/lead/${selectedLeadId}/followup`,
         { note },
         {
           headers: {
@@ -69,6 +93,57 @@ const StudentsList = () => {
     } catch (err) {
       toast.error(err.response?.data?.message || "Error saving follow-up note");
       console.error("API Error:", err);
+    }
+  };
+
+  const handleViewHistory = async (leadId) => {
+    setSelectedLeadId(leadId);
+
+    try {
+      ///LeadStudentData/lead/:selectedLeadId/followup
+      const res = await api.get(`/LeadStudentData/lead/${leadId}/followup`);
+      console.log(res.data);
+
+      setHistoryData(res.data.notes); // <- GET ONLY NOTES ARRAY
+      setShowHistoryModal(true);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Error fetching history.");
+      console.error("History Fetch Error:", err);
+    }
+  };
+
+  const submitNotInterestedReason = async () => {
+    if (!reasonText.trim()) {
+      toast.warning("Please enter a reason");
+      return;
+    }
+    //     /LeadStudentData/lead/:id/reject
+    try {
+      const res = await api.put(
+        `/LeadStudentData/lead/${selectedLeadForReason}/reject`,
+        { reason: reasonText } // pass reason here
+      );
+
+      if (res.status === 200) {
+        toast.success("Lead status updated to 'Not Interested'");
+        // Update Redux or local state if needed
+        // dispatch(
+        //   setLeads(
+        //     leads.map((lead) =>
+        //       lead._id === selectedLeadForReason
+        //         ? { ...lead, status: "Not Interested", reason: reasonText }
+        //         : lead
+        //     )
+        //   )
+        // );
+        closeReasonModal();
+        navigate(0); // refresh the same route
+      } else {
+        throw new Error(res.data?.message || "Failed to update status");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Error updating lead status");
+      console.error("Update Not Interested Error:", err);
     }
   };
 
@@ -190,7 +265,7 @@ const StudentsList = () => {
                           <button
                             className={styles.updateBtn}
                             style={{ margin: "5px" }}
-                            // onClick={() => handleViewHistory(item._id)} // 🎯 Attach new handler
+                            onClick={() => handleViewHistory(item._id)} // 🎯 Attach new handler
                           >
                             <FileClock />
                             <span className={styles.tooltip}>View History</span>
@@ -206,7 +281,7 @@ const StudentsList = () => {
                           <button
                             className={styles.updateBtn}
                             style={{ margin: "5px" }}
-                            // onClick={() => openReasonModal(item._id)}
+                            onClick={() => openReasonModal(item._id)}
                           >
                             <UserX />
                             <span className={styles.tooltip}>
@@ -258,6 +333,94 @@ const StudentsList = () => {
             </div>
           </div>,
           document.getElementById("modal-root") // 🎯 Target the modal root element
+        )}
+
+      {/* 🎯 History Modal Portal Implementation */}
+      {showHistoryModal &&
+        ReactDOM.createPortal(
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal} style={{ width: "600px" }}>
+              {" "}
+              {/* Make it wider */}
+              <h3>Contact History for Lead #{selectedLeadId?.slice(-6)}</h3>
+              {historyData.length === 0 ? (
+                <p style={{ textAlign: "center", color: "#ccc" }}>
+                  No previous contact history found.
+                </p>
+              ) : (
+                <div className={styles.historyList}>
+                  {historyData.map((item) => (
+                    <div key={item._id} className={styles.historyItem}>
+                      <p className={styles.historyDate}>
+                        <FileClock
+                          size={16}
+                          style={{ marginRight: "8px", color: "inherit" }}
+                        />
+                        {new Date(item.date?.$date || item.date).toLocaleString(
+                          "en-IN",
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          }
+                        )}
+                      </p>
+
+                      <p className={styles.historyNote}>{item.note}</p>
+                      {/* You can show the franchise ID here if you populate it in the controller */}
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div
+                className={styles.modalActions}
+                style={{ marginTop: "20px" }}
+              >
+                <button
+                  onClick={closeHistoryModal}
+                  className={styles.cancelBtn}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.getElementById("modal-root")
+        )}
+
+      {showReasonModal &&
+        ReactDOM.createPortal(
+          <div className={styles.modalOverlay}>
+            <div className={styles.reasonModal}>
+              <h3>Enter Reason for Not Interested</h3>
+
+              <textarea
+                placeholder="Enter reason (max 200 characters)"
+                value={reasonText}
+                onChange={(e) => setReasonText(e.target.value)}
+                maxLength={200}
+                rows={5}
+                className={styles.reasonTextarea}
+              ></textarea>
+
+              <div className={styles.modalActions}>
+                <button
+                  onClick={submitNotInterestedReason}
+                  className={styles.saveBtn}
+                >
+                  Submit
+                </button>
+
+                <button onClick={closeReasonModal} className={styles.cancelBtn}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.getElementById("modal-root")
         )}
 
       {/* Pagination Info */}
