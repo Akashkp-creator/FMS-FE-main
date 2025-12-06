@@ -1,0 +1,826 @@
+/* Dashboard.module.css */
+
+/* ============ BASE STYLES ============ */
+.dashboardContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffd700;
+  padding: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: #ffd700;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============ HEADER ============ */
+.dashboardHeader {
+  background: rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.1);
+}
+
+.dashboardTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.headerInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255, 215, 0, 0.8);
+  font-size: 0.9rem;
+}
+
+/* ============ STATS CARDS ============ */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statsCard {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.statsCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cardIcon {
+  font-size: 2rem;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: rgba(255, 215, 0, 0.9);
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.cardValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #ffd700 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cardChange {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+
+.positive {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.negative {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Stats Card Colors */
+.blueCard {
+  border-left: 4px solid #3b82f6;
+}
+
+.greenCard {
+  border-left: 4px solid #10b981;
+}
+
+.orangeCard {
+  border-left: 4px solid #f59e0b;
+}
+
+.purpleCard {
+  border-left: 4px solid #8b5cf6;
+}
+
+/* ============ MAIN LAYOUT ============ */
+.mainContent {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .mainContent {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============ CHARTS SECTION ============ */
+.chartsSection {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .chartsSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chartCard {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.chartTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: #ffd700;
+}
+
+/* Pie Chart */
+.pieChart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.pieChartInner {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--color) 0% var(--percentage),
+    rgba(255, 255, 255, 0.1) var(--percentage) 100%
+  );
+}
+
+.legend {
+  margin-top: 1.5rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legendLabel {
+  flex: 1;
+  font-size: 0.9rem;
+  color: rgba(255, 215, 0, 0.9);
+}
+
+.legendCount {
+  font-weight: 600;
+  color: #ffd700;
+}
+
+.legendPercentage {
+  font-size: 0.8rem;
+  color: rgba(255, 215, 0, 0.6);
+}
+
+/* Revenue Chart */
+.revenueChart {
+  height: 200px;
+}
+
+.chartBars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100%;
+  padding: 0 1rem;
+}
+
+.barContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.bar {
+  width: 30px;
+  background: linear-gradient(to top, #ffd700, #ffed4a);
+  border-radius: 6px 6px 0 0;
+  transition: height 0.3s ease;
+}
+
+.bar:hover {
+  background: linear-gradient(to top, #ffed4a, #ffffff);
+}
+
+.barLabel {
+  font-size: 0.8rem;
+  color: rgba(255, 215, 0, 0.8);
+}
+
+.barValue {
+  font-size: 0.8rem;
+  color: #ffd700;
+  font-weight: 600;
+}
+
+/* ============ RECENT ACTIVITY ============ */
+.recentActivitySection {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #ffd700;
+}
+
+.activityCount,
+.studentCount {
+  font-size: 0.9rem;
+  color: rgba(255, 215, 0, 0.7);
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 20px;
+}
+
+.activityList {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.activityItem {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.activityItem:hover {
+  background: rgba(255, 215, 0, 0.05);
+  border-color: rgba(255, 215, 0, 0.2);
+  transform: translateX(4px);
+}
+
+.activityIcon {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 10px;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: #ffd700;
+}
+
+.activityDescription {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+  color: rgba(255, 215, 0, 0.8);
+  line-height: 1.4;
+}
+
+.activityTime {
+  font-size: 0.8rem;
+  color: rgba(255, 215, 0, 0.6);
+}
+
+/* ============ INSTALLMENTS SECTION ============ */
+.installmentsSection {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.installmentStats {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.statBadge {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  background: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.overdue {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.tableContainer {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.installmentTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.installmentTable th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.05);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.installmentTable td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.tableRow:hover {
+  background: rgba(255, 215, 0, 0.03);
+}
+
+.studentName {
+  font-weight: 600;
+  color: #ffd700;
+}
+
+.installmentNumber {
+  color: rgba(255, 215, 0, 0.9);
+  font-weight: 600;
+}
+
+.dueDate {
+  color: rgba(255, 215, 0, 0.8);
+}
+
+.amount {
+  font-weight: 600;
+  color: #ffd700;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.statusBadge.pending {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.statusBadge.overdue {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ============ STUDENTS SECTION ============ */
+.studentsSection {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.studentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.studentCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.studentCard:hover {
+  background: rgba(255, 215, 0, 0.05);
+  border-color: rgba(255, 215, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.studentHeader {
+  margin-bottom: 1rem;
+}
+
+.studentName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: #ffd700;
+}
+
+.studentCourse {
+  font-size: 0.9rem;
+  color: rgba(255, 215, 0, 0.8);
+}
+
+.progressSection {
+  margin-bottom: 1rem;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.progressLabel {
+  font-size: 0.9rem;
+  color: rgba(255, 215, 0, 0.8);
+}
+
+.progressPercentage {
+  font-weight: 600;
+  color: #ffd700;
+}
+
+.progressBar {
+  height: 8px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd700, #ffed4a);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.paymentInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.paymentItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.paymentLabel {
+  font-size: 0.8rem;
+  color: rgba(255, 215, 0, 0.6);
+}
+
+.paymentAmount {
+  font-weight: 600;
+  color: #ffd700;
+  font-size: 1rem;
+}
+
+/* ============ METRICS SECTION ============ */
+.metricsSection {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.metricCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.metricCard:hover {
+  background: rgba(255, 215, 0, 0.05);
+  border-color: rgba(255, 215, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.metricLabel {
+  font-size: 0.9rem;
+  color: rgba(255, 215, 0, 0.8);
+  margin-bottom: 0.5rem;
+}
+
+.metricValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffd700;
+}
+
+/* ============ FOOTER ============ */
+.dashboardFooter {
+  background: rgba(255, 215, 0, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.footerStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.footerStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.footerLabel {
+  font-size: 0.9rem;
+  color: rgba(255, 215, 0, 0.8);
+  margin-bottom: 0.5rem;
+}
+
+.footerValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffd700;
+}
+
+.footerValue.positive {
+  color: #10b981;
+}
+
+.footerValue.negative {
+  color: #ef4444;
+}
+
+/* ============ SCROLLBAR STYLING ============ */
+.activityList::-webkit-scrollbar,
+.tableContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.activityList::-webkit-scrollbar-track,
+.tableContainer::-webkit-scrollbar-track {
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 3px;
+}
+
+.activityList::-webkit-scrollbar-thumb,
+.tableContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 3px;
+}
+
+.activityList::-webkit-scrollbar-thumb:hover,
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.5);
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+@media (max-width: 768px) {
+  .dashboardContainer {
+    padding: 1rem;
+  }
+
+  .dashboardTitle {
+    font-size: 1.5rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chartsSection {
+    grid-template-columns: 1fr;
+  }
+
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footerStats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    gap: 1rem;
+  }
+
+  .chartTitle,
+  .sectionTitle {
+    font-size: 1rem;
+  }
+
+  .cardValue {
+    font-size: 1.5rem;
+  }
+
+  .footerValue {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statsCard,
+.chartCard,
+.recentActivitySection,
+.installmentsSection,
+.studentsSection,
+.metricsSection {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.statsCard:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.statsCard:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.statsCard:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+/* ============ GLASS MORPHISM EFFECTS ============ */
+.statsCard::before,
+.chartCard::before,
+.recentActivitySection::before,
+.installmentsSection::before,
+.studentsSection::before,
+.metricsSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* ============ SHIMMER EFFECT (Optional) ============ */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loading::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 215, 0, 0.1),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
