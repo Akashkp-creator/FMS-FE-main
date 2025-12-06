@@ -132,6 +132,8 @@ import PaymentContainer from "./pages/franchise/PaymentContainer";
 import { installmentPaymentsLoader } from "./utils/paymentListLoader";
 import PaymentTabs from "./components/PaymentTabs/PaymentTabs";
 import { studentPaymentsLoader } from "./utils/studentPaymentsLoader";
+import FranchiseCompleteDashboard from "./pages/franchise/FranchiseCompleteDashboard";
+import { franchiseDashboardLoader } from "./utils/franchisedashboardLoader";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -259,6 +261,14 @@ const router = createBrowserRouter([
             path: "/student/payment-tabs/:studentId",
             element: <PaymentTabs />,
             loader: studentPaymentsLoader,
+            // loader: installmentPaymentsLoader,
+            // loader: franchiseCoursesLoader,
+            // action: createStudentAction,
+          },
+          {
+            path: "/franchise/dashboard",
+            element: <FranchiseCompleteDashboard />,
+            loader: franchiseDashboardLoader,
             // loader: installmentPaymentsLoader,
             // loader: franchiseCoursesLoader,
             // action: createStudentAction,
