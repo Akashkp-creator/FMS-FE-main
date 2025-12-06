@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import styles from "./StudentsList.module.css";
 import { FileClock, NotebookPen, UserX } from "lucide-react";
+import { studentFollowUpOptions } from "../../utils/studentFollowUpOptions";
+import { toast } from "react-toastify";
+import api from "../../utils/axiosConfig";
 
 const StudentsList = () => {
   const { data, meta } = useLoaderData(); // from your loader
   console.log(data);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [note, setNote] = useState("");
+  const [selectedLeadId, setSelectedLeadId] = useState(null);
+
+  const openModal = (leadId) => {
+    setSelectedLeadId(leadId);
+    setNote("");
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedLeadId(null);
+    setNote("");
+  };
 
   // const handleEnroll = (lead) => {
   //   navigate(
@@ -25,6 +44,32 @@ const StudentsList = () => {
         lead.contact.email
       )}&qualification=${encodeURIComponent(lead.qualification)}`
     );
+  };
+  const handleSave = async () => {
+    if (!note.trim()) {
+      toast.warning("Please select a note");
+      return;
+    }
+
+    try {
+      const res = await api.post(
+        `/manager/franchise/${selectedLeadId}/add-note`,
+        { note },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        toast.success("Follow-up note added successfully!");
+        closeModal();
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Error saving follow-up note");
+      console.error("API Error:", err);
+    }
   };
 
   return (
@@ -135,7 +180,7 @@ const StudentsList = () => {
                         <>
                           <button
                             className={styles.updateBtn}
-                            // onClick={() => openModal(item._id)}
+                            onClick={() => openModal(item._id)}
                           >
                             <NotebookPen />
                             <span className={styles.tooltip}>
@@ -177,6 +222,43 @@ const StudentsList = () => {
           </tbody>
         </table>
       </div>
+      {/* ✅ Modal */}
+
+      {/* ✅ Modal Portal Implementation */}
+      {showModal &&
+        ReactDOM.createPortal(
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <h3>Lead Update</h3>
+              <p>Contacted Date: {new Date().toLocaleDateString("en-IN")}</p>
+
+              <select
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                className={styles.dropdown}
+              >
+                <option value="">Select Follow-up Status</option>
+
+                {studentFollowUpOptions.map((item, idx) => (
+                  <option key={idx} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+
+              <div className={styles.modalActions}>
+                <button onClick={handleSave} className={styles.saveBtn}>
+                  Save
+                </button>
+
+                <button onClick={closeModal} className={styles.cancelBtn}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.getElementById("modal-root") // 🎯 Target the modal root element
+        )}
 
       {/* Pagination Info */}
       <div className={styles.paginationFooter}>
