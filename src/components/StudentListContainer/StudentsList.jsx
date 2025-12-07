@@ -230,9 +230,7 @@ const StudentsList = () => {
                     {item.status === "Converted" ? (
                       <span className={styles.enrolled}>Enrolled</span>
                     ) : item.status === "Rejected" ? (
-                      <span className={styles.notInterested}>
-                        Not Interested
-                      </span>
+                      <span className={styles.notInterested}>Rejected</span>
                     ) : (
                       <button
                         className={styles.enrollBtn}
@@ -244,15 +242,15 @@ const StudentsList = () => {
                   </td>
                   {/* ✅ New Lead Update column */}
                   <td
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                    }}
+                  // style={{
+                  //   display: "flex",
+                  //   alignItems: "center",
+                  //   gap: "8px",
+                  // }}
                   >
                     {item.status !== "Converted" &&
                       item.status != "Rejected" && (
-                        <>
+                        <div className={styles.otherbuttons}>
                           <button
                             className={styles.updateBtn}
                             onClick={() => openModal(item._id)}
@@ -264,7 +262,7 @@ const StudentsList = () => {
                           </button>
                           <button
                             className={styles.updateBtn}
-                            style={{ margin: "5px" }}
+                            // style={{ margin: "5px" }}
                             onClick={() => handleViewHistory(item._id)} // 🎯 Attach new handler
                           >
                             <FileClock />
@@ -280,7 +278,7 @@ const StudentsList = () => {
                       </button> */}
                           <button
                             className={styles.updateBtn}
-                            style={{ margin: "5px" }}
+                            // style={{ margin: "5px" }}
                             onClick={() => openReasonModal(item._id)}
                           >
                             <UserX />
@@ -288,7 +286,7 @@ const StudentsList = () => {
                               Not Interested
                             </span>
                           </button>
-                        </>
+                        </div>
                       )}
                   </td>
                 </tr>

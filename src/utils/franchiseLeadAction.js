@@ -27,6 +27,7 @@
 // import axios from "axios";
 import { toast } from "react-toastify";
 import api from "./axiosConfig";
+import { redirect } from "react-router-dom";
 
 export const addFranchiseLeadAction = async ({ request }) => {
   try {
@@ -68,7 +69,10 @@ export const addFranchiseLeadAction = async ({ request }) => {
 
     toast.success(res.data.message || "Lead created successfully");
 
-    return res.data; // assuming your API returns JSON
+    // return res.data; // assuming your API returns JSON
+
+    // ✅ IMPORTANT: return redirect after success
+    return redirect("/manager/enroll-lead/franchise");
   } catch (error) {
     const msg =
       error?.response?.data?.message ||

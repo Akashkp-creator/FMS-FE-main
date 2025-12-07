@@ -235,6 +235,11 @@
   border-color: rgba(107, 114, 128, 0.5);
   color: #6b7280;
 }
+.otherbuttons {
+  width: 100%;
+  display: flex;
+  gap: 2px;
+}
 
 .updateBtn {
   background: rgba(255, 255, 255, 0.1);
@@ -721,7 +726,7 @@
   .enrollBtn,
   .updateBtn {
     padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    font-size: 0.5rem;
   }
 }
 

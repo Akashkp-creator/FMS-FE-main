@@ -78,20 +78,20 @@ export const LoginAction = (store) => {
       // -----------------------------------
       // ROLE-BASED REDIRECTS (clean version)
       // -----------------------------------
-      // const roleRedirects = {
-      //   SuperAdmin: "/super-admin",
-      //   Admin: "/admin",
-      //   Franchise: "/franchise",
-      //   Manager: "/manager",
-      //   Trainer: "/trainer",
-      //   ChannelPartner: "/channel-partner",
-      // };
+      const roleRedirects = {
+        SuperAdmin: "/",
+        Admin: "/",
+        Franchise: "/franchise/dashboard",
+        Manager: "/",
+        Trainer: "/",
+        ChannelPartner: "/",
+      };
 
       // Default to "/" if role is not mapped
-      // const redirectTo = roleRedirects[user.role] || "/";
+      const redirectTo = roleRedirects[user.role] || "/";
 
-      // return redirect(redirectTo);
-      return redirect("/");
+      return redirect(redirectTo);
+      // return redirect("/");
     } catch (error) {
       console.log("Login error:", error?.response?.data);
 

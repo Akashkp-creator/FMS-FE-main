@@ -185,7 +185,7 @@ const StudentEnrollmentForm = () => {
   useEffect(() => {
     if (actionData?.success) {
       toast.success(actionData.message);
-      navigate("/franchise/my-lead-list");
+      navigate("/student/installment-payments");
     } else if (actionData?.errors) {
       toast.error(actionData.message);
     }

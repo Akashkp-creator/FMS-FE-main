@@ -14,6 +14,7 @@ import {
   Users,
   Phone,
   LayoutDashboard,
+  SquarePen,
   UserPlus,
   UserStar,
   CalendarClock,
@@ -25,6 +26,7 @@ import {
   ChartNoAxesCombined,
   UserCog,
   CircleUser,
+  Handshake,
 } from "lucide-react";
 
 export const publicNavLinks = [
@@ -83,16 +85,31 @@ export const roleBasedNavLinks = {
   Manager: [
     { label: "Home", href: "/", icon: <Home size={18} /> },
     {
+      href: "/manager/edit-user",
+      label: "Dashboard",
+      icon: <LayoutDashboard size={18} />,
+    },
+    {
       href: "/add-lead",
       label: "Add Lead",
       icon: <UserPlus size={18} />,
     },
     {
       href: "/manager/enroll-lead/franchise",
-      label: "Enrolment",
+      label: "Enrollment",
       icon: <NotebookPen size={18} />,
     },
-    // { href: "/reviewer/review-history", label: "Review History" ,icon: <Home size={18} />},
+    {
+      href: "/manager/addChannel-partner",
+      label: "Channel Partner",
+      icon: <Handshake size={18} />,
+    },
+    // {
+    //   href: "/manager/edit-user",
+    //   label: "Edit Users",
+    //   icon: <SquarePen size={18} />,
+    // },
+
     // { href: "/reviewer/guidelines", label: "Review Guidelines" ,icon: <Home size={18} />},
     // { href: "/reviewer/availability", label: "Availability" ,icon: <Home size={18} />},
   ],

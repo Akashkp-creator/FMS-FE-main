@@ -173,7 +173,7 @@ const FranchiseEnrollmentTable = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.heading}>Enrollment Student</h2>
+      <h2 className={styles.heading}>Franchise Enrollment </h2>
 
       {leads.length === 0 ? (
         <p style={{ color: "white" }}>No Leads found.</p>
