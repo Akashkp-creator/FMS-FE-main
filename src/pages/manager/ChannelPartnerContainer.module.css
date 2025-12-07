@@ -1,0 +1,572 @@
+.container {
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabs wrapper */
+.tabHeader {
+  display: flex;
+  gap: 10px;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  overflow-x: auto;
+}
+
+/* Tab button */
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+  background: #f6f6f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  background: rgba(3, 43, 243, 0.1);
+}
+
+/* Active tab */
+.activeTab {
+  background: rgba(3, 43, 243, 0.8);
+  color: #fff;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+/* Content wrapper */
+.content {
+  width: 100%;
+  padding-top: 10px;
+}
+
+.tabContent {
+  /* background: #fafafa; */
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .tabBtn {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .icon {
+    font-size: 16px;
+  }
+}
+/* =========================================== */
+/* ChannelPartner.module.css */
+
+/* ============ BASE CONTAINER ============ */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #e2e8f0;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============ TAB HEADER ============ */
+.tabHeader {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #cbd5e1;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tabBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.1) 0%,
+    rgba(255, 215, 0, 0) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tabBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.1);
+}
+
+.tabBtn:hover::before {
+  opacity: 1;
+}
+
+.tabBtn:hover .icon {
+  color: #ffd700;
+  transform: scale(1.1);
+}
+
+.activeTab {
+  background: rgba(255, 215, 0, 0.1) !important;
+  border-color: rgba(255, 215, 0, 0.3) !important;
+  color: #ffd700 !important;
+  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.15) !important;
+}
+
+.activeTab::before {
+  opacity: 1;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.15) 0%,
+    rgba(255, 215, 0, 0.05) 100%
+  );
+}
+
+.activeTab .icon {
+  color: #ffd700 !important;
+  transform: scale(1.1);
+}
+
+.icon {
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  color: #94a3b8;
+}
+
+/* ============ CONTENT SECTION ============ */
+.content {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 8px 25px rgba(255, 215, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.content::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background: radial-gradient(
+    circle at 20% 30%,
+    rgba(255, 215, 0, 0.05) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.02) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.tabContent {
+  position: relative;
+  z-index: 1;
+}
+
+.tabContent h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 2rem 0;
+  color: #ffd700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: inline-block;
+}
+
+.tabContent h3::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffd700, transparent);
+  border-radius: 2px;
+}
+
+/* ============ TABLE STYLING (for Channel Partner List) ============ */
+.tableContainer {
+  margin-top: 2rem;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.table thead {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.table th {
+  padding: 1.25rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #ffd700;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 215, 0, 0.05);
+  transform: scale(1.002);
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 0.25rem;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  transform: translateY(-1px);
+}
+
+/* ============ CARD STYLING (Alternative List View) ============ */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.partnerCard {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.partnerCard:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 215, 0, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(255, 215, 0, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.cardHeader h4 {
+  margin: 0;
+  color: #ffd700;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.activeStatus {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.inactiveStatus {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.cardInfo {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.cardInfo strong {
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+/* ============ EMPTY STATE ============ */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  color: rgba(255, 215, 0, 0.3);
+  margin-bottom: 1rem;
+}
+
+.emptyState h4 {
+  color: #ffd700;
+  margin: 0 0 0.5rem 0;
+}
+
+/* ============ LOADING STATE ============ */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 215, 0, 0.1);
+  border-top-color: #ffd700;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .tabHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .tabBtn {
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+
+  .tabContent h3 {
+    font-size: 1.5rem;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableContainer {
+    margin: 1rem -1rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .content {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .tabBtn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tabContent {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ============ CUSTOM SCROLLBAR ============ */
+.tableContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 4px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.5);
+}
+
+/* ============ GLASS MORPHISM EFFECTS ============ */
+.tabBtn,
+.content,
+.tableContainer,
+.partnerCard {
+  position: relative;
+  overflow: hidden;
+}
+
+.tabBtn::after,
+.content::after,
+.tableContainer::after,
+.partnerCard::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* ============ GOLD ACCENT BORDERS ============ */
+.content {
+  border-image: linear-gradient(
+      135deg,
+      rgba(255, 215, 0, 0.1),
+      rgba(255, 215, 0, 0.3),
+      rgba(255, 215, 0, 0.1)
+    )
+    1;
+}
+
+.tableContainer {
+  border-image: linear-gradient(
+      to right,
+      rgba(255, 215, 0, 0.1),
+      rgba(255, 215, 0, 0.2),
+      rgba(255, 215, 0, 0.1)
+    )
+    1;
+}

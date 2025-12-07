@@ -134,6 +134,7 @@ import PaymentTabs from "./components/PaymentTabs/PaymentTabs";
 import { studentPaymentsLoader } from "./utils/studentPaymentsLoader";
 import FranchiseCompleteDashboard from "./pages/franchise/FranchiseCompleteDashboard";
 import { franchiseDashboardLoader } from "./utils/franchisedashboardLoader";
+import ChannelPartnerContainer from "./pages/manager/ChannelPartnerContainer";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -217,11 +218,11 @@ const router = createBrowserRouter([
             element: <AddFranchise />,
             action: AddFranchiseAction,
           },
-          // {
-          //   path: "admin-manager",
-          //   element: <Manager />,
-          //   action: AddManagerAction,
-          // },
+          {
+            path: "manager/addChannel-partner",
+            element: <ChannelPartnerContainer />,
+            // action: AddManagerAction,
+          },
         ],
       },
       // Franchise ROUTES

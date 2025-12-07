@@ -135,11 +135,12 @@ const ActivityItem = ({ title, description, icon, timestamp }) => {
         <h4 className={styles.activityTitle}>{title}</h4>
         <p className={styles.activityDescription}>{description}</p>
         <span className={styles.activityTime}>
-          {new Date(timestamp).toLocaleDateString("en-IN", {
+          {new Date(timestamp).toLocaleString("en-IN", {
             day: "numeric",
             month: "short",
-            hour: "2-digit",
-            minute: "2-digit",
+            year: "numeric",
+            // hour: "2-digit",
+            // minute: "2-digit",
           })}
         </span>
       </div>
