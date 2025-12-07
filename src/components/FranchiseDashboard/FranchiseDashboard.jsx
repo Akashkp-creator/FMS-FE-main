@@ -332,7 +332,7 @@ const FranchiseDashboard = ({ dashboardData }) => {
           </section>
 
           {/* Performance Metrics */}
-          <section className={styles.metricsSection}>
+          {/* <section className={styles.metricsSection}>
             <h2 className={styles.sectionTitle}>Performance Metrics</h2>
             <div className={styles.metricsGrid}>
               <div className={styles.metricCard}>
@@ -362,12 +362,42 @@ const FranchiseDashboard = ({ dashboardData }) => {
                 </span>
               </div>
             </div>
-          </section>
+          </section> */}
         </div>
       </div>
 
       {/* Footer Stats */}
       <footer className={styles.dashboardFooter}>
+        {/* Performance Metrics */}
+        <section className={styles.metricsSection}>
+          <h2 className={styles.sectionTitle}>Performance Metrics</h2>
+          <div className={styles.metricsGrid}>
+            <div className={styles.metricCard}>
+              <span className={styles.metricLabel}>Conversion Rate</span>
+              <span className={styles.metricValue}>
+                {analytics.performanceMetrics.leadConversionRate}%
+              </span>
+            </div>
+            <div className={styles.metricCard}>
+              <span className={styles.metricLabel}>Retention Rate</span>
+              <span className={styles.metricValue}>
+                {analytics.performanceMetrics.studentRetentionRate}%
+              </span>
+            </div>
+            <div className={styles.metricCard}>
+              <span className={styles.metricLabel}>Avg Payment Completion</span>
+              <span className={styles.metricValue}>
+                {analytics.performanceMetrics.averagePaymentCompletion}%
+              </span>
+            </div>
+            <div className={styles.metricCard}>
+              <span className={styles.metricLabel}>Revenue per Student</span>
+              <span className={styles.metricValue}>
+                ₹{analytics.performanceMetrics.revenuePerStudent}
+              </span>
+            </div>
+          </div>
+        </section>
         <div className={styles.footerStats}>
           <div className={styles.footerStat}>
             <span className={styles.footerLabel}>Total Revenue</span>
@@ -387,7 +417,7 @@ const FranchiseDashboard = ({ dashboardData }) => {
               ₹{financials.monthlyRevenue.toLocaleString("en-IN")}
             </span>
           </div>
-          <div className={styles.footerStat}>
+          {/* <div className={styles.footerStat}>
             <span className={styles.footerLabel}>Revenue Trend</span>
             <span
               className={`${styles.footerValue} ${
@@ -397,7 +427,7 @@ const FranchiseDashboard = ({ dashboardData }) => {
               {financials.revenueTrend > 0 ? "+" : ""}
               {financials.revenueTrend}%
             </span>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>
