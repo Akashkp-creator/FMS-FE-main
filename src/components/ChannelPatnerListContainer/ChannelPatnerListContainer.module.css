@@ -1,0 +1,27 @@
+.wrapper {
+  padding: 16px;
+}
+.btnwrapper {
+  display: flex;
+  justify-content: end;
+  padding-right: 5rem;
+  /* border: 2px solid red; */
+}
+.backBtn {
+  /* background: rgba(243, 187, 3, 0.8); */
+  background: gold;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 20px;
+  transition: 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+}
+
+.backBtn:hover {
+  background: rgba(243, 239, 3, 0.753);
+}

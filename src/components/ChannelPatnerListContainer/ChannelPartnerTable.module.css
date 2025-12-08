@@ -1,0 +1,721 @@
+.tableContainer {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.tableHeader {
+  margin-bottom: 1.5rem;
+}
+
+.tableHeader h2 {
+  margin: 0;
+  color: #1a202c;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  min-width: 800px;
+}
+
+.table th {
+  background: #667eea;
+  color: white;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.table tr:hover {
+  background: #f7fafc;
+}
+
+.partnerName {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.partnerId {
+  font-size: 0.75rem;
+  color: #718096;
+  font-weight: 400;
+}
+
+.commissionBadge {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.amount {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.pending {
+  color: #e53e3e;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editBtn,
+.payBtn,
+.deleteBtn {
+  padding: 0.375rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editBtn {
+  background: #4299e1;
+  color: white;
+}
+
+.editBtn:hover {
+  background: #3182ce;
+}
+
+.payBtn {
+  background: #48bb78;
+  color: white;
+}
+
+.payBtn:hover {
+  background: #38a169;
+}
+
+.deleteBtn {
+  background: #f56565;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background: #e53e3e;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #718096;
+}
+
+.emptyState div {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tableContainer {
+    padding: 1rem;
+  }
+
+  .table {
+    min-width: 600px;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .editBtn,
+  .payBtn,
+  .deleteBtn {
+    width: 100%;
+  }
+}
+/* ================================== */
+/* ChannelPartnerTable.module.css */
+
+/* ============ TABLE CONTAINER ============ */
+.tableContainer {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 8px 25px rgba(255, 215, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.tableContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.05) 0%,
+    rgba(255, 215, 0, 0.02) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============ TABLE HEADER ============ */
+.tableHeader {
+  padding: 1.75rem 2rem;
+  background: rgba(255, 215, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.tableHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffd700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tableHeader h2::before {
+  content: "🤝";
+  font-size: 1.2rem;
+}
+
+/* ============ TABLE WRAPPER ============ */
+.tableWrapper {
+  position: relative;
+  z-index: 1;
+  overflow-x: auto;
+  max-height: 600px;
+  border-radius: 0 0 20px 20px;
+}
+
+/* ============ TABLE STYLING ============ */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 1200px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table th {
+  padding: 1.25rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #ffd700;
+  background: rgba(30, 41, 59, 0.9);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.table th:first-child {
+  border-left: none;
+}
+
+.table th:last-child {
+  border-right: none;
+}
+
+.table th::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.3), transparent);
+}
+
+/* ============ TABLE BODY ============ */
+.table td {
+  padding: 1.25rem 1rem;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.2s ease;
+}
+
+.table td:first-child {
+  border-left: none;
+}
+
+.table td:last-child {
+  border-right: none;
+}
+
+.table tbody tr {
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 215, 0, 0.07);
+  transform: scale(1.002);
+}
+
+.table tbody tr:hover td {
+  color: #e2e8f0;
+}
+
+.table tbody tr::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 215, 0, 0.03),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.table tbody tr:hover::before {
+  opacity: 1;
+}
+
+/* ============ SPECIFIC COLUMN STYLES ============ */
+.partnerName {
+  font-weight: 500;
+  color: #ffd700;
+  min-width: 200px;
+}
+
+.partnerId {
+  font-size: 0.8rem;
+  color: rgba(255, 215, 0, 0.6);
+  margin-top: 0.25rem;
+  font-family: "Monaco", "Courier New", monospace;
+}
+
+.address {
+  max-width: 250px;
+  min-width: 200px;
+  word-break: break-word;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.commissionBadge {
+  display: inline-block;
+  padding: 0.375rem 1rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.15),
+    rgba(255, 215, 0, 0.05)
+  );
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  color: #ffd700;
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 50px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.commissionBadge:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.25),
+    rgba(255, 215, 0, 0.15)
+  );
+  border-color: rgba(255, 215, 0, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+}
+
+.amount {
+  font-family: "Inter", -apple-system, sans-serif;
+  font-weight: 500;
+  color: #10b981;
+  text-align: right;
+  min-width: 120px;
+}
+
+.pending {
+  font-family: "Inter", -apple-system, sans-serif;
+  font-weight: 600;
+  color: #f59e0b;
+  text-align: right;
+  min-width: 120px;
+}
+
+.pending strong {
+  padding: 0.375rem 1rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.pending strong:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ============ ACTIONS COLUMN ============ */
+.actions {
+  min-width: 180px;
+  text-align: center;
+}
+
+.actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 0.25rem;
+  min-width: 60px;
+}
+
+.editBtn {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+.editBtn:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.payBtn {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+.payBtn:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.deleteBtn {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+.deleteBtn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+/* ============ EMPTY STATE ============ */
+.emptyState {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0 0 20px 20px;
+}
+
+.emptyState div {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  margin-bottom: 0.75rem;
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(255, 215, 0, 0.7);
+}
+
+.emptyState::before {
+  content: "👥";
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* ============ SCROLLBAR STYLING ============ */
+.tableWrapper::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.5);
+}
+
+.tableWrapper::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+@media (max-width: 1400px) {
+  .tableWrapper {
+    margin: 0 -1rem;
+    border-radius: 0;
+  }
+
+  .tableContainer {
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .tableHeader {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .tableHeader h2 {
+    font-size: 1.25rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 1rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .actions button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+    margin: 0.125rem;
+    min-width: 50px;
+  }
+
+  .commissionBadge {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tableContainer {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .tableHeader {
+    padding: 1rem;
+  }
+
+  .tableHeader h2 {
+    font-size: 1.1rem;
+  }
+
+  .emptyState {
+    padding: 3rem 1rem;
+  }
+
+  .emptyState div {
+    font-size: 1.1rem;
+  }
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table tbody tr {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.table tbody tr:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.table tbody tr:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.table tbody tr:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.table tbody tr:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.table tbody tr:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+/* ============ GLASS MORPHISM EFFECTS ============ */
+.tableWrapper {
+  position: relative;
+}
+
+.tableWrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 95%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============ STATUS INDICATORS ============ */
+.statusIndicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.statusActive {
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.statusInactive {
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+/* ============ PROGRESS BAR (Optional for commission) ============ */
+.commissionProgress {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+.commissionFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd700, #ffed4a);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* ============ TOOLTIP (Optional) ============ */
+[data-tooltip] {
+  position: relative;
+  cursor: help;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 0.75rem;
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 6px;
+  color: #ffd700;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.partnerLink {
+  color: rgba(233, 228, 221, 0.9);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.partnerLink:hover {
+  text-decoration: underline;
+}

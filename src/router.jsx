@@ -135,6 +135,9 @@ import { studentPaymentsLoader } from "./utils/studentPaymentsLoader";
 import FranchiseCompleteDashboard from "./pages/franchise/FranchiseCompleteDashboard";
 import { franchiseDashboardLoader } from "./utils/franchisedashboardLoader";
 import ChannelPartnerContainer from "./pages/manager/ChannelPartnerContainer";
+import { channelPartnerLoader } from "./utils/channelPartnerLoaderForManager";
+import ChannelPatnerListContainer from "./components/ChannelPatnerListContainer/ChannelPatnerListContainer";
+import AddStudentForm from "./components/StudentsOfChannelPartner/AddStudentForm";
 
 // Lazy imports MUST be named functions
 const Layout = React.lazy(function LazyLayout() {
@@ -221,6 +224,19 @@ const router = createBrowserRouter([
           {
             path: "manager/addChannel-partner",
             element: <ChannelPartnerContainer />,
+            // loader: channelPartnerLoader,
+            // action: AddManagerAction,
+          },
+          {
+            path: "manager/channel-partner/list",
+            element: <ChannelPatnerListContainer />,
+            loader: channelPartnerLoader,
+            // action: AddManagerAction,
+          },
+          {
+            path: "manager/channel-partner/students",
+            element: <AddStudentForm />,
+            // loader: channelPartnerLoader,
             // action: AddManagerAction,
           },
         ],

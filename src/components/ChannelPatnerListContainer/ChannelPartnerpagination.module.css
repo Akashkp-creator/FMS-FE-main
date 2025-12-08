@@ -1,0 +1,152 @@
+/* Pagination.module.css */
+.container {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2),
+    0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.button {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+.activeButton {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+  color: #2d3748;
+  border: none;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.activeButton:hover {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
+}
+
+.dots {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.75rem 0.5rem;
+  font-weight: 600;
+  cursor: default;
+  min-width: 30px;
+}
+
+.dots:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    margin-top: 3rem;
+  }
+
+  .pagination {
+    padding: 0.75rem;
+    border-radius: 12px;
+    gap: 0.25rem;
+  }
+
+  .button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    min-width: 40px;
+  }
+
+  .dots {
+    padding: 0.5rem 0.25rem;
+    min-width: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin-top: 2rem;
+  }
+
+  .pagination {
+    padding: 0.5rem;
+    border-radius: 10px;
+    gap: 0.125rem;
+  }
+
+  .button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    min-width: 35px;
+  }
+
+  .dots {
+    padding: 0.4rem 0.2rem;
+    min-width: 20px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Loading state */
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus states for accessibility */
+.button:focus-visible {
+  outline: 2px solid #ffd700;
+  outline-offset: 2px;
+}
+
+/* Animation for page changes */
+.button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover effect for better UX */
+.button:not(.dots):not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.activeButton:hover {
+  background: linear-gradient(135deg, #ffdf33 0%, #fff066 100%);
+}
