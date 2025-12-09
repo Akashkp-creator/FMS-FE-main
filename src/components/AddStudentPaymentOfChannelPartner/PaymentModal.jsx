@@ -3,6 +3,7 @@ import api from "../../utils/axiosConfig";
 import styles from "./PaymentModal.module.css";
 
 const PaymentModal = ({ show, close, studentId, refreshData }) => {
+  //   console.log(studentId);
   const [amount, setAmount] = useState("");
   const [mode, setMode] = useState("Cash");
   const [loading, setLoading] = useState(false);
