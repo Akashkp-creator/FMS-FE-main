@@ -1,0 +1,639 @@
+/* StudentList.module.css */
+
+/* ============ BASE TABLE CONTAINER ============ */
+.tableContainer {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 8px 25px rgba(255, 215, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.tableContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.02) 0%,
+    transparent 50%,
+    rgba(255, 215, 0, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+/* ============ TABLE HEADER ============ */
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.tableHeader h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #ffd700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: inline-block;
+}
+
+.tableHeader h2::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #ffd700, transparent);
+  border-radius: 2px;
+}
+
+.headerInfo {
+  display: flex;
+  gap: 1rem;
+}
+
+.filterBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 20px;
+  color: #ffd700;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.filterBadge span {
+  font-size: 1rem;
+}
+
+/* ============ TABLE WRAPPER ============ */
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}
+
+.tableWrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.5);
+}
+
+/* ============ TABLE STYLES ============ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+.table thead {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.table th {
+  padding: 1.25rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #ffd700;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  vertical-align: top;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 215, 0, 0.05);
+  transform: scale(1.002);
+}
+
+/* ============ STUDENT INFO COLUMN ============ */
+.studentInfo {
+  min-width: 180px;
+}
+
+.studentName {
+  display: block;
+  font-weight: 600;
+  color: #ffd700;
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+
+.studentId {
+  font-size: 0.85rem;
+  color: rgba(255, 215, 0, 0.7);
+  margin-bottom: 0.5rem;
+}
+
+/* ============ PARTNER INFO COLUMN ============ */
+.partnerInfo {
+  min-width: 180px;
+}
+
+.partnerName {
+  display: block;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 0.25rem;
+}
+
+.partnerContact {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============ COURSE INFO COLUMN ============ */
+.courseInfo {
+  min-width: 200px;
+}
+
+.courseName {
+  display: block;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 0.5rem;
+}
+
+.courseFee {
+  font-size: 0.9rem;
+  color: rgba(255, 215, 0, 0.8);
+}
+
+/* ============ PAYMENT INFO COLUMN ============ */
+.paymentInfo {
+  min-width: 200px;
+}
+
+.amount {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.totalPaid {
+  color: #10b981;
+}
+
+.pendingAmount {
+  color: #f59e0b;
+}
+
+.totalFee {
+  color: #ffd700;
+}
+
+.progressBar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.75rem 0 0.5rem 0;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd700, #ffed4a);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.85rem;
+  color: rgba(255, 215, 0, 0.8);
+}
+
+/* ============ PAYMENTS COLUMN ============ */
+.paymentsCell {
+  min-width: 250px;
+}
+
+.paymentsList {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.paymentsList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.paymentsList::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.paymentsList::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 2px;
+}
+
+.paymentItem {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.paymentItem:hover {
+  background: rgba(255, 215, 0, 0.05);
+  border-color: rgba(255, 215, 0, 0.2);
+}
+
+.paymentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.paymentAmount {
+  font-weight: 600;
+  color: #ffd700;
+  font-size: 0.95rem;
+}
+
+.paymentDate {
+  font-size: 0.8rem;
+  color: rgba(255, 215, 0, 0.7);
+}
+
+.paymentDetails {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.paymentMode {
+  color: #60a5fa;
+}
+
+.paymentReceiver {
+  color: rgba(255, 215, 0, 0.8);
+}
+
+.viewMoreBtn {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 6px;
+  color: #ffd700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.viewMoreBtn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+/* ============ COMMISSION COLUMN ============ */
+.commissionInfo {
+  min-width: 120px;
+}
+
+.commissionBadge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  color: #ffd700;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.commissionAmount {
+  font-weight: 600;
+  color: #ffd700;
+  font-size: 1.1rem;
+}
+
+/* ============ STATUS COLUMN ============ */
+.paymentStatus {
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+}
+
+.statusCompleted {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* ============ ACTIONS COLUMN ============ */
+.actions {
+  min-width: 150px;
+}
+
+.actions div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editBtn,
+.addPaymentBtn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid;
+}
+
+.editBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+}
+
+.editBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+}
+
+.addPaymentBtn {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+}
+
+.addPaymentBtn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.1);
+}
+
+/* ============ EMPTY STATE ============ */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.emptyState div {
+  font-size: 1.2rem;
+  color: #ffd700;
+  margin-bottom: 0.5rem;
+}
+
+.emptyState p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+/* ============ PAGINATION ============ */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.paginationInfo {
+  color: rgba(255, 215, 0, 0.8);
+  font-size: 0.95rem;
+}
+
+.paginationInfo strong {
+  color: #ffd700;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.paginationBtn {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.paginationBtn:hover:not(:disabled) {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+}
+
+.paginationBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginationBtn.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  font-weight: 600;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+@media (max-width: 1200px) {
+  .tableContainer {
+    padding: 1.5rem;
+  }
+
+  .tableHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .headerInfo {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .tableContainer {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .tableHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .filterBadge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .amount {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tableContainer {
+    padding: 0.75rem;
+  }
+
+  .tableHeader h2 {
+    font-size: 1.3rem;
+  }
+
+  .filterBadge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .actions div {
+    flex-direction: row;
+  }
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeInRow {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.table tbody tr {
+  animation: fadeInRow 0.4s ease-out;
+}
+
+.table tbody tr:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.table tbody tr:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.table tbody tr:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.table tbody tr:nth-child(5) {
+  animation-delay: 0.2s;
+}
+
+/* ============ GLASS MORPHISM ENHANCEMENTS ============ */
+.tableContainer::after,
+.tableWrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.2;
+}
+
+/* ============ GOLD ACCENT EFFECTS ============ */
+.table tbody tr:hover td:first-child {
+  border-left: 3px solid rgba(255, 215, 0, 0.3);
+}
+
+.paymentItem:hover .paymentAmount {
+  color: #ffed4a;
+}
+
+/* ============ SHIMMER LOADING (Optional) ============ */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loadingRow {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 215, 0, 0.05),
+    rgba(255, 255, 255, 0.03)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}

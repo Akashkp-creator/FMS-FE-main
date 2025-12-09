@@ -580,10 +580,6 @@
   transition: border 0.2s ease;
 }
 
-/* .reasonTextarea:focus {
-  border: 1px solid rgba(3, 43, 243, 0.8);
-  box-shadow: 0 0 6px rgba(3, 43, 243, 0.5);
-} */
 .reasonTextarea:focus {
   border: 2px solid #ffd700;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);

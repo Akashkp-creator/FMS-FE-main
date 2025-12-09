@@ -87,8 +87,17 @@ const ChannelPartnerContainer = () => {
           className={styles.tabBtn}
           onClick={() => navigate("/manager/channel-partner/list")}
         >
-          <FaListAlt className={styles.icon} />
-          Channel Partner List
+          <FaPlusCircle className={styles.icon} />
+          Add Student
+        </button>
+
+        {/* NEW BUTTON → navigates to new route */}
+        <button
+          className={styles.tabBtn}
+          onClick={() => navigate("/manager/channel-partner/list/students")}
+        >
+          <FaPlusCircle className={styles.icon} />
+          Add Payments for a existing students
         </button>
       </div>
 
