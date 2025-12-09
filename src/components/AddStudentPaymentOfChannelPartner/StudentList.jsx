@@ -1,19 +1,21 @@
 import { Link, useLoaderData } from "react-router-dom";
 import styles from "./StudentList.module.css";
 import { useState } from "react";
+import PaymentModal from "./PaymentModal";
+import { channelPartnerStudentsLoader } from "../../utils/channelPartnerStudentsLoader";
 const StudentList = () => {
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
+
+  const handleOpenPaymentModal = (studentId) => {
+    setSelectedStudentId(studentId);
+    setShowPaymentModal(true);
+  };
   const { data, meta } = useLoaderData();
   const [showAllPayments, setShowAllPayments] = useState({});
 
   // Calculate commission for each student
   const calculateCommission = (student) => {
-    const [showPaymentModal, setShowPaymentModal] = useState(false);
-    const [selectedStudentId, setSelectedStudentId] = useState(null);
-
-    const handleOpenPaymentModal = (studentId) => {
-      setSelectedStudentId(studentId);
-      setShowPaymentModal(true);
-    };
     const commissionPercent = student.channelPartnerId?.commissionPercent || 0;
     const commission = (student.totalPaid * commissionPercent) / 100;
     return commission;
@@ -247,7 +249,13 @@ const StudentList = () => {
                   <td className={styles.actions}>
                     <div>
                       {/* <button className={styles.editBtn}>Edit</button> */}
-                      <button className={styles.addPaymentBtn}>
+                      {/* <button className={styles.addPaymentBtn}>
+                        Add Payment
+                      </button> */}
+                      <button
+                        className={styles.addPaymentBtn}
+                        onClick={() => handleOpenPaymentModal(student._id)}
+                      >
                         Add Payment
                       </button>
                     </div>
@@ -276,6 +284,13 @@ const StudentList = () => {
           </div>
         </div>
       )}
+
+      <PaymentModal
+        show={showPaymentModal}
+        close={() => setShowPaymentModal(false)}
+        studentId={selectedStudentId}
+        refreshData={() => channelPartnerStudentsLoader()} // if using loader
+      />
     </div>
   );
 };
