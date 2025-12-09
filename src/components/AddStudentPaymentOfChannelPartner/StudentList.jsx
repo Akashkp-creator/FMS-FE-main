@@ -2,15 +2,15 @@ import { Link, useLoaderData } from "react-router-dom";
 import styles from "./StudentList.module.css";
 import { useState } from "react";
 import PaymentModal from "./PaymentModal";
-import { channelPartnerStudentsLoader } from "../../utils/channelPartnerStudentsLoader";
-const StudentList = () => {
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [selectedStudentId, setSelectedStudentId] = useState(null);
+// import { channelPartnerStudentsLoader } from "../../utils/channelPartnerStudentsLoader";
+const StudentList = ({ onAddPayment }) => {
+  //   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  //   const [selectedStudentId, setSelectedStudentId] = useState(null);
 
-  const handleOpenPaymentModal = (studentId) => {
-    setSelectedStudentId(studentId);
-    setShowPaymentModal(true);
-  };
+  //   const handleOpenPaymentModal = (studentId) => {
+  //     setSelectedStudentId(studentId);
+  //     setShowPaymentModal(true);
+  //   };
   const { data, meta } = useLoaderData();
   const [showAllPayments, setShowAllPayments] = useState({});
 
@@ -252,12 +252,20 @@ const StudentList = () => {
                       {/* <button className={styles.addPaymentBtn}>
                         Add Payment
                       </button> */}
-                      <button
+                      {paymentStatus !== "Completed" && (
+                        <button
+                          className={styles.addPaymentBtn}
+                          onClick={() => onAddPayment(student)}
+                        >
+                          Add Payment
+                        </button>
+                      )}
+                      {/* <button
                         className={styles.addPaymentBtn}
-                        onClick={() => handleOpenPaymentModal(student._id)}
+                        onClick={() => onAddPayment(student)}
                       >
                         Add Payment
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>
@@ -285,12 +293,12 @@ const StudentList = () => {
         </div>
       )}
 
-      <PaymentModal
+      {/* <PaymentModal
         show={showPaymentModal}
         close={() => setShowPaymentModal(false)}
         studentId={selectedStudentId}
         refreshData={() => channelPartnerStudentsLoader()} // if using loader
-      />
+      /> */}
     </div>
   );
 };

@@ -262,9 +262,10 @@ const AddStudentForm = () => {
                 value={formData.courseFee}
                 onChange={handleInputChange}
                 className={styles.input}
-                placeholder="0.00"
+                placeholder="enter the amount"
                 min="0"
-                step="0.01"
+                step="1"
+                onWheel={(e) => e.target.blur()} // key line
               />
             </div>
           </div>
@@ -302,10 +303,11 @@ const AddStudentForm = () => {
                     value={formData.firstPayment.amount}
                     onChange={handlePaymentChange}
                     className={styles.input}
-                    placeholder="0.00"
+                    placeholder="payment Amount"
                     min="1"
                     step="0.01"
                     required={showFirstPayment}
+                    onWheel={(e) => e.target.blur()} // key line
                   />
                 </div>
 

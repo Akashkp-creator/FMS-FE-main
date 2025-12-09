@@ -226,6 +226,7 @@ const AddChannelPartner = () => {
             placeholder="Enter commission percentage"
             min="0"
             max="100"
+            onWheel={(e) => e.target.blur()} // key line
             required
           />
         </div>

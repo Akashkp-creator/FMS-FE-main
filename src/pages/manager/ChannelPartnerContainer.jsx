@@ -88,7 +88,7 @@ const ChannelPartnerContainer = () => {
           onClick={() => navigate("/manager/channel-partner/list")}
         >
           <FaPlusCircle className={styles.icon} />
-          Add Student
+          Add New Student / Channel Partner List
         </button>
 
         {/* NEW BUTTON → navigates to new route */}

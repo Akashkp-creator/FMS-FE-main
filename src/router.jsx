@@ -242,7 +242,7 @@ const router = createBrowserRouter([
             // action: AddManagerAction,
           },
           {
-            path: "/manager/channel-partner/list/students",
+            path: "manager/channel-partner/list/students",
             element: <ChannelPartnerStudentsContainer />,
             loader: channelPartnerStudentsLoader,
             // action: AddManagerAction,
