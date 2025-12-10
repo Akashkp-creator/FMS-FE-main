@@ -2,6 +2,7 @@
 // import Footer from "../components/Footer/Footer";
 // import FranchiseMap from "../components/FranchiseMap/FranchiseMap";
 import AboutSection from "../../components/AboutSection/AboutSection";
+import FranchiseMap from "../../components/FranchiseMap/FranchiseMap";
 import HeroSection from "../../components/HeroSection/HeroSection";
 import MissionVision from "../../components/MissionVision/MissionVision";
 // import HeroSection from "../components/HeroSection/HeroSection";
@@ -14,6 +15,7 @@ const Home = () => {
       <div>
         <HeroSection />
         {/* Rest of your components */}
+        <FranchiseMap />
         <div style={{ display: "flex" }}>
           <AboutSection />
         </div>
