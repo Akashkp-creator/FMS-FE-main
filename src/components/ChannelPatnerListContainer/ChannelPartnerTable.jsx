@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 import styles from "./ChannelPartnerTable.module.css";
-const ChannelPartnerTable = () => {
+const ChannelPartnerTable = ({ openPayModal }) => {
   const { data } = useLoaderData();
   console.log(data);
   return (
@@ -77,9 +77,15 @@ const ChannelPartnerTable = () => {
                   {new Date(partner.createdAt).toLocaleDateString("en-IN")}
                 </td>
                 <td className={styles.actions}>
-                  <button className={styles.editBtn}>Edit</button>
-                  <button className={styles.payBtn}>Pay</button>
-                  <button className={styles.deleteBtn}>Delete</button>
+                  {/* <button className={styles.editBtn}>Edit</button> */}
+                  {/* <button className={styles.payBtn}>Pay</button> */}
+                  <button
+                    className={styles.payBtn}
+                    onClick={() => openPayModal(partner)}
+                  >
+                    Pay
+                  </button>
+                  {/* <button className={styles.deleteBtn}>Delete</button> */}
                 </td>
               </tr>
             ))}

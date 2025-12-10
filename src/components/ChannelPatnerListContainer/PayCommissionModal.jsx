@@ -15,12 +15,13 @@ const PayCommissionModal = ({ partner, close, refreshData }) => {
 
     try {
       const res = await api.post(
-        `/manager/channel-partner/pay-commission/${partner._id}`,
+        `/channel-partner/pay-commission/${partner._id}`,
         {
           amount: Number(amount),
           paymentMode,
         }
       );
+      console.log(res);
 
       refreshData();
       close();
